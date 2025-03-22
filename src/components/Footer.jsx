@@ -6,7 +6,7 @@ const Footer = () => {
     <>
     <div className="container-fluid" style={{background:"#DAD0F1"}}>
       <div className="row">
-        <div className="col-md-3 p-3 fs-4 fw-normal ms-2 mt-4 text-center"> 
+        <div className="col-md-3 p-3 fs-4 fw-normal  mt-4  text-center"> 
           <Link to="/">
            <img src={sitelogo} className="site-logo mb-3" alt="" />
         </Link>
@@ -28,7 +28,7 @@ const Footer = () => {
         </div>
        
 
-        <div className="col-md-5 fs-4 fw-normal p-5 mt-5 border border-dark rounded-top-5 bg-warning bg-gradient text-center"> 
+        <div className="col-md-6 fs-4 fw-normal p-5  mt-5 border border-dark rounded-top-5 bg-warning bg-gradient text-center"> 
           <div className="row ">
           <a href="" className="nav-link">Movie Ticket Booking
           </a>
@@ -68,7 +68,7 @@ const Footer = () => {
         </div>
 
 
-        <div className="col-md p-3 fs-4 fw-normal ms-5 mt-5"> 
+        <div className="col-md-3  p-3 fs-4 fw-normal  mt-5"> 
         
          
           <p>Bright Star Conference Center</p>
