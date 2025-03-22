@@ -6,7 +6,7 @@ import { LocateFixed } from 'lucide-react';
  export const SearchBarContainer = () => {
   return (
     <div className="container rounded-3 p-4 text-center" 
-    style={{ width: '70%', maxHeight: '450px', background: 'rgba(255, 0, 0, 0.7)' }}>
+    style={{ width: '70%', maxHeight: '480px', background: 'rgba(255, 0, 0, 0.7)' }}>
  
  {/* Search Bar */}
  <div className="row mb-3">
