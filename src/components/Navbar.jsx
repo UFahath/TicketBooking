@@ -5,15 +5,16 @@ import { User } from "lucide-react";
 import { SecondNavBar } from '../components/SecondNavBar'
 import "../styles/Home.css";
 import { SearchBar } from "./SearchBar";
+import {Link} from 'react-router-dom'
 
 export const Navbar = () => {
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-warning">
         <div className="container">
-          <a className="navbar-brand" href="#">
+          <Link className="navbar-brand" to="/">
             <img src={logo} alt="" className="site-logo ms-0" />
-          </a>
+          </Link>
           <button
             className="navbar-toggler"
             type="button"

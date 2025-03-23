@@ -7,3 +7,29 @@
   transform: skew(-20deg);
   box-shadow:5px 0 black;
 }
+
+
+/* Swiper Navigation Arrows */
+/* .swiper-button-prev, .swiper-button-next {
+  color: rgb(213, 108, 108); 
+  background: rgba(255, 0, 0, 0.7); 
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  font-size: 0; */
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
+/* }
+
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  font-size: 10px;  */
+
+/* } */
+
+/* Hover effect */
+/* .swiper-button-prev:hover, .swiper-button-next:hover {
+  background: rgba(0, 0, 0, 0.9);
+} */

@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import {Headset,SquareMenu} from 'lucide-react'
+import {Link} from 'react-router-dom'
 
 export const SecondNavBar = () => {
   return (
@@ -13,7 +14,7 @@ export const SecondNavBar = () => {
       <div className="collapse navbar-collapse" id="myNav">
         <ul className="navbar-nav fw-bold">
           <li className="nav-item mx-2">
-            <a href="" className="nav-link">Home</a>
+            <Link to="/" className="nav-link">Home</Link>
           </li>
           <li className="nav-item mx-2">
             <a href="" className="nav-link">Travel</a>
@@ -38,14 +39,14 @@ export const SecondNavBar = () => {
       
       <div className="row my-2 my-sm-0 me-1 border border-white" style={{width:"200px"}}>
           <div className="col">
-            <a href="#" className="fw-bold" style={{textDecoration:"none"}}>
+            <Link to="/offers" className="fw-bold" style={{textDecoration:"none"}}>
             Offers
-            </a>
+            </Link>
           </div>
           <div className="col">
-              <a className="col fw-bold" href="#" style={{textDecoration:"none"}}><Headset/>
+              <Link className="col fw-bold" to="/help" style={{textDecoration:"none"}}><Headset/>
               Help
-           </a>
+           </Link>
           </div>
         </div>
       </div>

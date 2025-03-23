@@ -6,8 +6,7 @@ import {Heading} from '../styles/Styled'
 
   
 const FeedbackLink=()=>{
-  // console.log(faq[faq.length-1].answer)
-  // console.log(faq[faq.length-1].answer.lastIndexOf(" "));
+//link text
   let an=faq[faq.length-1].answer.substring(faq[faq.length-1].answer.lastIndexOf(" ")+1)
   return <a href="#">{an}</a>
 }

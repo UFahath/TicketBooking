@@ -8,7 +8,9 @@ import { useLocation } from 'react-router-dom'
 import ContactUs from './Pages/ContactUs'
 import PrivacyPolicy from './Pages/PrivacyPolicy'
 import TermsAndConditions from './Pages/TermsAndConditions'
+import Help from './Pages/Help'
 import Faq from './Pages/Faq'
+import Offers from './Pages/Offers'
 
 function ScrollT(){
   let {pathname}=useLocation();
@@ -30,6 +32,8 @@ function App() {
      <ScrollT/>
      <Routes>
       <Route path="/" element={<Home/>}/>
+      <Route path="/offers" element={<Offers/>}/>
+      <Route path="/help" element={<Help/>}/>
       <Route path="/aboutus" element={<About/>}/>
       <Route path="/contactus" element={<ContactUs/>}/>
       <Route path="/privacypolicy" element={<PrivacyPolicy/>}/>
