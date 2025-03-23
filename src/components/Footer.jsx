@@ -9,15 +9,15 @@ const Footer = () => {
         <div className="col-md-3 p-3 fs-4 fw-normal  mt-4  text-center"> 
           <Link to="/">
            <img src={sitelogo} className="site-logo mb-3" alt="" />
-        </Link>
+          </Link>
           <div className="row ">
           <Link to="/aboutus" className="nav-link">About Us</Link>
           </div>
           <div className="row">
-          <a href="" className="nav-link">Contact Us</a>
+          <Link to="/contactus" className="nav-link">Contact Us</Link>
           </div>
           <div className="row">
-          <a href="" className="nav-link">Privacy Policy</a>
+          <Link to="/privacypolicy" className="nav-link">Privacy Policy</Link>
           </div>
           <div className="row">
           <a href="" className="nav-link">FAQ</a>
