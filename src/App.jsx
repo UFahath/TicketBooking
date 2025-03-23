@@ -7,6 +7,8 @@ import {useEffect} from 'react'
 import { useLocation } from 'react-router-dom'
 import ContactUs from './Pages/ContactUs'
 import PrivacyPolicy from './Pages/PrivacyPolicy'
+import TermsAndConditions from './Pages/TermsAndConditions'
+import Faq from './Pages/Faq'
 
 function ScrollT(){
   let {pathname}=useLocation();
@@ -31,6 +33,8 @@ function App() {
       <Route path="/aboutus" element={<About/>}/>
       <Route path="/contactus" element={<ContactUs/>}/>
       <Route path="/privacypolicy" element={<PrivacyPolicy/>}/>
+      <Route path="/faq" element={<Faq/>}/>
+      <Route path="/termsandconditions" element={<TermsAndConditions/>}/>
      </Routes>
     </Router>
     </>

@@ -58,6 +58,14 @@ const PrivacyPolicy = () => {
             </div>
           </div>
         </div>
+        <div className="row mb-5">
+          <div className="col">
+            <h2 className="my-3">Changes to Privacy Policy</h2>
+            <p className="fs-4 ms-5">
+            We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on our website. Your continued use of our website. Your continued use of our services after any changes constitutes your acceptance of the new policy.
+            </p>
+          </div>
+        </div>
     </div>
     <Footer/>
     </>

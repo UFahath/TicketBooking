@@ -83,7 +83,7 @@ const ContactUs = () => {
             <h1 className="my-3">Feedback And Suggestions</h1>
             <p className="fs-4 ms-5 mb-5">
             We value your feedback and suggestions as they help us improve our services. Feel free to share your thoughts with us at
-            <p className="mt-2 text-center"> <a href="#" className="mx-2">feedback@brand.com</a></p>
+            <span className="my-2 text-center"> <a href="#" className="mx-2">feedback@brand.com</a></span>
             Thank you for choosing Brand! We're excited to make your booking experience as smooth as possible.
             </p>
            
