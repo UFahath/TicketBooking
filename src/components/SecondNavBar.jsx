@@ -17,7 +17,7 @@ export const SecondNavBar = () => {
             <Link to="/" className="nav-link">Home</Link>
           </li>
           <li className="nav-item mx-2">
-            <a href="" className="nav-link">Travel</a>
+            <Link to="/travel" className="nav-link">Travel</Link>
           </li>
           <li className="nav-item mx-2">
             <a href="" className="nav-link">Movies</a>

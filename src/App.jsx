@@ -11,6 +11,7 @@ import TermsAndConditions from './Pages/TermsAndConditions'
 import Help from './Pages/Help'
 import Faq from './Pages/Faq'
 import Offers from './Pages/Offers'
+import Travel from './Pages/Travel'
 
 function ScrollT(){
   let {pathname}=useLocation();
@@ -32,6 +33,7 @@ function App() {
      <ScrollT/>
      <Routes>
       <Route path="/" element={<Home/>}/>
+      <Route path="/travel" element={<Travel/>}/>
       <Route path="/offers" element={<Offers/>}/>
       <Route path="/help" element={<Help/>}/>
       <Route path="/aboutus" element={<About/>}/>
