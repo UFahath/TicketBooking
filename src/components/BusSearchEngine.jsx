@@ -5,34 +5,30 @@ const BusSearchEngine = () => {
   return (
     <>
       <div className="container fs-4">
-        <div className="row p-5">
-          <div className="col">
-            <form class="row g-3">
-              <div class="col">
-                <label for="from">From</label>
+       
+            <form className="row g-3">
+              <div className="col-12 col-md-12">
+                <label htmlFor="from">From</label>
                 <input type="text" className="form-control" name="" id="" />
               </div>
             </form>
-          </div>
-        </div>
+       
 
-        <div className="row p-5">
-          <div className="col">
-            <form class="row g-3">
-              <div class="col">
-                <label for="to">To</label>
+      
+            <form className="row g-3">
+              <div className="col-12 col-md-12">
+                <label htmlFor="to">To</label>
                 <input type="text" className="form-control" name="to" id="" />
               </div>
             </form>
-          </div>
-        </div>
+       
 
         
         <div className="row p-4 border border-dark  text-center">
           <div className="col">
-            <form class="row g-3 ms-3">
-              <div class="col-auto">
-                <label for="to">Date</label>
+            <form className="row g-3 ms-3">
+              <div className="col-auto">
+                <label htmlFor="to">Date</label>
                 <input type="date" className="form-control" name="to" id="" />
               </div>
             </form>

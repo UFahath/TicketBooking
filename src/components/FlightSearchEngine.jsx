@@ -1,15 +1,35 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 
 
 const FlightSearchEngine = () => {
   let [tripMode,setTripMode]=useState("");
 
-
+  let containerElement=useRef(null);
+  let date=useRef(null);
+  let [dataFlag,setDataFlag]=useState(false)
+ 
+  
   //trip selection
  const tripSelection =(mode)=>{
-  // console.log(mode)
   setTripMode(mode);
+  console.log(tripMode)//tripmode check
+  if(tripMode==="roundedtrip"&&dataFlag===false)
+  {
+    // console.log(tripMode)
+    // console.log(containerElement.current)
+    let newDate=date.current.cloneNode(true);
+    console.log(date.current)
 
+    date.current.after(newDate)
+    newDate.id="newDate"
+    setDataFlag(true)
+  }
+  else if(tripMode==="oneway"&&dataFlag===true)
+  {
+      let newDate=document.getElementById("newDate")
+      newDate.remove();
+      setDataFlag(false)
+  }
  }
   return (
     <>
@@ -31,11 +51,15 @@ const FlightSearchEngine = () => {
       <div className="row">
        {
         tripMode==="roundedtrip"?
-        "roundedtrip"
+        (
+          <>
+        <OneWayTrip containerElement={containerElement} date={date}/>
+        </>
+        )
          :
          (
           <>
-          <OneWayTrip/>
+          <OneWayTrip />
           </>
         )
 
@@ -47,10 +71,10 @@ const FlightSearchEngine = () => {
   )
 }
 
-const OneWayTrip=()=>{
+const OneWayTrip=({containerElement,date})=>{
   return (
     <>
-    <div className="container border border-5 border-warning mb-3 fs-4" >
+    <div ref={containerElement} className="container border border-5 border-warning mb-3 fs-4" >
       <div className="row row-cols-1 row-cols-md-4 my-5 gy-4">
         <div className="col">
           <div className="input-group">
@@ -64,13 +88,13 @@ const OneWayTrip=()=>{
         </div>
         <div className="col">
         <div className="input-group">
-          <input type="date" className="form-control" />
+          <input ref={date} type="date" className="form-control" />
         </div>
         </div>
         <div className="col">
-        <div class="input-group">
-  <select class="form-select"aria-label="Example select with button addon">
-    <option selected>Choose...</option>
+        <div className="input-group">
+  <select className="form-select"aria-label="Example select with button addon">
+    <option value="Choose">Choose...</option>
     <option value="1">One</option>
     <option value="2">Two</option>
     <option value="3">Three</option>
@@ -101,10 +125,12 @@ const OneWayTrip=()=>{
         </div>
       </div>
 
-      <div className="row w-25 my-5 mx-auto">
+      <div className="row my-5 ">
+        <div className="col d-flex justify-content-center">
         <button className="btn btn-primary">
           Search
         </button>
+        </div>
       </div>
     </div>
     </>
