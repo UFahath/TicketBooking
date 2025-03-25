@@ -3,9 +3,8 @@ import background from '../assets/images/backgroundimage.jpg'
 export let BannerDiv=styled.div`
 background-image:url(${background});
 width:100%;
-max-height:600px;
-background-repeat:no-repear;
-background-size:100% 100%;
+background-repeat:no-repeat;
+background-size:100% 75%;
 `
 
 export let Heading=styled.h1`

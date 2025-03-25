@@ -13,6 +13,7 @@ import Faq from './Pages/Faq'
 import Offers from './Pages/Offers'
 import Travel from './Pages/Travel'
 
+
 function ScrollT(){
   let {pathname}=useLocation();
   useEffect(()=>{
