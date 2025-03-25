@@ -30,7 +30,7 @@ const BusOfferCarousel = () => {
       >
         {
           OfferBusImages.map((offBus)=>(
-          <SwiperSlide>
+          <SwiperSlide key={Math.random()}>
             <img src={offBus.offer} alt="busoffer" style={{width:"100%",maxHeight:"540px"}} className="rounded-top-5"/>
           </SwiperSlide>
           ))

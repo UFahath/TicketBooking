@@ -4,21 +4,90 @@ import { BannerDiv, Heading } from "../styles/Styled"
 import travel from "../assets/images/Travel.jpg"
 import TravelSearchBar from "../components/TravelSearchBar"
 import AirOfferCarousel from "../components/AirOfferCarousel"
+import BusOfferCarousel from "../components/BusOfferCarousel"
 import AirTaillogo from '../assets/images/AirLogo.png'
+import { useState } from "react"
 
 
 const Travel = () => {
 
-
+let [searchEngineType,setType]=useState("");
   return (
     <>
     <Navbar/>
-    <BannerDiv className="container-fluid border border-black " style={{backgroundImage:`url(${travel})`
+    <BannerDiv className="container-fluid border border-white " style={{backgroundImage:`url(${travel})`
     ,backgroundSize:"100% 600px"}}>
-    <TravelSearchBar className="my-auto"/>
+    <TravelSearchBar className="my-auto" setType={setType}/>
       
     </BannerDiv>
-    <div className="container  bg-danger rounded-3 mt-5">
+    {searchEngineType==="Flight"?(<TravelFlightBottom/>):(<TravelBusBottom/>)}
+
+    <Footer/>
+    </>
+  )
+}
+
+const TravelBusBottom=()=>{
+
+  //Why Choose us Points
+
+  const features = [
+    {
+      title: "Easy and Secure Booking",
+      description: "Book your tickets in just a few clicks with our user-friendly interface and secure payment gateway."
+    },
+    {
+      title: "Best Prices Guaranteed",
+      description: "We offer competitive prices and exclusive discounts to ensure you get the best value for your money."
+    },
+    {
+      title: "Wide Range of Options",
+      description: "Choose from a vast selection of tickets for various events, including movies, concerts, plays, and sports."
+    },
+    {
+      title: "Quick Refunds and Cancellations",
+      description: "Enjoy hassle-free refunds and cancellations with our flexible policies."
+    }
+  ];
+  
+  
+  return (
+    <>
+ <div className="container my-4">
+  
+            <div className="row mb-4">
+              <div className="col">
+              <Heading className="my-4">Offers on Bus</Heading>
+                <BusOfferCarousel />
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col">
+              <Heading className="mt-4">Why Choose Us For Bus Ticket Booking</Heading>
+              <ol  type="1" className="fs-3 my-5">
+               {
+                features.map((item)=>(
+                  
+                    <li key={Math.random()} className="my-4">
+                      <p className="fw-bold">{item.title}</p>
+                      <p className="fs-4">{item.description}</p>
+                      </li>
+             
+                ))
+               }
+              </ol>
+              </div>
+            </div>
+      </div>
+    </>
+  )
+}
+
+const TravelFlightBottom=()=>{
+  return (
+    <>
+       <div className="container  bg-danger rounded-3 mt-5">
         <div className="row row-cols-1 row-cols-md-4 p-5 gy-3">
           <div className="col">
             <input type="text" className="form-control" placeholder="Airline Name" />
@@ -65,12 +134,8 @@ const Travel = () => {
               </div>
             </div>
       </div>
-
-    <Footer/>
     </>
   )
 }
-
-
 
 export default Travel

@@ -2,7 +2,8 @@ import { useState } from "react";
 import FlightSearchEngine from "./FlightSearchEngine";
 import BusSearchEngine from "./BusSearchEngine";
 
-const TravelSearchBar = () => {
+const TravelSearchBar = ({setType}) => {
+
   let [tripType, setTripType] = useState("");
   // let [searchEngine, setEngineType] = useState("");
   return (
@@ -22,7 +23,7 @@ const TravelSearchBar = () => {
                 }`}
                 onClick={() =>{
                   setTripType("Flight")
-                 
+                  setType("Flight")
                 }}
               >
                 Flight
@@ -31,7 +32,10 @@ const TravelSearchBar = () => {
                 className={`btn fs-4 ${
                   tripType === "Bus" ? "btn-warning" : "btn-danger"
                 }`}
-                onClick={() => setTripType("Bus")}
+                onClick={() => {
+                  setTripType("Bus")
+                  setType("Bus")
+                }}
               >
                 Bus
               </button>
