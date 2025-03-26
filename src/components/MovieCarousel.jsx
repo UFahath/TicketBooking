@@ -8,13 +8,13 @@ import { MovieImagesCard } from "./MovieImagesCard";
 
 import {carouselItems} from '../data/data1'
 
-const MovieCarousel = ({heading}) => {
+const MovieCarousel = ({heading,isFirst}) => {
   return (
-    <div className="container-fluid" style={{ marginTop: "120px" }}>
-      <div className="row row-cols-1 row-cols-xlg-3 my-5">
+    <div className="container-fluid" style={{ marginTop: isFirst==1&&"120px" }}>
+      <div className={isFirst===1?`row row-cols-1 row-cols-xlg-3 my-5`:`row row-cols-1 row-cols-xlg-3`}>
         <div className="col"></div>
         <div className="col text-center">
-        <Heading className="fs-1 fw-bold bg-warning rounded-3 p-3">{heading}</Heading>
+        {isFirst===1&&<Heading className="fs-1 fw-bold bg-warning rounded-3 p-3">{heading}</Heading>}
         </div>
         <div className="col"></div>
       </div>

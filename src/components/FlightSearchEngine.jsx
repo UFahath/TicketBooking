@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { TravellersClass } from "./TravellersClass";
 
 const FlightSearchEngine = () => {
   const [tripMode, setTripMode] = useState("oneway");
@@ -71,17 +72,8 @@ const OneWayTrip = ({ tripMode, returnDate, setReturnDate }) => {
           </div>
         )}
 
-       
-        <div className="col">
-          <div className="input-group">
-            <select className="form-select" aria-label="Select Passengers">
-              <option value="Choose">Choose...</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
-          </div>
-        </div>
+       {/* dropdown for agecategory and class */}
+        <TravellersClass/>
       </div>
 
       <div className="row row-cols-1 row-cols-md-4 my-4 g-2">

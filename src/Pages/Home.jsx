@@ -22,7 +22,7 @@ export const Home = () => {
 
 
       {/* Movie Carousel */}
-      <MovieCarousel heading={headings[0]}/>
+      <MovieCarousel heading={headings[0]} isFirst={1}/>
 
       {/* Event Booking */}
       <EventBookingPage heading={headings[1]}/>

@@ -20,7 +20,7 @@ export const SecondNavBar = () => {
             <Link to="/travel" className="nav-link">Travel</Link>
           </li>
           <li className="nav-item mx-2">
-            <a href="" className="nav-link">Movies</a>
+            <Link to="/movies" className="nav-link">Movies</Link>
             </li>
             <li className="nav-item dropdown mx-2">
           <a className="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

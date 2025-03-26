@@ -12,6 +12,7 @@ import Help from './Pages/Help'
 import Faq from './Pages/Faq'
 import Offers from './Pages/Offers'
 import Travel from './Pages/Travel'
+import Movies from './Pages/Movies'
 
 
 function ScrollT(){
@@ -26,6 +27,7 @@ function ScrollT(){
 
 }
 
+
 function App() {
  
   return (
@@ -35,6 +37,7 @@ function App() {
      <Routes>
       <Route path="/" element={<Home/>}/>
       <Route path="/travel" element={<Travel/>}/>
+      <Route path="/movies" element={<Movies/>}/>
       <Route path="/offers" element={<Offers/>}/>
       <Route path="/help" element={<Help/>}/>
       <Route path="/aboutus" element={<About/>}/>
@@ -44,6 +47,9 @@ function App() {
       <Route path="/termsandconditions" element={<TermsAndConditions/>}/>
      </Routes>
     </Router>
+
+
+
     </>
   )
 }
