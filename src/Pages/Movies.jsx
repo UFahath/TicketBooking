@@ -2,6 +2,7 @@ import Footer from "../components/Footer";
 import MovieCarousel from "../components/MovieCarousel";
 import MovieTicketCarousel from "../components/MovieTicketCarousel";
 // import MovieCarousel from "../components/MovieCarousel"
+import { Link } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
 import { Heading } from "../styles/Styled";
 import { MoveRight } from "lucide-react";
@@ -64,9 +65,9 @@ const Movies = () => {
       <div className=" p-3 d-flex justify-content-between mt-5">
         <Heading className="fs-1 fw-bold  rounded-3">Recommeded Movies</Heading>
 
-        <a href="#" className="fs-3 nav-link">
+        <Link to="/movies/moviepage" className="fs-3 nav-link">
           View All <MoveRight className="ms-1" />{" "}
-        </a>
+        </Link>
       </div>
 
       <MovieCarousel />
