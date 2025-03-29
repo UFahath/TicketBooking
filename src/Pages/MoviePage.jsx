@@ -48,7 +48,7 @@ const MoviePage = () => {
 
   useEffect(() => {
     const fetchMovies = async () => {
-      try {
+     
         const movieData=[];
           async function fetchData()
           {
@@ -74,11 +74,8 @@ const MoviePage = () => {
           fetchData();
     
        
-     
-      } catch (error) {
-        // console.error("Error fetching movie:", error);
-         alert("Error fetching movie:", error);
-      }
+     return ()=>{};
+      
     };
 
     fetchMovies();
