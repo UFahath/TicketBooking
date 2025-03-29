@@ -16,6 +16,7 @@ import Movies from './Pages/Movies'
 import MoviePage from './Pages/MoviePage'
 
 import Test from "./Test/Test"
+import MovieSelected from './Pages/MovieSelected'
 
 
 function ScrollT(){
@@ -42,6 +43,7 @@ function App() {
       <Route path="/travel" element={<Travel/>}/>
       <Route path="/movies" element={<Movies/>}/>
       <Route path="/movies/moviepage" element={<MoviePage/>}/>
+      <Route path="/movies/moviepage/movieselected" element={<MovieSelected/>}/>
       <Route path="/offers" element={<Offers/>}/>
       <Route path="/help" element={<Help/>}/>
       <Route path="/aboutus" element={<About/>}/>

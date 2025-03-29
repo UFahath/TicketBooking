@@ -2,6 +2,7 @@ import Footer from "../components/Footer";
 import { Navbar } from "../components/Navbar";
 import topBanner from "../assets/images/MoviePageBanner.png";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 // Button resources
 const btnResource = [
@@ -9,13 +10,40 @@ const btnResource = [
   { genre: ["Drama", "Family", "Thriller", "Comedy", "Romantic", "Fantasy", "Horror", "Sci-Fi"] }
 ];
 
+//genres
+// const genres={
+//   Action          :28,
+//   Adventure       :12,
+//   Animation       :16,
+//   Comedy          :35,
+//   Crime           :80,
+//   Documentary     :99,
+//   Drama           :18,
+//   Family          :10751,
+//   Fantasy         :14,
+//   History         :36,
+//   Horror          :27,
+//   Music           :10402,
+//   Mystery         :9648,
+//   Romance         :10749,
+//   Science_Fiction :878,
+//   TV_Movie        :10770,
+//   Thriller        :53,
+//   War             :10752,
+//   Western         :37
+// }
+
 const MoviePage = () => {
   const [languagePicked, setLanguage] = useState("");
   const [genre, setGenre] = useState("");
   const [filteredResult, setResult] = useState([]);
-  const [fetchedData, setData] = useState();
+  const [fetchedData, setData] = useState([]);
 
+  //for button color change
   const [temp,setTemp]=useState("");
+
+  //genre ids
+  const[genreIds,setGenreIds]=useState(null)
 
 
   useEffect(() => {
@@ -24,33 +52,40 @@ const MoviePage = () => {
         const movieData=[];
           async function fetchData()
           {
-            await fetch("https://api.themoviedb.org/3/discover/movie?api_key=02f0070fc6a039796d5d22b61ee42ba6")
+            await fetch("https://api.themoviedb.org/3/discover/movie?api_key=02f0070fc6a039796d5d22b61ee42ba")
             .then((res)=>{
               return res.json();
             })
             .then((dat)=>{
-              console.log(dat.results)
+              // console.log("results:",dat.results[0].genre_ids)
+              setGenreIds(dat.results[0].genre_ids)
               for(let item of dat.results)
               {
                 movieData.push(item)
               }
-              console.log("fetched here",movieData)
+               setData(movieData);
+              setResult(movieData); 
+            })
+            .catch(()=>{
+              alert("Failed to Fetch Data because this api cannot be accessed sometime due to regional restriction..use vpn if it's not working")
             })
           }
           
           fetchData();
     
-        setData(movieData);
-        setResult(movieData); 
+       
      
       } catch (error) {
-        console.error("Error fetching movie:", error);
+        // console.error("Error fetching movie:", error);
+         alert("Error fetching movie:", error);
       }
     };
 
     fetchMovies();
   }, []);
 
+  console.log("uponloading",filteredResult)
+  console.log("genreids:",genreIds)
   let languageMapping={
     Japanese:"ja",
     Hindi:"hi",
@@ -87,7 +122,16 @@ const MoviePage = () => {
     setResult(filtered);
   }
   
-  // poster_path
+
+
+  //Movie Picker function
+
+  function pickedDetails(movieName){
+    let output=filteredResult.filter((movie)=>{
+      return movie.original_title.includes(movieName)
+    })
+     localStorage.setItem('MoviePicked:',JSON.stringify(output))
+  }
 
 
   return (
@@ -108,8 +152,7 @@ const MoviePage = () => {
             <div className="row border border-dark p-1">
               {filteredResult.map((item, index) => (
                 <div key={index} className="col-3 text-center border border-danger">
-                  <img src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`} className="w-75 rounded-4" alt={item.Title} />
-                  <p>{item.Title}</p>
+                  <Link to="/movies/moviepage/movieselected" onClick={()=>pickedDetails(item.original_title)}><img src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`} className="w-75  rounded-4 p-2" alt={item.Title} /></Link>
                 </div>
               ))}
             </div>
@@ -121,19 +164,23 @@ const MoviePage = () => {
   );
 };
 
-const FilterSection = ({ title, options, selected, setSelected, movieFilter,languageMapper,temp,setTemp }) =>
+const FilterSection = ({ title, options, setSelected, movieFilter,languageMapper,temp,setTemp }) =>
 (
   <div className="row bg-warning rounded-3 border border-secondary p-3 mt-4" style={{ width: "100%", boxShadow: "7px 7px 0 black" }}>
     <h3 className="text-center mb-3">{title}</h3>
-    <button onClick={()=>{setSelected("");movieFilter()}}>Clear All</button>
+    <button onClick={()=>{setSelected("");setTemp("");movieFilter()}}>Clear All</button>
     {options.map((item, index) => (
       <button
         key={index}
         className={`btn ${temp === item ? "btn-primary" : "btn-outline-primary"} mb-2 me-2`}
         onClick={() => {
+          // event.stopPropagation();
           setTemp(item)
-          console.log(item)
-          let language=languageMapper(item)
+          // console.log("languageInsider:",temp)
+          // console.log("title",title)
+          // let name=title.toLowerCase().concat("picked").split('s').join('');
+          //   console.log("extracted::",name)
+          let language=languageMapper(item)  //languages
           setSelected(language);
           movieFilter();
         }}
