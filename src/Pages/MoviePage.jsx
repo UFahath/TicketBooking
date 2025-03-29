@@ -52,7 +52,7 @@ const MoviePage = () => {
         const movieData=[];
           async function fetchData()
           {
-            await fetch("https://api.themoviedb.org/3/discover/movie?api_key=02f0070fc6a039796d5d22b61ee42ba")
+            await fetch("https://api.themoviedb.org/3/discover/movie?api_key=02f0070fc6a039796d5d22b61ee42ba6")
             .then((res)=>{
               return res.json();
             })
