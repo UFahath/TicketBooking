@@ -169,7 +169,7 @@ const MoviePage = () => {
                 <Loading/>
               ) 
               :fail===true?(<FailedResponse/>):filteredResult.map((item, index) => ( 
-                <div key={index} className="col-3 text-center border border-danger">
+                <div key={index} className="col-md-3 text-center border border-danger">
                    <Link to="/movies/moviepage/movieselected" onClick={()=>pickedDetails(item.original_title)}><img src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`} className="w-75  rounded-4 p-2" alt={item.Title} /></Link>
                  </div> 
                ) 
