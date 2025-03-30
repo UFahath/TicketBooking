@@ -54,13 +54,20 @@ const MoviePage = () => {
   const[fail,setFail]=useState(false);
 
   useEffect(() => {
+    let controller=new AbortController();
+    let signal=controller.signal;
     const fetchMovies = async () => {
+
+       let timeOut=setTimeout(()=>{
+            controller.abort();
+       },3000)
      
         const movieData=[];
           async function fetchData()
           {
-            await fetch("https://api.themoviedb.org/3/discover/movie?api_key=02f0070fc6a039796d5d22b61ee42ba6")
+            await fetch("https://api.themoviedb.org/3/discover/movie?api_key=02f0070fc6a039796d5d22b61ee42ba6",{signal})
             .then((res)=>{
+              clearTimeout(timeOut);
               return res.json();
             })
             .then((dat)=>{
