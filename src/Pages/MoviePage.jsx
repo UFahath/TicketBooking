@@ -4,6 +4,7 @@ import topBanner from "../assets/images/MoviePageBanner.png";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Loading } from "../components/Loading";
+import { FailedResponse } from "../components/FailedResponse";
 
 // Button resources
 const btnResource = [
@@ -49,6 +50,9 @@ const MoviePage = () => {
   //loading state
   const[loading,setLoading]=useState(true);
 
+  //failed response
+  const[fail,setFail]=useState(false);
+
   useEffect(() => {
     const fetchMovies = async () => {
      
@@ -72,6 +76,7 @@ const MoviePage = () => {
             })
             .catch(()=>{
               setLoading(false)
+              setFail(true)
               alert("Failed to Fetch Data because this api cannot be accessed sometime due to regional restriction..use vpn if it's not working")
             })
           }
@@ -156,7 +161,7 @@ const MoviePage = () => {
               (
                 <Loading/>
               ) 
-              :filteredResult.map((item, index) => ( 
+              :fail===true?(<FailedResponse/>):filteredResult.map((item, index) => ( 
                 <div key={index} className="col-3 text-center border border-danger">
                    <Link to="/movies/moviepage/movieselected" onClick={()=>pickedDetails(item.original_title)}><img src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`} className="w-75  rounded-4 p-2" alt={item.Title} /></Link>
                  </div> 

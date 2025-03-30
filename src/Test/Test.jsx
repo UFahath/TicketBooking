@@ -1,56 +1,56 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
-import { useState } from "react";
+import failed from '../assets/images/404notfound.png'
+// import { useState } from "react";
 
 const Test = () => {
 
-  let [languagePicked,setLanguage]=useState("");
-  let [genre,setGenre]=useState("");
-  let [fliteredResult,setResult]=useState([]);
+  // let [languagePicked,setLanguage]=useState("");
+  // let [genre,setGenre]=useState("");
+  // let [fliteredResult,setResult]=useState([]);
 
-  let movies=[
-    {Movie:"Emphuran",language:"Tamil",Genre:'Thriller'},
-    {Movie:"MazeRunner",language:"English",Genre:'Adventure'},
-    {Movie:"mera naam khan",language:"Hindi",Genre:'Comedy'},
-    {Movie:"Behan",language:"Hindi",Genre:'Thriller'},
-    {Movie:"Dragon",language:"Tamil",Genre:'Comedy'},
-  ]
+  // let movies=[
+  //   {Movie:"Emphuran",language:"Tamil",Genre:'Thriller'},
+  //   {Movie:"MazeRunner",language:"English",Genre:'Adventure'},
+  //   {Movie:"mera naam khan",language:"Hindi",Genre:'Comedy'},
+  //   {Movie:"Behan",language:"Hindi",Genre:'Thriller'},
+  //   {Movie:"Dragon",language:"Tamil",Genre:'Comedy'},
+  // ]
 
-  function movieFilter()
-  {
-    // if(languagePicked===""&&genre==="")
-    // {
-    //   setResult(movies.filter((item)=>{
-    //     return languagePicked===item.language;
-    //   }))
-    // }
-    if(languagePicked!==""&&genre==="")
-    {
+  // function movieFilter()
+  // {
+  //   // if(languagePicked===""&&genre==="")
+  //   // {
+  //   //   setResult(movies.filter((item)=>{
+  //   //     return languagePicked===item.language;
+  //   //   }))
+  //   // }
+  //   if(languagePicked!==""&&genre==="")
+  //   {
    
-      setResult(movies.filter((item)=>{
-        return languagePicked===item.language;
-      }))
+  //     setResult(movies.filter((item)=>{
+  //       return languagePicked===item.language;
+  //     }))
   
-    }
-    else if(genre!=""&&languagePicked==="")
-    {
-      setResult(movies.filter((item)=>{
-        return genre===item.Genre;
-      }))
-    }
-    else if(languagePicked!=""&&genre!="")
-    {
-      setResult(movies.filter((item)=>{
-        return languagePicked===item.language&&genre===item.Genre;
-      }))
-    }
+  //   }
+  //   else if(genre!=""&&languagePicked==="")
+  //   {
+  //     setResult(movies.filter((item)=>{
+  //       return genre===item.Genre;
+  //     }))
+  //   }
+  //   else if(languagePicked!=""&&genre!="")
+  //   {
+  //     setResult(movies.filter((item)=>{
+  //       return languagePicked===item.language&&genre===item.Genre;
+  //     }))
+  //   }
 
-  }
-
+  // }
  
   return (
     <>
-    <div className="container">
+    {/* <div className="container">
       <div className="row my-5">
         <div className="col">
     <button className={`btn ${(languagePicked==="Tamil")?"btn-primary":"btn-outline-primary"}`} onClick={()=>{
@@ -102,6 +102,15 @@ const Test = () => {
       ))
     }
     </ul>
+    </div> */}
+
+    <div className="container">
+      <div className="row">
+        <div className="col text-center">
+           <img src={failed} alt="error" />
+          <p className="fs-4 fw-bold my-auto">Connection Establishment Failed</p>
+        </div>
+      </div>
     </div>
     </>
   )

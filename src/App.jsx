@@ -15,7 +15,7 @@ import Travel from './Pages/Travel'
 import Movies from './Pages/Movies'
 import MoviePage from './Pages/MoviePage'
 
-import Test from "./Test/Test"
+// import Test from "./Test/Test"
 import MovieSelected from './Pages/MovieSelected'
 
 
