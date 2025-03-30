@@ -3,6 +3,7 @@ import { Navbar } from "../components/Navbar";
 import topBanner from "../assets/images/MoviePageBanner.png";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Loading } from "../components/Loading";
 
 // Button resources
 const btnResource = [
@@ -45,6 +46,8 @@ const MoviePage = () => {
   //genre ids
   const[genreIds,setGenreIds]=useState(null)
 
+  //loading state
+  const[loading,setLoading]=useState(true);
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -65,8 +68,10 @@ const MoviePage = () => {
               }
                setData(movieData);
               setResult(movieData); 
+              setLoading(false);
             })
             .catch(()=>{
+              setLoading(false)
               alert("Failed to Fetch Data because this api cannot be accessed sometime due to regional restriction..use vpn if it's not working")
             })
           }
@@ -146,12 +151,18 @@ const MoviePage = () => {
             <FilterSection title="Genre" row={2} options={btnResource[1].genre} selected={genre} setSelected={setGenre} movieFilter={movieFilter} />
           </div>
           <div className="col border border-dark p-3">
-            <div className="row border border-dark p-1">
-              {filteredResult.map((item, index) => (
+            <div className="row  border border-danger border-5 p-1">
+              {loading===true?
+              (
+                <Loading/>
+              ) 
+              :filteredResult.map((item, index) => ( 
                 <div key={index} className="col-3 text-center border border-danger">
-                  <Link to="/movies/moviepage/movieselected" onClick={()=>pickedDetails(item.original_title)}><img src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`} className="w-75  rounded-4 p-2" alt={item.Title} /></Link>
-                </div>
-              ))}
+                   <Link to="/movies/moviepage/movieselected" onClick={()=>pickedDetails(item.original_title)}><img src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`} className="w-75  rounded-4 p-2" alt={item.Title} /></Link>
+                 </div> 
+               ) 
+               )
+               }
             </div>
           </div>
         </div>
