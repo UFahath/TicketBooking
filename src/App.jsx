@@ -36,7 +36,7 @@ function App() {
  
   return (
     <>
-    <Router basename='/TicketBooking'>
+    <Router>
      <ScrollT/>
      <Routes>
       <Route path="/" element={<Home/>}/>
