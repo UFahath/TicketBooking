@@ -184,11 +184,16 @@ const MoviePage = () => {
   );
 };
 
-const FilterSection = ({ title, options, setSelected, movieFilter,languageMapper,temp,setTemp }) =>
-(
+const FilterSection = ({ title, options,selected, setSelected, movieFilter,languageMapper,temp,setTemp }) =>
+{
+  useEffect(() => {
+    movieFilter();
+  }, [selected]);  
+  
+ return (
   <div className="row bg-warning rounded-3 border border-secondary p-3 mt-4" style={{ width: "100%", boxShadow: "7px 7px 0 black" }}>
     <h3 className="text-center mb-3">{title}</h3>
-    <button onClick={()=>{setSelected("");setTemp("");movieFilter()}}>Clear All</button>
+    <button  className="btn btn-danger mb-3" onClick={()=>{setSelected("");setTemp("");movieFilter()}}>Clear All</button>
     {options.map((item, index) => (
       <button
         key={index}
@@ -202,7 +207,7 @@ const FilterSection = ({ title, options, setSelected, movieFilter,languageMapper
           //   console.log("extracted::",name)
           let language=languageMapper(item)  //languages
           setSelected(language);
-          movieFilter();
+          // movieFilter();
         }}
       >
         {item}
@@ -210,5 +215,6 @@ const FilterSection = ({ title, options, setSelected, movieFilter,languageMapper
     ))}
   </div>
 )
+}
 
 export default MoviePage;
