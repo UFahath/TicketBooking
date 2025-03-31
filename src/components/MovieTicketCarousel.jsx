@@ -43,9 +43,9 @@ const MovieTicketCarousel = () => {
         }}
         >
           {
-            carouselItems.map((item)=>(
+            carouselItems.map((item,index)=>(
           <SwiperSlide className=' mx-auto my-4'>
-            <img src={item} alt="busoffer" style={{width:"100%",maxHeight:"440px"}} className="rounded-top-5"/>
+            <img key={index} src={item} alt="busoffer" style={{width:"100%",maxHeight:"440px"}} className="rounded-top-5"/>
           </SwiperSlide>
           ))
           }

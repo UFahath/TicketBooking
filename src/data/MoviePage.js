@@ -24,7 +24,6 @@ export const btnResource = [
   },
 ];
 
-
 //genres
 export const genres = {
   Action: 28,
@@ -49,11 +48,44 @@ export const genres = {
 };
 
 //language mapping
-export let languageMapping = {
+let languageMapping = {
   Japanese: "ja",
   Hindi: "hi",
   English: "en",
   Mongolian: "mn",
   Malayalam: "ml",
   Kannada: "kn",
+  French: "fr",
+  Danish: "da",
+  Spanish: "es",
 };
+//language mapping
+export function languageMapper(lan, key) {
+  console.log(key);
+  for (let item in languageMapping) {
+    if (lan !== 0 && lan === item) {
+      return languageMapping[item];
+    }
+    if (key === languageMapping[item]) {
+      return item;
+    }
+  }
+}
+
+//genre Mapping
+export function genreMapper(gen, key) {
+  let genr = [];
+  for (let item in genres) {
+    if (gen !== 0 && gen === item) {
+      return genres[item];
+    } else if (key !== undefined) {
+      console.log(item)
+      for (let genreids of key) {
+        if (genreids === genres[item]) {
+          genr.push(item);
+        }
+      }
+    }
+  }
+  return genr!==null&&genr;
+}

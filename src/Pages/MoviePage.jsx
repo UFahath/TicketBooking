@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { Loading } from "../components/Loading";
 import { FailedResponse } from "../components/FailedResponse";
 
-import { btnResource,genres,languageMapping } from "../data/MoviePage";
+import { btnResource,languageMapper,genreMapper} from "../data/MoviePage";
 
 const API_KEY = import.meta.env.VITE_APP_TMDB_API_KEY;
 
@@ -76,21 +76,21 @@ const MoviePage = () => {
 
   
  //language mapping
-  function languageMapper(lan) {
-    for (let item in languageMapping) {
-      if (lan === item) {
-        return languageMapping[item];
-      }
-    }
-  }
+  // function languageMapper(lan) {
+  //   for (let item in languageMapping) {
+  //     if (lan === item) {
+  //       return languageMapping[item];
+  //     }
+  //   }
+  // }
 //genre mapping
-  function genreMapper(gen) {
-    for (let item in genres) {
-      if (gen === item) {
-        return genres[item];
-      }
-    }
-  }
+  // function genreMapper(gen) {
+  //   for (let item in genres) {
+  //     if (gen === item) {
+  //       return genres[item];
+  //     }
+  //   }
+  // }
 
   //MovieFilterFunction
   function movieFilter() {
@@ -248,5 +248,6 @@ const FilterSection = ({
     </div>
   );
 };
+
 
 export default MoviePage;

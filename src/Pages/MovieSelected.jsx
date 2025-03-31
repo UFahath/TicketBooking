@@ -2,10 +2,14 @@ import Footer from "../components/Footer";
 import { Navbar } from "../components/Navbar";
 import { useState } from "react";
 import popularityimage from "../assets/images/popularity.png";
+import { languageMapper} from "../data/MoviePage";
+import { Link } from "react-router-dom";
+// console.log(languageMapper)
 
 const MovieSelected = () => {
   let jsonString = localStorage.getItem("MoviePicked:");
   let pickedItem = JSON.parse(jsonString);
+  // console.log("language",languageMapper(0,pickedItem[0].original_language))
   // console.log(pickedItem)
   let [color1, setColor1] = useState("☆");
   let [color2, setColor2] = useState("☆");
@@ -14,7 +18,7 @@ const MovieSelected = () => {
 
   // console.log(typeof pickedItem[0].vote_average)
   let rating=pickedItem[0].vote_average.toString();
-   console.log(typeof rating)
+  //  console.log(typeof rating)
   let [rateFlag, setRateFlag] = useState(0);
   return (
     <>
@@ -54,7 +58,7 @@ const MovieSelected = () => {
                     <th scope="row" className="fs-4">
                       Language:
                     </th>
-                    <td className="fs-4">{pickedItem[0].original_language}</td>
+                    <td className="fs-4">{languageMapper(0,pickedItem[0].original_language)}</td>
                   </tr>
                   <tr>
                     <th scope="row" className="fs-4">
@@ -146,7 +150,7 @@ const MovieSelected = () => {
             <div className="row my-3">
               <div className="col-md-5"></div>
               <div className="col-md-2">
-                <button className="btn btn-danger">Book Ticket</button>
+                <Link to="/movies/moviepage/movieselected/theaterpreview"><button className="btn btn-danger">Book Ticket</button></Link>
               </div>
             </div>
             <div className="col-md-5"></div>
