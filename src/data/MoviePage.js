@@ -61,7 +61,7 @@ let languageMapping = {
 };
 //language mapping
 export function languageMapper(lan, key) {
-  console.log(key);
+  // console.log(key);
   for (let item in languageMapping) {
     if (lan !== 0 && lan === item) {
       return languageMapping[item];
@@ -79,7 +79,7 @@ export function genreMapper(gen, key) {
     if (gen !== 0 && gen === item) {
       return genres[item];
     } else if (key !== undefined) {
-      console.log(item)
+      // console.log(item)
       for (let genreids of key) {
         if (genreids === genres[item]) {
           genr.push(item);
