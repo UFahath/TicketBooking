@@ -4,18 +4,24 @@ import{useState,useEffect,useRef} from 'react'
 
 export const MovieBookingPage = () => {
   let[selectedSlot,setSlot]=useState(null)
-  let cont=useRef()
+  let selectedTheater=useRef()
   useEffect(()=>{
            setSlot(JSON.parse(localStorage.getItem("PickedSlot:")))
-          let container=document.getElementById("container");
-          container.innerHTML=selectedSlot
-          // console.log(container)
+         
+          selectedTheater.current.innerHTML=selectedSlot
+          let buttons=selectedTheater.current.querySelectorAll('button');
+          buttons.forEach((item)=>{
+            if(!item.className.includes("btn-danger"))
+            {
+              item.setAttribute('disabled',"");
+            }
+          })
           return ()=>{};
   },[selectedSlot])
   return (
     <>
     <Navbar/>
-    <div ref={cont}className="container my-4" id="container" >
+    <div ref={selectedTheater}className="container my-4" >
       
     </div>
     <Footer/>

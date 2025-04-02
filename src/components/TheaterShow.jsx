@@ -1,8 +1,11 @@
 import { Heart,Info } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { language } from "../Pages/TheaterPreview";
 import ticketicon from '../assets/images/TicketIcon.jpg'
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min";
+import { Modal } from "bootstrap/dist/js/bootstrap.bundle.min";
 
 // import DateObject from 'react-date-object'
 
@@ -95,8 +98,6 @@ const TimingButtons=({buttonText})=>{
       event.target.className+=" btn-danger text-white"
       }
        let selectedTheater=event.target.closest('.row');
-    
-    
        localStorage.setItem("PickedSlot:",JSON.stringify(selectedTheater.outerHTML))
       //  let tez=parse(localStorage.getItem('PickedSlot:'));
      
@@ -110,10 +111,11 @@ const ConfirmationBox=()=>{
   let numbers=[1,2,3,4,5,6,7,8,9];
   let [seatBtnColor,setBColor]=useState("");
   let [seatCount,setSeatCount]=useState(0);
-  let [dismiss,setDismiss]=useState("")
+  let mod=useRef();
   let navigate=useNavigate();
   useEffect(()=>{
     localStorage.setItem("seatCount::",JSON.stringify(seatCount))
+ 
   },[seatCount])
 
 
@@ -121,19 +123,39 @@ const ConfirmationBox=()=>{
   {
     if(seatCount!==0)
     {
-      setDismiss(true)
-      navigate('/moviebookingpage')
+      mod.current.setAttribute('data-bs-dismiss','modal')
+      if(mod.current)
+      {
+      let modalInstance = Modal.getInstance(mod.current);
+    
+      // console.log(modalInstance)
+     
+      if(modalInstance)
+      {
+
+          modalInstance.hide();
+      }
+
+      setTimeout(()=>{
+        modalInstance.dispose();
+        mod.current.remove();
+        
+        navigate('/moviebookingpage')
+      },400)
+    }
+      
     }
     else{
+     
       alert("please select seats count first")
-      setDismiss(false)
+
     }
   }
 
   return (
     <>
        <div className="container">
-        <div className="modal fade" id="showMenu" tabIndex={"-1"}  data-bs-backdrop="static"  data-bs-keyboard="false" >
+        <div ref={mod} className="modal fade" id="showMenu" tabIndex={"-1"}  data-bs-backdrop="static"  data-bs-keyboard="false" >
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
@@ -180,12 +202,13 @@ const ConfirmationBox=()=>{
 
               <div className="modal-footer">
               
-              <button type="button" className="btn btn-primary mx-auto" data-bs-dismiss={dismiss===true?`modal`:null} onClick={seatChecking} > Select Seats</button>
+              <button type="button" className="btn btn-primary mx-auto"  onClick={seatChecking} > Select Seats</button>
               </div>
             </div>
           </div>
         </div>
        </div>
+        
     </>
   )
 }
