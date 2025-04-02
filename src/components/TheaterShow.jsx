@@ -1,7 +1,9 @@
 import { Heart,Info } from "lucide-react";
-import { useState } from "react";
-
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { language } from "../Pages/TheaterPreview";
 import ticketicon from '../assets/images/TicketIcon.jpg'
+
 // import DateObject from 'react-date-object'
 
 // function dateArray(){
@@ -93,7 +95,11 @@ const TimingButtons=({buttonText})=>{
       event.target.className+=" btn-danger text-white"
       }
        let selectedTheater=event.target.closest('.row');
-       console.log(selectedTheater)
+    
+    
+       localStorage.setItem("PickedSlot:",JSON.stringify(selectedTheater.outerHTML))
+      //  let tez=parse(localStorage.getItem('PickedSlot:'));
+     
 
   }
   return (<button className={`btn btn-outline-danger rounded-2 mx-3 m-4`} data-bs-toggle="modal" data-bs-target="#showMenu"  onClick={selectTiming}>{buttonText}</button>)
@@ -103,7 +109,26 @@ const TimingButtons=({buttonText})=>{
 const ConfirmationBox=()=>{
   let numbers=[1,2,3,4,5,6,7,8,9];
   let [seatBtnColor,setBColor]=useState("");
+  let [seatCount,setSeatCount]=useState(0);
+  let [dismiss,setDismiss]=useState("")
+  let navigate=useNavigate();
+  useEffect(()=>{
+    localStorage.setItem("seatCount::",JSON.stringify(seatCount))
+  },[seatCount])
 
+
+  function seatChecking()
+  {
+    if(seatCount!==0)
+    {
+      setDismiss(true)
+      navigate('/moviebookingpage')
+    }
+    else{
+      alert("please select seats count first")
+      setDismiss(false)
+    }
+  }
 
   return (
     <>
@@ -130,7 +155,7 @@ const ConfirmationBox=()=>{
                     {
                      numbers.map((item,index)=>(
                       <div className="col-1" key={index}>
-                     <button className={`btn ${index===seatBtnColor?"btn-danger ":""}border-0 `} onClick={()=>{setBColor(index)}}>{item}</button>
+                     <button className={`btn ${index===seatBtnColor?"btn-danger ":""}border-0 `} onClick={()=>{setBColor(index);setSeatCount(item)}}>{item}</button>
                       </div>
                       ))
                     }
@@ -155,8 +180,7 @@ const ConfirmationBox=()=>{
 
               <div className="modal-footer">
               
-              <button type="button" className="btn btn-primary mx-auto" >Select Seats</button>
-                   
+              <button type="button" className="btn btn-primary mx-auto" data-bs-dismiss={dismiss===true?`modal`:null} onClick={seatChecking} > Select Seats</button>
               </div>
             </div>
           </div>
@@ -182,8 +206,8 @@ const DateSlider = () => {
         </div>
         ))
        }
-       <div className="col-md-2 border border-left-3">
-           <p>English</p>
+       <div className="col-md-2 border-start ">
+           <p className="fs-2 text-center mt-4">{language}</p>
        </div>
       </div>
     </div>

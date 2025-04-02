@@ -3,11 +3,12 @@ import { Navbar } from "../components/Navbar"
 import { TheaterShow } from "../components/TheaterShow";
 import { languageMapper, genreMapper } from "../data/MoviePage";
 
-
+export let language=0
 export const TheaterPreview = () => {
   let jsonString = localStorage.getItem("MoviePicked:");
   let pickedItem = JSON.parse(jsonString);
   let genres = genreMapper(0, pickedItem[0].genre_ids);
+  language=languageMapper(0, pickedItem[0].original_language)
 
   return (
     <>
