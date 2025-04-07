@@ -20,6 +20,8 @@ import MovieSelected from './Pages/MovieSelected'
 import { TheaterPreview } from './Pages/TheaterPreview'
 import { MovieBookingPage } from './Pages/MovieBookingPage'
 import BookingDetails from './components/BookingDetails'
+import { MoviePaymentPage } from './Pages/MoviePaymentPage'
+import { MoviePaymentLoading } from './Pages/MoviePaymentLoading'
 
 
 function ScrollT(){
@@ -50,6 +52,8 @@ function App() {
       <Route path="/movies/moviepage/movieselected/theaterpreview" element={<TheaterPreview/>}/>
       <Route path="/moviebookingpage" element={<MovieBookingPage/>}/>
       <Route path="/bookingdetails" element={<BookingDetails/>}/>
+      <Route path="/moviepaymentpage" element={<MoviePaymentPage/>}/>
+      <Route path="/moviepaymentLoading" element={<MoviePaymentLoading/>}/>
       <Route path="/offers" element={<Offers/>}/>
       <Route path="/help" element={<Help/>}/>
       <Route path="/aboutus" element={<About/>}/>
