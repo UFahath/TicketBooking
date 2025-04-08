@@ -21,7 +21,7 @@ import { TheaterPreview } from './Pages/TheaterPreview'
 import { MovieBookingPage } from './Pages/MovieBookingPage'
 import BookingDetails from './components/BookingDetails'
 import { MoviePaymentPage } from './Pages/MoviePaymentPage'
-import { MoviePaymentLoading } from './Pages/MoviePaymentLoading'
+
 import { QRPaymentPage } from './Pages/QrPaymentPage'
 
 
