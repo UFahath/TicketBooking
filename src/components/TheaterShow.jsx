@@ -98,6 +98,8 @@ const TimingButtons=({buttonText})=>{
       event.target.className+=" btn-danger text-white"
       }
        let selectedTheater=event.target.closest('.row');
+       let theaterLocation=selectedTheater.textContent.slice(0,selectedTheater.textContent.lastIndexOf("I"));
+       localStorage.setItem("theaterlocation:",JSON.stringify(theaterLocation));
        localStorage.setItem("PickedSlot:",JSON.stringify(selectedTheater.outerHTML))
       //  let tez=parse(localStorage.getItem('PickedSlot:'));
      

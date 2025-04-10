@@ -60,6 +60,10 @@ let navigate=useNavigate();
   setExecutive(outputseats['executive']||[]);
   setTotalRate((club.length*190)+(executive.length*60))
  },[outputseats,club.length,executive.length])
+
+ useEffect(()=>{
+  localStorage.setItem("totalrate:",JSON.stringify(totalRate+36))
+ },[totalRate])
   return (
     <>
     <Navbar/>

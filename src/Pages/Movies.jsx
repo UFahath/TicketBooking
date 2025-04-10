@@ -65,7 +65,7 @@ const Movies = () => {
       <div className=" p-3 d-flex justify-content-between mt-5">
         <Heading className="fs-1 fw-bold  rounded-3">Recommeded Movies</Heading>
 
-        <Link to="/movies/moviepage" className="fs-3 nav-link">
+        <Link to="/moviepage" className="fs-3 nav-link">
           View All <MoveRight className="ms-1" />{" "}
         </Link>
       </div>

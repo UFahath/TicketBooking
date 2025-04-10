@@ -22,7 +22,7 @@ import { MovieBookingPage } from './Pages/MovieBookingPage'
 import BookingDetails from './components/BookingDetails'
 import { MoviePaymentPage } from './Pages/MoviePaymentPage'
 
-import { QRPaymentPage } from './Pages/QrPaymentPage'
+import { QRPaymentPage, Success } from './Pages/QrPaymentPage'
 
 
 function ScrollT(){
@@ -48,13 +48,14 @@ function App() {
       <Route path="/" element={<Home/>}/>
       <Route path="/travel" element={<Travel/>}/>
       <Route path="/movies" element={<Movies/>}/>
-      <Route path="/movies/moviepage" element={<MoviePage/>}/>
+      <Route path="/moviepage" element={<MoviePage/>}/>
       <Route path="/movies/moviepage/movieselected" element={<MovieSelected/>}/>
       <Route path="/movies/moviepage/movieselected/theaterpreview" element={<TheaterPreview/>}/>
       <Route path="/moviebookingpage" element={<MovieBookingPage/>}/>
       <Route path="/bookingdetails" element={<BookingDetails/>}/>
       <Route path="/moviepaymentpage" element={<MoviePaymentPage/>}/>
       <Route path="/qr-payment" element={<QRPaymentPage/>}/>
+      <Route path="/moviepaymentsuccess" element={<Success/>}/>
       <Route path="/offers" element={<Offers/>}/>
       <Route path="/help" element={<Help/>}/>
       <Route path="/aboutus" element={<About/>}/>

@@ -1,14 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
 import { Navbar } from "../components/Navbar";
 import Footer from "../components/Footer";
-import { Scanner } from '@yudiel/react-qr-scanner';
-// import qrImage from "../assets/images/qr-code.png"; 
+import uniqid from 'uniqid';
+import qrImage from "../assets/images/qrcode.png"; 
 import QRCode from "react-qr-code";
+import { useNavigate } from "react-router-dom";
 export const QRPaymentPage = () => {
   let [timeLeft, setTimeLeft] = useState(300); 
   let [totalTime]=useState(300);
   let [randomQr,setRandomQr]=useState(Math.random());
-  let [qrId,setqrId]=useState("");
+  let navigate=useNavigate();
+  // let [qrId,setqrId]=useState("");
+  // let location=useLocation();
   // console.log(randomQr)
   // let[paymentDone,setDone]=useState(false);
   // console.log("totaltime",totalTime)
@@ -26,29 +29,6 @@ export const QRPaymentPage = () => {
 
     }, 1000);
 
-
-// async function scan(){
-//     const url = 'http(s)://api.qrserver.com/v1/read-qr-code/?fileurl=[URL-encoded-webaddress-url-to-qrcode-image-file]';
-// const options = {
-// 	method: 'POST',
-// 	// headers: {
-// 	// 	'x-rapidapi-key': 'ec069a1f2fmsh5a7063c9766da06p121b3bjsncdae84a68e63',
-// 	// 	'x-rapidapi-host': 'qr-code-and-barcode-manager.p.rapidapi.com',
-// 	// 	'Content-Type': 'application/x-www-form-urlencoded'
-// 	// },
-// 	// body: new URLSearchParams({})
-// };
-
-// try {
-// 	const response = await fetch(url, options);
-// 	const result = await response.text();
-// 	console.log(result);
-// } catch (error) {
-// 	console.error(error);
-// }
-// }
-// scan();
-
     return () => clearInterval(timer);
   }, []);
 
@@ -62,16 +42,10 @@ export const QRPaymentPage = () => {
     const sec = String(seconds % 60).padStart(2, "0");
     return `${min}:${sec}`;
   };
-
   function checkQr(){
-    if(qrId)
-    {
-      console.log(qrId)
-    }
-    else
-    {
-      console.log("no id present")
-    }
+  
+     navigate('/moviepaymentsuccess')
+   
   }
 
   return (
@@ -99,15 +73,15 @@ export const QRPaymentPage = () => {
           ● {formatTime(timeLeft)}
         </div>
 
-        {/* <img src={qrImage} alt="QR Code" className="img-fluid" style={{ maxWidth: "220px" }} /> */}
        
-        {/* <Scanner onScan={(result) => console.log(result)} >;    */}
+       
+   
     <QRCode className="mb-5"
     size={256}
     style={{ maxWidth: "100%" }}
     value={randomQr}
     viewBox={`0 0 256 256`}/>
-      {/* </Scanner> */}
+
       <div className="text-center">
         <button className="btn btn-outline-danger w-50 mb-5" onClick={checkQr}>Confirm</button>
       </div>
@@ -120,10 +94,145 @@ export const QRPaymentPage = () => {
   );
 };
 
-const Success=()=>{
+export const Success=()=>{
+
+  let [fontSize,setFontSize]=useState('fs-5');
+  let[margin,setMargin]=useState("ms-5");
+  
+
+  let date=new Date()
+  function time()
+  {
+    let hour=Number(date.toTimeString().slice(0,date.toTimeString().indexOf(":")))-12;
+    
+    let min=date.toTimeString().slice(date.toTimeString().indexOf(":"),date.toTimeString().indexOf(" "));
+    // console.log(date.toTimeString())
+    return `${String(hour).padStart(2,"0")}${String(min)}`
+  }
+ 
+//date Array
+let dateArray=date.toDateString().split(' ')
+
+//remove weekday from Array
+dateArray.shift();
+
+//swap and Array for formate dd mmm yyyy like this
+let temp=dateArray[0];
+dateArray[0]=dateArray[1];
+dateArray[1]=temp;
+
+//make it as string
+let dateNow=dateArray.join(" ")
+let seatInfo=useRef();
+let [seatInformation,setInfo]=useState([]);
+let rate=useRef();
+let theaterLocation=useRef();
+let movieTitle=useRef();
+let uniqId=uniqid().toUpperCase();
+useEffect(()=>{
+  rate.current=localStorage.getItem("totalrate:")||"nothing present"
+  theaterLocation.current=JSON.parse(localStorage.getItem("theaterlocation:")||"nothing present")
+  movieTitle.current=JSON.parse(localStorage.getItem("MoviePicked:")||"nothing present")
+  movieTitle.current=movieTitle.current[0].original_title
+  // console.log(theaterLocation.current)
+
+},[rate,theaterLocation,movieTitle])
+useEffect(()=>{
+  seatInfo.current=JSON.parse(localStorage.getItem("seats::")||[]);
+  setInfo(seatInfo.current||[])
+},[seatInfo])
+
+
+
+  useEffect(()=>{
+    let sizeHandler=()=>{
+      if(window.innerWidth<=768)
+      {
+        setFontSize("")
+        setMargin("")
+      }
+      else if(window.innerWidth>=768)
+      {
+        setFontSize("fs-5")
+        setMargin("ms-5")
+      }
+    }
+    window.addEventListener("resize",sizeHandler)
+    return ()=>{window.removeEventListener("resize",sizeHandler)}
+  },[fontSize])
   return(
     <>
+    <Navbar/>
+    <div className="container">
+      <div className="row">
+      <div className={`col text-center ${fontSize}`}><span>Thanks for Booking Movie Tickets on SavvySeats. </span> </div>
+      </div>
+      <div className="row">
+      <div className={`col text-center ${fontSize}`}><span>It is Pleasure To Serve You. </span></div>
+      </div>
+      <div className="row">
+      <div className={`col text-center ${fontSize}`}><span>Please use this e-copy while check-in.</span></div>
+      </div>
 
+
+      <div className="row my-4">
+        <div className="col-md-3"></div>
+        <div className="col-md-6 border border-4 rounded-3 table-responsive">
+          <table className="table">
+            <tbody>
+              <tr className={`${fontSize}`}>
+                <td><span className="fw-bold">Booking Id:</span></td>
+                <td><span className={`${margin}`}>{uniqId}</span></td>
+              </tr>
+              <tr className={`${fontSize}`}>
+                <td><span className="fw-bold">Reference No:</span></td>
+                <td><span className={`${margin}`}>123456789</span></td>
+              </tr>
+              <tr className={`${fontSize}`}>
+                <td><span className="fw-bold">Movie Name:</span></td>
+                <td><span className={`${margin}`}>{movieTitle.current}</span></td>
+              </tr>
+              <tr className={`${fontSize}`}>
+                <td><span className="fw-bold">Screen No:</span></td>
+                <td><span className={`${margin}`}>7</span></td>
+              </tr>
+              <tr className={`${fontSize}`}>
+                <td><span className="fw-bold">Location:</span></td>
+                <td><span className={`${margin}`}>{theaterLocation.current}</span></td>
+              </tr>
+              <tr className={`${fontSize}`}>
+                <td><span className="fw-bold">Date & Time:</span></td>
+                <td><span className={`${margin}`}>{dateNow+" ,"+time()}</span></td>
+              </tr>
+              <tr className={`${fontSize}`}>
+                <td><span className="fw-bold">Seat Info:</span></td>
+                <td><span className={`${margin}`}>{seatInformation.map((item,index,array)=>
+                  index!==array.length-1?item.seatSelected.concat(","):item.seatSelected
+                )}</span></td>
+              </tr>
+              <tr className={`${fontSize}`}>
+                <td><span className="fw-bold">Ticket Price:</span></td>
+                <td><span className={`${margin}`}>Rs.{rate.current}</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div className="col-md-3"></div>
+      </div>
+
+      <div className="row my-4">
+        <div className="col-md-3"></div>
+        <div className="col-md-6 text-center">
+         <img src={qrImage} alt="QR Code" className="img-fluid" style={{ maxWidth: "220px" }} />
+         </div>
+         <div className="col-md-3"></div>
+      </div>
+      <div className="row text-center">
+        <p className={`${fontSize}`}>Use this QR code While Check-in and Food Cart</p>
+      </div>
+    </div>
+    
+    <Footer/>
     </>
   )
 }
