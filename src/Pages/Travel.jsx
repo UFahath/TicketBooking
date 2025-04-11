@@ -6,12 +6,15 @@ import TravelSearchBar from "../components/TravelSearchBar"
 import AirOfferCarousel from "../components/AirOfferCarousel"
 import BusOfferCarousel from "../components/BusOfferCarousel"
 import AirTaillogo from '../assets/images/AirLogo.png'
-import { useState } from "react"
+import { useRef, useState ,useEffect} from "react"
+// import { useLocation } from "react-router-dom"
 
 
 const Travel = () => {
+ 
 
 let [searchEngineType,setType]=useState("");
+
   return (
     <>
     <Navbar/>
@@ -84,7 +87,10 @@ const TravelBusBottom=()=>{
   )
 }
 
-const TravelFlightBottom=()=>{
+export const TravelFlightBottom=()=>{
+
+
+ 
   return (
     <>
        <div className="container  bg-danger rounded-3 mt-5">
@@ -116,14 +122,14 @@ const TravelFlightBottom=()=>{
             </div>
 
 
-            <div className="row">
+            <div className="row flightoffer">
               <div className="col">
               <Heading>Today's Flight Offers</Heading>
                 <AirOfferCarousel/>
               </div>
             </div>
 
-            <div className="row">
+            <div className="row flightwinglogo">
               <div className="col">
               <Heading>Popular Domestic Airlines</Heading>
               <div className="row my-4">

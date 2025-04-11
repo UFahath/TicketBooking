@@ -1,10 +1,11 @@
 import { useEffect, useState,useRef } from "react";
 import { Navbar } from "../components/Navbar";
 import Footer from "../components/Footer";
-import uniqid from 'uniqid';
+import { v4 as uuidv4 } from 'uuid';
 import qrImage from "../assets/images/qrcode.png"; 
 import QRCode from "react-qr-code";
 import { useNavigate } from "react-router-dom";
+import { date,time } from "../data/time";
 export const QRPaymentPage = () => {
   let [timeLeft, setTimeLeft] = useState(300); 
   let [totalTime]=useState(300);
@@ -100,15 +101,7 @@ export const Success=()=>{
   let[margin,setMargin]=useState("ms-5");
   
 
-  let date=new Date()
-  function time()
-  {
-    let hour=Number(date.toTimeString().slice(0,date.toTimeString().indexOf(":")))-12;
-    
-    let min=date.toTimeString().slice(date.toTimeString().indexOf(":"),date.toTimeString().indexOf(" "));
-    // console.log(date.toTimeString())
-    return `${String(hour).padStart(2,"0")}${String(min)}`
-  }
+ ///
  
 //date Array
 let dateArray=date.toDateString().split(' ')
@@ -128,7 +121,7 @@ let [seatInformation,setInfo]=useState([]);
 let rate=useRef();
 let theaterLocation=useRef();
 let movieTitle=useRef();
-let uniqId=uniqid().toUpperCase();
+const id = uuidv4();
 useEffect(()=>{
   rate.current=localStorage.getItem("totalrate:")||"nothing present"
   theaterLocation.current=JSON.parse(localStorage.getItem("theaterlocation:")||"nothing present")
@@ -182,7 +175,7 @@ useEffect(()=>{
             <tbody>
               <tr className={`${fontSize}`}>
                 <td><span className="fw-bold">Booking Id:</span></td>
-                <td><span className={`${margin}`}>{uniqId}</span></td>
+                <td><span className={`${margin}`}>{id}</span></td>
               </tr>
               <tr className={`${fontSize}`}>
                 <td><span className="fw-bold">Reference No:</span></td>
@@ -236,3 +229,4 @@ useEffect(()=>{
     </>
   )
 }
+

@@ -24,6 +24,9 @@ export const MovieBookingPage = () => {
   ];
 
   useEffect(() => {
+
+  
+      console.clear();
     const storedSlot = JSON.parse(localStorage.getItem("PickedSlot:"));
     // setSlot(storedSlot);
 
@@ -36,6 +39,7 @@ export const MovieBookingPage = () => {
         }
       });
     }
+    return ()=>{}
    
   }, []);
   

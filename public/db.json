@@ -1,0 +1,224 @@
+{
+  "ticket_booking": [
+    {
+      "id": 1,
+      "source": "Mumbai, India",
+      "destination": "Delhi, India",
+      "date": "2025-04-10",
+      "price": 4500,
+      "currency": "INR",
+      "airline": "Air India",
+      "seat_available": true,
+      "travel_duration": "2h 10m"
+    },
+    {
+      "id": 2,
+      "source": "Bangalore, India",
+      "destination": "Chennai, India",
+      "date": "2025-04-12",
+      "price": 3500,
+      "currency": "INR",
+      "airline": "IndiGo",
+      "seat_available": true,
+      "travel_duration": "1h 5m"
+    },
+    {
+      "id": 3,
+      "source": "New York, USA",
+      "destination": "London, UK",
+      "date": "2025-05-01",
+      "price": 550,
+      "currency": "USD",
+      "airline": "British Airways",
+      "seat_available": true,
+      "travel_duration": "7h 50m"
+    },
+    {
+      "id": 4,
+      "source": "Delhi, India",
+      "destination": "Dubai, UAE",
+      "date": "2025-04-15",
+      "price": 15000,
+      "currency": "INR",
+      "airline": "Emirates",
+      "seat_available": false,
+      "travel_duration": "3h 45m"
+    },
+    {
+      "id": 5,
+      "source": "Sydney, Australia",
+      "destination": "Tokyo, Japan",
+      "date": "2025-06-10",
+      "price": 700,
+      "currency": "AUD",
+      "airline": "Qantas",
+      "seat_available": true,
+      "travel_duration": "9h 30m"
+    },
+    {
+      "id": 6,
+      "source": "Paris, France",
+      "destination": "Berlin, Germany",
+      "date": "2025-07-05",
+      "price": 120,
+      "currency": "EUR",
+      "airline": "Lufthansa",
+      "seat_available": true,
+      "travel_duration": "1h 45m"
+    },
+    {
+      "id": 7,
+      "source": "Tokyo, Japan",
+      "destination": "Seoul, South Korea",
+      "date": "2025-08-01",
+      "price": 250,
+      "currency": "JPY",
+      "airline": "Korean Air",
+      "seat_available": true,
+      "travel_duration": "2h 30m"
+    },
+    {
+      "id": 8,
+      "source": "Los Angeles, USA",
+      "destination": "Toronto, Canada",
+      "date": "2025-09-10",
+      "price": 400,
+      "currency": "USD",
+      "airline": "Air Canada",
+      "seat_available": true,
+      "travel_duration": "5h 10m"
+    },
+    {
+      "id": 9,
+      "source": "Dubai, UAE",
+      "destination": "Singapore",
+      "date": "2025-10-20",
+      "price": 1000,
+      "currency": "AED",
+      "airline": "Singapore Airlines",
+      "seat_available": true,
+      "travel_duration": "7h 5m"
+    },
+    {
+      "id": 10,
+      "source": "Cape Town, South Africa",
+      "destination": "Nairobi, Kenya",
+      "date": "2025-11-15",
+      "price": 350,
+      "currency": "ZAR",
+      "airline": "Kenya Airways",
+      "seat_available": true,
+      "travel_duration": "4h 15m"
+    },
+    {
+      "id": 11,
+      "source": "Singapore",
+      "destination": "Hong Kong, China",
+      "date": "2025-12-01",
+      "price": 600,
+      "currency": "SGD",
+      "airline": "Cathay Pacific",
+      "seat_available": true,
+      "travel_duration": "4h 10m"
+    },
+    {
+      "id": 12,
+      "source": "Toronto, Canada",
+      "destination": "New York, USA",
+      "date": "2025-12-05",
+      "price": 250,
+      "currency": "CAD",
+      "airline": "Delta Airlines",
+      "seat_available": true,
+      "travel_duration": "1h 30m"
+    },
+    {
+      "id": 13,
+      "source": "Frankfurt, Germany",
+      "destination": "Madrid, Spain",
+      "date": "2025-12-10",
+      "price": 180,
+      "currency": "EUR",
+      "airline": "Iberia",
+      "seat_available": true,
+      "travel_duration": "2h 40m"
+    },
+    {
+      "id": 14,
+      "source": "Rome, Italy",
+      "destination": "Athens, Greece",
+      "date": "2025-12-15",
+      "price": 200,
+      "currency": "EUR",
+      "airline": "Aegean Airlines",
+      "seat_available": true,
+      "travel_duration": "2h 10m"
+    },
+    {
+      "id": 15,
+      "source": "Bangkok, Thailand",
+      "destination": "Bali, Indonesia",
+      "date": "2025-12-20",
+      "price": 400,
+      "currency": "THB",
+      "airline": "Garuda Indonesia",
+      "seat_available": true,
+      "travel_duration": "4h 50m"
+    },
+    {
+      "id": 16,
+      "source": "Melbourne, Australia",
+      "destination": "Auckland, New Zealand",
+      "date": "2025-12-25",
+      "price": 500,
+      "currency": "AUD",
+      "airline": "Air New Zealand",
+      "seat_available": true,
+      "travel_duration": "3h 45m"
+    },
+    {
+      "id": 17,
+      "source": "Beijing, China",
+      "destination": "Shanghai, China",
+      "date": "2025-12-30",
+      "price": 150,
+      "currency": "CNY",
+      "airline": "China Eastern",
+      "seat_available": true,
+      "travel_duration": "2h 20m"
+    },
+    {
+      "id": 18,
+      "source": "Mexico City, Mexico",
+      "destination": "Lima, Peru",
+      "date": "2026-01-05",
+      "price": 350,
+      "currency": "MXN",
+      "airline": "LATAM",
+      "seat_available": true,
+      "travel_duration": "5h 30m"
+    },
+    {
+      "id": 19,
+      "source": "Chennai, India",
+      "destination": "Singapore",
+      "date": "2025-07-01",
+      "price": 9500,
+      "currency": "INR",
+      "airline": "Singapore Airlines",
+      "seat_available": true,
+      "travel_duration": "4h 30m"
+    },
+    {
+      "id": 20,
+      "source": "Kochi, India",
+      "destination": "Dubai, UAE",
+      "date": "2025-06-15",
+      "price": 13000,
+      "currency": "INR",
+      "airline": "FlyDubai",
+      "seat_available": true,
+      "travel_duration": "4h 0m"
+    }
+  ]
+}

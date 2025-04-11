@@ -23,6 +23,7 @@ import BookingDetails from './components/BookingDetails'
 import { MoviePaymentPage } from './Pages/MoviePaymentPage'
 
 import { QRPaymentPage, Success } from './Pages/QrPaymentPage'
+import FlightResults from './components/FlightResults'
 
 
 function ScrollT(){
@@ -47,6 +48,8 @@ function App() {
      <Routes>
       <Route path="/" element={<Home/>}/>
       <Route path="/travel" element={<Travel/>}/>
+      <Route path="/flightresults" element={<FlightResults/>}/>
+ 
       <Route path="/movies" element={<Movies/>}/>
       <Route path="/moviepage" element={<MoviePage/>}/>
       <Route path="/movies/moviepage/movieselected" element={<MovieSelected/>}/>
