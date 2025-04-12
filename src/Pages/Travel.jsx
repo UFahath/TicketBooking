@@ -6,7 +6,7 @@ import TravelSearchBar from "../components/TravelSearchBar"
 import AirOfferCarousel from "../components/AirOfferCarousel"
 import BusOfferCarousel from "../components/BusOfferCarousel"
 import AirTaillogo from '../assets/images/AirLogo.png'
-import { useRef, useState ,useEffect} from "react"
+import {useState} from "react"
 // import { useLocation } from "react-router-dom"
 
 

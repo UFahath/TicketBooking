@@ -1,32 +1,88 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Navbar } from "./Navbar";
 import Footer from "./Footer";
 import {date, time } from "../data/time";
 import { TravelFlightBottom } from "../Pages/Travel";
-// import flightIcon from "./assets/flight-icon.png"; // Uncomment if you have a flight icon image
+import flightIcon from "../assets/images/Flightimage.jpeg"; 
+
 
 const FlightResults = () => {
   const { state } = useLocation();
 
   const { availableFlights = [], from = "", to = "", departureDate = "" } = state || {};
-
-
+  const [passengers,setPassengers]=useState("");
+  const[classCategory,setClassCategory]=useState("");
+ const[passengersCount,setCount]=useState(0);
+ const[passengerAge,setAgeType]=useState("");
   let currentTime=time().slice(0,time().lastIndexOf(":"));
    let hour=currentTime.slice(1,currentTime.indexOf(":"));
 
    useEffect(()=>{
     let flightOffer=document.querySelector('.flightoffer');
     let flightWingLogo=document.querySelector('.flightwinglogo');
-   flightOffer.remove();
-   flightWingLogo.remove();
+    if(flightOffer&&flightWingLogo)
+    {
+      flightOffer.remove();
+      flightWingLogo.remove();
+    }
+
+    setPassengers(JSON.parse(localStorage.getItem("passengercount:")||"nothing present"))
+ 
+    
    },[])
+   useEffect(()=>{
+    setClassCategory(passengers.classSelected||"")
+    console.log(passengers)
+    for(let key in passengers)
+    {
+      if(passengers[key]!==0&&key!=="classSelected")
+      {
+        setCount(passengers[key]||0)
+        setAgeType((prev)=>[prev+=passengers[key]+key+","])
+      }
+    }
+   },[passengers])
   
   return (
     <>
     <Navbar/>
-    <div className="container">
-
+    <div className="container-fluid">
+      <div className="row mb-5 ms-4">
+        <h4 className="text-center text-warning fw-bold fs-1 importedfont my-4">Trip Mode</h4>
+        <div className="row">
+          <div className="col-3 bg-warning rounded-top-4"></div>
+           <div className="col-6 text-center"> <button className="btn btn-warning">One Way</button>
+           <button className="btn btn-outline-warning disabled text-dark">Rounded-trip</button>
+           </div>
+           <div className="col-3 bg-warning rounded-top-4"></div>
+        </div>
+       
+      </div>
+      <div className="row mb-5 mx-auto">
+        <div className="col-md-3">
+          <label htmlFor="" className="form-label">From</label>
+        <input type="text" className="form-control bg-white text-danger fw-bold" value={from} disabled/>
+        </div>
+        <div className="col-md-3">
+          <label htmlFor="" className="form-label">To</label>
+        <input type="text" className="form-control bg-white text-danger fw-bold" value={to} disabled/>
+        </div>
+        <div className="col-md-3">
+          <label htmlFor="" className="form-label">Departure</label>
+        <input type="text" className="form-control bg-white text-danger fw-bold" value={departureDate} disabled/>
+        </div>
+        <div className="col-md-3">
+          <label htmlFor="" className="form-label">Passenger&Class</label>
+        <input type="text" className="form-control bg-white text-danger fw-bold" value={passengerAge+classCategory} disabled/>
+        </div>
+      </div>
+    <div className="row position-relative">
+      <div className="col text-center  position-absolute mx-auto" style={{bottom:"95%"}}>
+      <span className="badge text-bg-warning text-white fs-3 rounded-4">Update Search</span>
+      </div>
+    <img src={flightIcon} alt="airline"  className="img-fluid rounded-5" style={{minWidth:"100%",maxHeight:"600px"}} />
+    </div>
     </div>
     <div className="container my-5">
       {/* Trip Summary */}
@@ -75,8 +131,7 @@ const FlightResults = () => {
               <div key={index} className="card mb-3 shadow-sm border-0">
                 <div className="card-body d-flex justify-content-between align-items-center">
                   <div className="d-flex align-items-center">
-                    {/* Uncomment if you use flightIcon */}
-                    {/* <img src={flightIcon} alt="airline" width="50" className="me-3" /> */}
+                    <img src={flightIcon} alt="airline" width="50" className="me-3 rounded-5" />
                     <div>
                       <h5 className="mb-1">{flight.airline || "Airline Name"}</h5>
                       <small className="text-muted">{flight.flightNumber || "XX123"}</small>

@@ -1,12 +1,22 @@
-import { useState} from "react";
+import {useState,useEffect} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 export const TravellersClass = () => {
   let [adults, setAdults] = useState(0);
   let [children, setChildren] = useState(0);
   let [infants, setInfants] = useState(0);
+  let[result,setResult]=useState(0)
+ let[classSelected,setClassSelected]=useState("");
   
+  useEffect(()=>{
+    setResult({adults,children,infants,classSelected})
+  },[adults,children,infants,classSelected])
 
+  useEffect(()=>{
+   localStorage.setItem("passengercount:",JSON.stringify(result))
+  },[result]);
+
+ 
   const increaseAdults = (event) => {
     event.stopPropagation();
     if (adults < 9) 
@@ -37,6 +47,10 @@ export const TravellersClass = () => {
   };
 
   const increaseInfants = (event) => {
+  //   let buttonParent=event.target.parentNode;
+  //   let mainParent=buttonParent.closest("li");
+  //   let targetText=mainParent.querySelector("Strong").textContent
+  //  console.log(targetText)
     event.stopPropagation();
     if (infants < 9) 
       {
@@ -82,6 +96,26 @@ let ecoclass=[
   "Business",
   ]
 
+  function handleClass(event)
+  {
+    event.stopPropagation();
+    let classSelected=event.target.textContent;
+    // console.log(classSelected)
+    if(classSelected)
+    {
+      let parent=event.target.closest(".row")
+      let buttons=parent.querySelectorAll("button");
+     buttons.forEach((btn)=>{
+       if(classSelected!==btn.textContent)
+       {
+         btn.setAttribute("disabled","");
+       }
+      })
+     
+    }
+    setClassSelected(classSelected)
+  }
+
   return (
     <>
       <div className="dropdown">
@@ -91,7 +125,7 @@ let ecoclass=[
         <ul className="dropdown-menu">
           {
             ages.map((items,index)=>(
-          <li className="ms-2 mb-2 text-center" key={index}>
+          <li className="ms-2 mb-2 text-center"  key={index}>
             <strong>{items.person}</strong>
             <p>{items.age}</p>
             <div className="border border-dark rounded-3 mx-auto" style={{width:"fit-content"}}>
@@ -114,7 +148,7 @@ let ecoclass=[
               {
                 ecoclass.map((item,index)=>(
               <div className="col" key={index}>
-            <button className="btn btn-primary">{item}</button>
+            <button className="btn btn-primary" onClick={handleClass}>{item}</button>
             </div>
                 ))
               }
