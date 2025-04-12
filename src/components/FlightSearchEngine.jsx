@@ -17,7 +17,7 @@ const FlightSearchEngine = () => {
   useEffect(() => {
     async function flightData() {
       try {
-        let response = await fetch("./db.json");
+        let response = await fetch("/TicketBooking/db.json");
         let data = await response.json();
         setFetchedData(data.ticket_booking);
         console.log(data.ticket_booking)
