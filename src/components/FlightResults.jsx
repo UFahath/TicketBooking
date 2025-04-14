@@ -5,15 +5,24 @@ import Footer from "./Footer";
 import {date, time } from "../data/time";
 import { TravelFlightBottom } from "../Pages/Travel";
 import flightIcon from "../assets/images/Flightimage.jpeg"; 
-
-
+import { Sunrise,SunDim,SunMedium,Sunset } from "lucide-react";
+let filterData={
+  departureTime:["12AM-6AM","6AM-12PM","12PM-6PM","6PM-12AM"],
+  arrivalTime:["12AM-6AM","6AM-12PM","12PM-6PM","6PM-12AM"],
+  icons:['Sunrise','SunDim','SunMedium','Sunset'],
+}
+let iconComponents={
+ Sunrise:Sunrise,SunDim:SunDim,SunMedium:SunMedium,Sunset:Sunset
+}
 const FlightResults = () => {
+
   const { state } = useLocation();
 
-  const { availableFlights = [], from = "", to = "", departureDate = "" } = state || {};
+  let { availableFlights = [], from = "", to = "", departureDate = "" } = state || {};
   const [passengers,setPassengers]=useState("");
   const[classCategory,setClassCategory]=useState("");
- const[passengersCount,setCount]=useState(0);
+  let[filterItem,setFilterItem]=useState([])
+//  const[passengersCount,setCount]=useState(0);
  const[passengerAge,setAgeType]=useState("");
   let currentTime=time().slice(0,time().lastIndexOf(":"));
    let hour=currentTime.slice(1,currentTime.indexOf(":"));
@@ -38,12 +47,51 @@ const FlightResults = () => {
     {
       if(passengers[key]!==0&&key!=="classSelected")
       {
-        setCount(passengers[key]||0)
+        // setCount(passengers[key]||0)
         setAgeType((prev)=>[prev+=passengers[key]+key+","])
       }
     }
    },[passengers])
   
+
+   function Icons({index}){
+   let IconComponents=iconComponents[filterData.icons[index]]
+    return <IconComponents size={18} className="me-2" />;
+  }
+
+   function departureFilter(event){
+   let pickedTimeSlot=event.target.textContent;
+   let startTime;
+   for(let i=0;i<pickedTimeSlot.length;i++)
+   {
+    if(pickedTimeSlot.codePointAt(i)>=65&&pickedTimeSlot.codePointAt(i)<=90)
+    { 
+    startTime=pickedTimeSlot.slice(0,i);
+    break;
+    }
+   }
+   let endTime;
+   for(let j=pickedTimeSlot.indexOf('-')+1;j<pickedTimeSlot.length;j++)
+   {
+   
+    if(pickedTimeSlot.codePointAt(j)>=65&&pickedTimeSlot.codePointAt(j)<=90)
+    {
+    endTime=pickedTimeSlot.slice(pickedTimeSlot.indexOf('-')+1,j);break;
+    }
+   }
+  //  console.log("startTime:",startTime);
+  //  console.log("endTime:",endTime);
+  console.log(startTime.padStart(2,"0"))
+  availableFlights=availableFlights.filter((item)=>{
+ 
+    return startTime.padStart(2,"0")<=item.arrival_time.slice(0,item.arrival_time.indexOf(':'))&&endTime.padStart(2,"0")>=item.departure_time.slice(0,item.departure_time.indexOf(':'));
+   })
+   console.log(filterItem)
+    // console.log(availableFlights)
+   }
+   useEffect(()=>{
+    console.log(filterItem)
+   },[filterItem])
   return (
     <>
     <Navbar/>
@@ -98,8 +146,37 @@ const FlightResults = () => {
         {/* Filter Section */}
         <div className="col-md-3 mb-4">
           <div className="p-3 border rounded shadow-sm">
-            <h5>Filters</h5>
+            <div className="row">
+            <h5 className="fw-bold text-center">Filters</h5>
+            <button className="btn btn-outline-dark">ResetAll</button>
+            </div>
+            <p className="text-secondary my-3">Showing {availableFlights.length} Flights</p>
             <hr />
+            <div className="row">
+             <div className="col">
+              <h5 className="fw-bold">Departure Time</h5>
+              {
+                filterData.departureTime.map((item,index)=>(
+                  <button className="btn btn-outline-dark mx-3 my-2 rounded-4" key={index} onClick={departureFilter}>
+                  <Icons index={index}/>{item}
+                  </button>
+                ))
+              }
+              
+             </div>
+            </div>
+            <div className="row">
+             <div className="col">
+              <h5 className="fw-bold">Arrival Time</h5>
+              {
+                filterData.arrivalTime.map((item,index)=>(
+                  <button className="btn btn-outline-dark mx-3 my-2 rounded-4" key={index}>
+                    <Icons index={index}/>{item}</button>
+                ))
+              }
+              
+             </div>
+            </div>
             <div className="mb-3">
               <label className="form-label">Price Range</label>
               <input type="range" className="form-range" min="1000" max="20000" />
@@ -124,37 +201,44 @@ const FlightResults = () => {
           </div>
         </div>
 
-        {/* Flight Results Section */}
-        <div className="col-md-9">
-          {availableFlights.length > 0 ? (
-            availableFlights.map((flight, index) => (
-              <div key={index} className="card mb-3 shadow-sm border-0">
-                <div className="card-body d-flex justify-content-between align-items-center">
-                  <div className="d-flex align-items-center">
-                    <img src={flightIcon} alt="airline" width="50" className="me-3 rounded-5" />
-                    <div>
-                      <h5 className="mb-1">{flight.airline || "Airline Name"}</h5>
-                      <small className="text-muted">{flight.flightNumber || "XX123"}</small>
-                    </div>
-                  </div>
-                  <div>
-                    <div>
-                      <strong>{currentTime}</strong> →{" "}
-                      <strong>{String(Number(hour)+Number(flight.travel_duration.slice(0,flight.travel_duration.indexOf("h")))).padStart(2,"0").concat(date.toTimeString().slice(date.toTimeString().indexOf(":"),date.toTimeString().lastIndexOf(":")|| "00:00"))}</strong>
-                    </div>
-                    <small className="text-muted">{flight.travel_duration || "2h 30m"}</small>
-                  </div>
-                  <div className="text-end">
-                    <h5 className="text-success">₹{flight.price}</h5>
-                    <button className="btn btn-outline-danger mt-2">Book</button>
-                  </div>
-                </div>
+     {/* Flight Results Section */}
+<div className="col-md-9">
+  {availableFlights.length > 0 ? (
+    availableFlights.map((flight, index) => (
+      <div key={index} className="card mb-3 shadow-sm border-0">
+        <div className="card-body">
+          <div className="row align-items-center">
+            {/* Airline Info */}
+            <div className="col-12 col-md-4 d-flex align-items-center mb-3 mb-md-0">
+              <img src={flightIcon} alt="airline" width="50" className="me-3 rounded-5" />
+              <div>
+                <h5 className="mb-1">{flight.airline || "Airline Name"}</h5>
+                <small className="text-muted">{flight.flightNumber || "XX123"}</small>
               </div>
-            ))
-          ) : (
-            <p className="text-muted">No flights available for this route and date.</p>
-          )}
+            </div>
+
+            {/* Timing Info */}
+            <div className="col-6 col-md-4 mb-3 mb-md-0">
+              <div>
+                <strong>{flight.departure_time}</strong> → <strong>{flight.arrival_time}</strong>
+              </div>
+              <small className="text-muted">{flight.travel_duration || "2h 30m"}</small>
+            </div>
+
+            {/* Pricing & Booking */}
+            <div className="col-6 col-md-4 text-md-end text-start">
+              <h5 className="text-success">{flight.currency} {flight.price}</h5>
+              <button className="btn btn-outline-danger mt-2 w-100 w-md-auto">Book</button>
+            </div>
+          </div>
         </div>
+      </div>
+    ))
+  ) : (
+    <p className="text-muted">No flights available for this route and date.</p>
+  )}
+</div>
+
       </div>
     </div>
     <TravelFlightBottom/>

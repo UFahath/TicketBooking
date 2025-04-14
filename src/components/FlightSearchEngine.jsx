@@ -13,7 +13,7 @@ const FlightSearchEngine = () => {
   const [fetchedData, setFetchedData] = useState([]);
 
   const navigate = useNavigate();
-
+  const [passengersDropdown,setDropdown]=useState(false);
   useEffect(() => {
     async function flightData() {
       try {
@@ -34,7 +34,10 @@ const FlightSearchEngine = () => {
         item.source.toLowerCase().includes(fromInput.toLowerCase()) &&
         item.destination.toLowerCase().includes(toInput.toLowerCase())
     );
-
+   if(fromInput&&toInput&&departureDate&&passengersDropdown)
+   {
+   console.log(fromInput,toInput,departureDate,passengersDropdown)
+   setTimeout(()=>{
     navigate("/flightresults", {
       state: {
         availableFlights,
@@ -43,7 +46,9 @@ const FlightSearchEngine = () => {
         departureDate,
         returnDate: tripMode === "roundedtrip" ? returnDate : null,
       },
-    });
+   });
+   },100);
+  }
   };
 
   return (
@@ -89,6 +94,7 @@ const FlightSearchEngine = () => {
           setDepartureDate={setDepartureDate}
           fetchedData={fetchedData}
           handleSearch={handleSearch}
+          setDropdown={setDropdown}
         />
       </div>
     </>
@@ -107,6 +113,7 @@ const OneWayTrip = ({
   setDepartureDate,
   fetchedData,
   handleSearch,
+  setDropdown
 }) => {
   const [fromSuggestions, setFromSuggestions] = useState([]);
   const [toSuggestions, setToSuggestions] = useState([]);
@@ -146,6 +153,7 @@ const OneWayTrip = ({
   };
 
   return (
+    <form action="">
     <div className="container border border-5 border-warning mb-3 fs-4">
       <div className="row row-cols-1 row-cols-md-4 my-5 gy-4">
         {/* FROM input */}
@@ -157,6 +165,7 @@ const OneWayTrip = ({
               placeholder="From"
               value={fromInput}
               onChange={handleFromChange}
+              required
             />
           </div>
           {fromSuggestions.length > 0 && (
@@ -183,6 +192,7 @@ const OneWayTrip = ({
               placeholder="To"
               value={toInput}
               onChange={handleToChange}
+              required
             />
           </div>
           {toSuggestions.length > 0 && (
@@ -208,6 +218,7 @@ const OneWayTrip = ({
               className="form-control"
               value={departureDate}
               onChange={(e) => setDepartureDate(e.target.value)}
+              required
             />
           </div>
         </div>
@@ -221,12 +232,13 @@ const OneWayTrip = ({
                 className="form-control"
                 value={returnDate || ""}
                 onChange={(e) => setReturnDate(e.target.value)}
+                required
               />
             </div>
           </div>
         )}
 
-        <TravellersClass />
+        <TravellersClass setDropdown={setDropdown}/>
       </div>
 
       {/* Special fares */}
@@ -247,12 +259,13 @@ const OneWayTrip = ({
 
       <div className="row my-5">
         <div className="col d-flex justify-content-center">
-          <button className="btn btn-primary" onClick={handleSearch}>
+          <button className="btn btn-primary"  onClick={handleSearch}>
             Search
           </button>
         </div>
       </div>
     </div>
+    </form>
   );
 };
 

@@ -1,7 +1,7 @@
 import {useState,useEffect} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
-export const TravellersClass = () => {
+export const TravellersClass = ({setDropdown}) => {
   let [adults, setAdults] = useState(0);
   let [children, setChildren] = useState(0);
   let [infants, setInfants] = useState(0);
@@ -10,7 +10,11 @@ export const TravellersClass = () => {
   
   useEffect(()=>{
     setResult({adults,children,infants,classSelected})
-  },[adults,children,infants,classSelected])
+    if((adults||children||infants)&&classSelected)
+    {
+      setDropdown(true)
+    }
+  },[adults,children,infants,classSelected,setDropdown])
 
   useEffect(()=>{
    localStorage.setItem("passengercount:",JSON.stringify(result))
