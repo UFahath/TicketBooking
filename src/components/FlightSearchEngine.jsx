@@ -28,7 +28,8 @@ const FlightSearchEngine = () => {
     flightData();
   }, []);
 
-  const handleSearch = () => {
+  const handleSearch = (event) => {
+    event.preventDefault();
     const availableFlights = fetchedData.filter(
       (item) =>
         item.source.toLowerCase().includes(fromInput.toLowerCase()) &&

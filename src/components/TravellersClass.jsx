@@ -22,6 +22,7 @@ export const TravellersClass = ({setDropdown}) => {
 
  
   const increaseAdults = (event) => {
+    event.preventDefault();
     event.stopPropagation();
     if (adults < 9) 
       {
@@ -30,11 +31,13 @@ export const TravellersClass = ({setDropdown}) => {
   };
 
   const decreaseAdults = (event) => {
+    event.preventDefault();
     event.stopPropagation();
     if (adults > 0) setAdults(adults - 1);
   };
 
   const increaseChildren = (event) => {
+    event.preventDefault();
     event.stopPropagation();
     if (children < 9) 
       {
@@ -43,6 +46,7 @@ export const TravellersClass = ({setDropdown}) => {
   }
 
   const decreaseChildren = (event) => {
+    event.preventDefault();
     event.stopPropagation();
     if (children > 0)
       {
@@ -55,6 +59,7 @@ export const TravellersClass = ({setDropdown}) => {
   //   let mainParent=buttonParent.closest("li");
   //   let targetText=mainParent.querySelector("Strong").textContent
   //  console.log(targetText)
+    event.preventDefault();
     event.stopPropagation();
     if (infants < 9) 
       {
@@ -63,6 +68,7 @@ export const TravellersClass = ({setDropdown}) => {
   };
 
   const decreaseInfants = (event) => {
+    event.preventDefault();
     event.stopPropagation();
     if (infants > 0) 
     {
@@ -102,6 +108,7 @@ let ecoclass=[
 
   function handleClass(event)
   {
+    event.preventDefault();
     event.stopPropagation();
     let classSelected=event.target.textContent;
     // console.log(classSelected)
