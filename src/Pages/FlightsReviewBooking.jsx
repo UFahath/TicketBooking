@@ -8,7 +8,8 @@ import suitcase from '../assets/images/suitcases.png'
 export const FlightsReviewBooking = () => {
  let {state}=useLocation();
  let[classSelected,setClassSelected]=useState("");
- let{source,destination,airline,departure_time,arrival_time,travel_duration,date}=state;
+//  let{source,destination,airline,departure_time,arrival_time,travel_duration,date}=state;
+ let[discount,setDiscount]=useState(0);
  useEffect(()=>{
   setClassSelected(JSON.parse(localStorage.getItem("passengercount:")||[]))
  },[])
@@ -37,22 +38,28 @@ function dateFormatter(date)
   return date;
 }
 
-let newDate=new Date(date)
- console.log(state)
-//  console.log("from:",source)
-//  console.log("to:",destination)
-//  console.log("airlinename:",airline)
-//  console.log("departure_time:",departure_time)
-//  console.log("arrivaltime:",arrival_time);
-//  console.log("travelduration:",travel_duration)
- console.log("date:",dateFormatter(newDate.toDateString()))
- console.log(classSelected.classSelected)
+// let newDate=new Date(date)
+//  console.log(state)
+// //  console.log("from:",source)
+// //  console.log("to:",destination)
+// //  console.log("airlinename:",airline)
+// //  console.log("departure_time:",departure_time)
+// //  console.log("arrivaltime:",arrival_time);
+// //  console.log("travelduration:",travel_duration)
+//  console.log("date:",dateFormatter(newDate.toDateString()))
+//  console.log(classSelected.classSelected)
   return (
     <>
     <Navbar/>
-    <div className="container">
-      <h2 className="text-warning my-4">Review Your Booking</h2>
+    <h2 className="text-warning my-4" style={{marginLeft:"10%"}}>Review Your Booking</h2>
+    <div className="container d-flex justify-content-between flex-wrap">
+    
       <BookingDetailsReview state={state} dateFormatter={dateFormatter} classSelected={classSelected}/>
+      <div className=" col-12 col-xl-10 col-xxl-3 d-flex flex-column">
+      <FairSummary price={state.price} discount={discount}/>
+      <ApplyPromoCode setDiscount={setDiscount}/>
+      </div>
+
     </div>
     <Footer/>
     </>
@@ -62,6 +69,7 @@ let newDate=new Date(date)
 
 let BookingDetailsReview=({state,dateFormatter,classSelected})=>{
   let head=useRef("");
+ 
 
   let newDate=new Date(state.date)
   useEffect(()=>{
@@ -129,7 +137,8 @@ let BookingDetailsReview=({state,dateFormatter,classSelected})=>{
         <Baggage/>
        </div>
       </header>
-      <FairSummary/>
+
+  
     </>
   )
 }
@@ -168,11 +177,13 @@ let TravelDetails=({state})=>{
       <hr style={{border:"2px solid black"}}/>
       </div>
     </div>
-    <div className="row" style={{fontSize:"1rem"}}>
-      <div className="col d-flex justify-content-between">
+    <div className="row row-cols-1 row-cols-md-2" style={{fontSize:"1rem"}}>
+      <div className="col">
         <span>
           <img src={travelbag} alt="travelbag" className="img-fluid" style={{width:"20px"}}/>
           <b className="ms-2">Cabin baggage:</b> 7KG(onepiece only)/Adult</span>
+          </div>
+          <div className="col">
         <span className="ms-1">
           <img src={suitcase} alt="suitcase" className="img-fluid"  style={{width:"20px"}}/>
           <b className="ms-2">Check-in baggage:</b>
@@ -199,10 +210,134 @@ let Baggage=()=>{
   )
 }
 
-let FairSummary=()=>{
+let FairSummary=({price,discount})=>{
+
+  let [priceTotal,setPriceTotal]=useState(0);
+
+  let fairSummary=useRef(null);
+  let fare=[{text:"Base Fare",prices:price},
+    {text:"Taxes&SubCharge",prices:130},
+    {text:"Discount",prices:discount}
+]
+
+useEffect(()=>{
+  if(window.innerWidth<1400)
+  {
+    fairSummary.current.className+=" mt-5"
+  }
+  let insertMarginTop=()=>{
+    if(window.matchMedia("(min-Width:320px) and (max-Width:1400px)").matches)
+    {
+      fairSummary.current.className="container border border-dark fs-5 p-4 rounded-4 bg-warning bg-opacity-75 mt-5 text-center"
+    }
+    else
+    {
+      fairSummary.current.className="container border border-dark fs-5 p-4 rounded-4 bg-warning bg-opacity-75 text-center"
+    }
+  }
+  window.addEventListener('resize',insertMarginTop)
+
+},[])
+  useEffect(()=>{
+     let total=fare.reduce((accu,current,index,arr)=>{
+       if(index!==arr.length-1)
+       {
+           accu+=current.prices;
+       }
+       return accu;
+  },0);
+  
+  console.log("calculated sum:",total)
+     setPriceTotal(()=>total-discount)
+
+  },[price])
+ 
+useEffect(()=>{
+  setPriceTotal((priceTotal)=>priceTotal-discount)
+},[discount])
+
+  
   return(
     <>
-    <h1>Test</h1>
+    <div ref={fairSummary} className="container border border-dark fs-5 p-4 rounded-4 bg-warning bg-opacity-75 text-center" style={{height:"fit-content"}}>
+      <h2>Fair Summary</h2>
+      {
+        fare.map((item,index,arr)=>(
+          <div key={index}>
+      <div className="d-flex justify-content-between">
+      <span className="text-wrap" style={{maxWidth:"60%"}}>{item.text}</span>
+      <span>{index===arr.length-1?"-"+String.fromCharCode(8377):String.fromCharCode(8377)}{item.prices}</span>
+      </div>
+       {index!==1&&(<hr />)}
+      </div>
+       ))
+      } 
+
+
+
+      <div className="d-flex justify-content-between">
+      
+      <span className="text-wrap fw-bold" style={{maxWidth:"60%"}}>Total</span>
+ 
+   
+      <span>{String.fromCharCode(8377)}{priceTotal}</span>
+     
+    </div>
+    </div>
+
     </>
+  )
+}
+
+let ApplyPromoCode=({setDiscount})=>{
+  let [promoCodeValue,setPromoCode]=useState("");
+
+  // useEffect(()=>{
+  //   console.log(promoCodeValue)
+  // },[promoCodeValue])
+
+
+  function handleApply(promocode)
+  {
+
+    let availablePromoCode={
+      ASFARE:100,
+      BSFARE:200,
+      CSFARE:300,
+      DSFARE:400,
+      ESFARE:500,
+    }
+    if(promocode)
+    {
+      for(let code in availablePromoCode)
+      {
+        if(promocode===code)
+        {
+            console.log(typeof availablePromoCode[promocode])
+            setDiscount((prev)=>prev+=availablePromoCode[promocode])
+        }
+      }
+      setPromoCode("")
+    }
+    else{
+      alert("nothing entered")
+    }
+  }
+  return (
+ 
+    <form onSubmit={(event)=>{event.preventDefault();handleApply(promoCodeValue)}}>
+    <div className="card my-5">
+      <div className="card-header bg-warning bg-gradient bg-opacity-75">
+        <span>Apply Promo Code</span>
+      </div>
+      <div className="card-body">
+        <input type="text" value={promoCodeValue} className="form-control" onChange={(event)=>setPromoCode(event.target.value)}placeholder="Enter Promo Code"
+        pattern="[A-Z]{6}"/>
+      </div>
+      <div className="card-footer text-center bg-success bg-opacity-50">
+        <button className="btn btn-danger" type="submit">Apply</button>
+      </div>
+    </div>
+    </form>
   )
 }
