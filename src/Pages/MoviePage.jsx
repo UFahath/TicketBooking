@@ -67,11 +67,10 @@ const MoviePage = () => {
       }
 
       fetchData();
-
-      return () => {};
     };
 
     fetchMovies();
+    return () => {controller.abort();};
   }, []);
 
   
