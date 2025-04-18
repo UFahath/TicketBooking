@@ -10,6 +10,7 @@ export const FlightsReviewBooking = () => {
  let[classSelected,setClassSelected]=useState("");
 //  let{source,destination,airline,departure_time,arrival_time,travel_duration,date}=state;
  let[discount,setDiscount]=useState(0);
+ let [priceTotal,setPriceTotal]=useState(0);
  useEffect(()=>{
   setClassSelected(JSON.parse(localStorage.getItem("passengercount:")||[]))
  },[])
@@ -56,8 +57,8 @@ function dateFormatter(date)
     
       <BookingDetailsReview state={state} dateFormatter={dateFormatter} classSelected={classSelected}/>
       <div className=" col-12 col-xl-10 col-xxl-3 d-flex flex-column">
-      <FairSummary price={state.price} discount={discount}/>
-      <ApplyPromoCode setDiscount={setDiscount}/>
+      <FairSummary price={state.price} discount={discount} priceTotal={priceTotal} setPriceTotal={setPriceTotal}/>
+      <ApplyPromoCode setDiscount={setDiscount} setPriceTotal={setPriceTotal}/>
       </div>
 
     </div>
@@ -210,9 +211,9 @@ let Baggage=()=>{
   )
 }
 
-let FairSummary=({price,discount})=>{
+let FairSummary=({price,discount,priceTotal,setPriceTotal})=>{
 
-  let [priceTotal,setPriceTotal]=useState(0);
+  
 
   let fairSummary=useRef(null);
   let fare=[{text:"Base Fare",prices:price},
@@ -223,43 +224,31 @@ let FairSummary=({price,discount})=>{
 useEffect(()=>{
   if(window.innerWidth<1400)
   {
-    fairSummary.current.className+=" mt-5"
+    fairSummary.current.classList.add("mt-5")
   }
   let insertMarginTop=()=>{
     if(window.matchMedia("(min-Width:320px) and (max-Width:1400px)").matches)
     {
-      fairSummary.current.className="container border border-dark fs-5 p-4 rounded-4 bg-warning bg-opacity-75 mt-5 text-center"
+      fairSummary.current.classList.add("mt-5")
     }
     else
     {
-      fairSummary.current.className="container border border-dark fs-5 p-4 rounded-4 bg-warning bg-opacity-75 text-center"
+      fairSummary.current.classList.remove("mt-5")
     }
   }
   window.addEventListener('resize',insertMarginTop)
+  let total=fare.reduce((accu,current,index,arr)=>{
+    if(index!==arr.length-1)
+    {
+        accu+=current.prices;
+    }
+    return accu;
+},0);
+  setPriceTotal(total-discount)
 
 },[])
-  useEffect(()=>{
-     let total=fare.reduce((accu,current,index,arr)=>{
-       if(index!==arr.length-1)
-       {
-           accu+=current.prices;
-       }
-       return accu;
-  },0);
-  
-  console.log("calculated sum:",total)
-     setPriceTotal(()=>total-discount)
 
-  },[price])
  
-useEffect(()=>{
-  console.log(priceTotal)
-  setPriceTotal((priceTotal)=>priceTotal-discount)
-  
-},[discount])
-useEffect(()=>{
-  console.log(priceTotal)
-},[priceTotal])
 
   
   return(
@@ -294,13 +283,18 @@ useEffect(()=>{
   )
 }
 
-let ApplyPromoCode=({setDiscount})=>{
+let ApplyPromoCode=({setDiscount,setPriceTotal})=>{
   let [promoCodeValue,setPromoCode]=useState("");
+  let [newDiscount,setNewDiscount]=useState(0);
+  let [appliedOffer,setAppliedOffer]=useState([]);
+  useEffect(()=>{
+    setDiscount((prev)=>prev+=newDiscount)
+    setPriceTotal((prev)=>prev-=newDiscount)
+  },[newDiscount,setDiscount,setPriceTotal])
 
   // useEffect(()=>{
-  //   console.log(promoCodeValue)
-  // },[promoCodeValue])
-
+  //   console.log(appliedOffer)
+  // },[appliedOffer])
 
   function handleApply(promocode)
   {
@@ -312,21 +306,27 @@ let ApplyPromoCode=({setDiscount})=>{
       DSFARE:400,
       ESFARE:500,
     }
-    if(promocode)
-    {
-      for(let code in availablePromoCode)
-      {
-        if(promocode===code)
-        {
-            console.log(typeof availablePromoCode[promocode])
-            setDiscount((prev)=>prev+=availablePromoCode[promocode])
-        }
-      }
+  
+      let offerValidate=appliedOffer.some((item)=>item==promocode)
+      // console.log(offerValidate)
+       if(!promocode)
+       {
+        alert("Nothing Entered")
+        return;
+       }
+       if(!(promocode in availablePromoCode))
+       {
+        alert("There is no Such Offer Exist")
+        return;
+       }
+       if(offerValidate)
+       {
+         alert("Offer is Applied Already")
+         return;
+       }
+       setNewDiscount(availablePromoCode[promocode])
+       setAppliedOffer([...appliedOffer,`${promocode}`])
       setPromoCode("")
-    }
-    else{
-      alert("nothing entered")
-    }
   }
   return (
     <>
