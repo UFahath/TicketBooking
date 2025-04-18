@@ -99,7 +99,7 @@ let BookingDetailsReview=({state,dateFormatter,classSelected})=>{
   },[])
   return(
     <>
-      <header ref={head} className="fs-5 rounded-4 p-3 bg-warning bg-opacity-75" style={{maxWidth:"900px",boxShadow:"7px 5px 3px  rgba(41, 37, 37, 0.5)",outline:"4px solid white"}}>
+      <header ref={head} className="fs-5 rounded-4 p-3 bg-warning bg-opacity-75" style={{maxWidth:"900px",boxShadow:"7px 5px 3px  rgba(41, 37, 37, 0.5)",outline:"4px solid white",height:"fit-content"}}>
         <div className="row my-3">
           <div className="col-auto">
       <span className="fw-bold">{state.source}</span>
@@ -253,8 +253,13 @@ useEffect(()=>{
   },[price])
  
 useEffect(()=>{
+  console.log(priceTotal)
   setPriceTotal((priceTotal)=>priceTotal-discount)
+  
 },[discount])
+useEffect(()=>{
+  console.log(priceTotal)
+},[priceTotal])
 
   
   return(
@@ -324,7 +329,7 @@ let ApplyPromoCode=({setDiscount})=>{
     }
   }
   return (
- 
+    <>
     <form onSubmit={(event)=>{event.preventDefault();handleApply(promoCodeValue)}}>
     <div className="card my-5">
       <div className="card-header bg-warning bg-gradient bg-opacity-75">
@@ -339,5 +344,18 @@ let ApplyPromoCode=({setDiscount})=>{
       </div>
     </div>
     </form>
+    <div className="card">
+      <div className="card-header bg-warning bg-gradient bg-opacity-75">
+        <span>Demo Offer Code</span>
+      </div>
+      <div className="card-body text-center">
+        <p>ASFARE-100</p>
+        <p>BSFARE-200</p>
+        <p>CSFARE-300</p>
+        <p>DSFARE-400</p>
+        <p>ESFARE-500</p>
+      </div>
+    </div>
+    </>
   )
 }
