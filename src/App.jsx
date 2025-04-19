@@ -71,8 +71,6 @@ function App() {
      </Routes>
     </Router>
 
-   {/* <Test/> */}
-
     </>
   )
 }

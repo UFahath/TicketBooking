@@ -6,8 +6,14 @@ import { SecondNavBar } from '../components/SecondNavBar'
 import "../styles/Home.css";
 import { SearchBar } from "./SearchBar";
 import {Link} from 'react-router-dom'
+import React from 'react'
 
-export const Navbar = () => {
+
+const Navbar = React.memo(() => {
+  // console.log("navbar...")
+
+
+
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-warning">
@@ -79,5 +85,6 @@ export const Navbar = () => {
 
     </>
   );
-};
+});
+export {Navbar}
 

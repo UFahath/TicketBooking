@@ -5,6 +5,8 @@ import { useEffect ,useRef,useState} from "react"
 import winglogo from '../assets/images/wing.png'
 import travelbag from '../assets/images/travel-bag.png'
 import suitcase from '../assets/images/suitcases.png'
+import CancellationPolicy from "../components/FlightReviewBooking/CancellationPolicy"
+import { dateFormatter } from "../data/time"
 export const FlightsReviewBooking = () => {
  let {state}=useLocation();
  let[classSelected,setClassSelected]=useState("");
@@ -12,32 +14,17 @@ export const FlightsReviewBooking = () => {
  let[discount,setDiscount]=useState(0);
  let [priceTotal,setPriceTotal]=useState(0);
  useEffect(()=>{
-  setClassSelected(JSON.parse(localStorage.getItem("passengercount:")||[]))
+  const stored=localStorage.getItem("passengercount:");
+  if(stored)
+  setClassSelected(JSON.parse(stored))
  },[])
+//  console.log("Iam Flight Review Booking")
 
-function dateFormatter(date)
-{
-  let weekDay={
-    Mon:"Monday",
-    Tue:"Tuesday",
-    Wed:"Wednesday",
-    Thu:"Thrusday",
-    Fri:"Friday",
-    Sat:"Saturday",
-    Sun:"Sunday"
-  }
-  date=date.split(' ');
-  date.length=date.length-1;
-  for(let day in weekDay)
-  {
-    if(day===date[0])
-    {
-      date[0]=weekDay[day]+",";break;
-    }
-  }
-  date=date.join(" ");
-  return date;
-}
+
+
+
+///cuted 
+
 
 // let newDate=new Date(date)
 //  console.log(state)
@@ -53,14 +40,14 @@ function dateFormatter(date)
     <>
     <Navbar/>
     <h2 className="text-warning my-4" style={{marginLeft:"10%"}}>Review Your Booking</h2>
-    <div className="container d-flex justify-content-between flex-wrap">
+      <div className="container d-flex justify-content-between flex-wrap">
     
       <BookingDetailsReview state={state} dateFormatter={dateFormatter} classSelected={classSelected}/>
       <div className=" col-12 col-xl-10 col-xxl-3 d-flex flex-column">
       <FairSummary price={state.price} discount={discount} priceTotal={priceTotal} setPriceTotal={setPriceTotal}/>
       <ApplyPromoCode setDiscount={setDiscount} setPriceTotal={setPriceTotal}/>
       </div>
-
+      <CancellationPolicy winglogo={winglogo}/>
     </div>
     <Footer/>
     </>
@@ -73,6 +60,7 @@ let BookingDetailsReview=({state,dateFormatter,classSelected})=>{
  
 
   let newDate=new Date(state.date)
+  // console.log("Iam Booking Details Review")
   useEffect(()=>{
 
     let handleSizing=()=>{
@@ -145,6 +133,7 @@ let BookingDetailsReview=({state,dateFormatter,classSelected})=>{
 }
 
 let TravelDetails=({state})=>{
+  // console.log("I am Travel Details")
   return (
   <>
   <div className="container bg-white rounded-3 p-3" style={{width:"95%"}}>
@@ -197,6 +186,7 @@ let TravelDetails=({state})=>{
 }
 
 let Baggage=()=>{
+  // console.log("I am Baggage....")
   return(
     <>
     <p className="my-5">
@@ -285,16 +275,8 @@ useEffect(()=>{
 
 let ApplyPromoCode=({setDiscount,setPriceTotal})=>{
   let [promoCodeValue,setPromoCode]=useState("");
-  let [newDiscount,setNewDiscount]=useState(0);
   let [appliedOffer,setAppliedOffer]=useState([]);
-  useEffect(()=>{
-    setDiscount((prev)=>prev+=newDiscount)
-    setPriceTotal((prev)=>prev-=newDiscount)
-  },[newDiscount,setDiscount,setPriceTotal])
 
-  // useEffect(()=>{
-  //   console.log(appliedOffer)
-  // },[appliedOffer])
 
   function handleApply(promocode)
   {
@@ -307,8 +289,7 @@ let ApplyPromoCode=({setDiscount,setPriceTotal})=>{
       ESFARE:500,
     }
   
-      let offerValidate=appliedOffer.some((item)=>item==promocode)
-      // console.log(offerValidate)
+     
        if(!promocode)
        {
         alert("Nothing Entered")
@@ -319,12 +300,15 @@ let ApplyPromoCode=({setDiscount,setPriceTotal})=>{
         alert("There is no Such Offer Exist")
         return;
        }
+       let offerValidate=appliedOffer.some((item)=>item==promocode)
+       console.log(offerValidate)
        if(offerValidate)
        {
          alert("Offer is Applied Already")
          return;
        }
-       setNewDiscount(availablePromoCode[promocode])
+       setDiscount((prev)=>prev+=availablePromoCode[promocode])
+       setPriceTotal((prev)=>prev-=availablePromoCode[promocode])
        setAppliedOffer([...appliedOffer,`${promocode}`])
       setPromoCode("")
   }
@@ -355,6 +339,7 @@ let ApplyPromoCode=({setDiscount,setPriceTotal})=>{
         <p>DSFARE-400</p>
         <p>ESFARE-500</p>
       </div>
+      
     </div>
     </>
   )

@@ -1,7 +1,9 @@
 import sitelogo from '../assets/images/Sitelogo.jpg'
 import {SocialIcon} from 'react-social-icons'
 import {Link} from 'react-router-dom'
-const Footer = () => {
+import React from 'react'
+const Footer = React.memo(() => {
+  // console.log("footer...")
   return (
     <>
     <div className="container-fluid" style={{background:"#DAD0F1"}}>
@@ -89,7 +91,7 @@ const Footer = () => {
     </div>
     </>
   )
-}
+})
 
 
 
