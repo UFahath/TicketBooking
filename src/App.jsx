@@ -14,7 +14,7 @@ import Offers from './Pages/Offers'
 import Travel from './Pages/Travel'
 import Movies from './Pages/Movies'
 import MoviePage from './Pages/MoviePage'
-
+import Login from './components/LoginPage/login'
 // import Test from "./Test/Test"
 import MovieSelected from './Pages/MovieSelected'
 import { TheaterPreview } from './Pages/TheaterPreview'
@@ -48,6 +48,7 @@ function App() {
      <ScrollT/>
      <Routes>
       <Route path="/" element={<Home/>}/>
+      {/* <Route path="/login" element={<Login/>}/> */}
       <Route path="/travel" element={<Travel/>}/>
       <Route path="/flightresults" element={<FlightResults/>}/>
       <Route path="/flightreviewbooking" element={<FlightsReviewBooking/>}/>

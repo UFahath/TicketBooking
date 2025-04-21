@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo,useState} from "react";
 import { useLocation } from "react-router-dom";
 
 
@@ -26,8 +26,25 @@ let dayAndMonth=useMemo(()=>{
   return [beforeDate,afterDate]
 },[date])
  
-
+let[countryCode,setCountryCode]=useState("")
+let[selectedmainIndex,setMainIndex]=useState("")
+let[selectedsubIndex,setSubIndex]=useState("")
 let[beforeDate,afterDate]=dayAndMonth;
+let[passengerCount]=useState(()=>{
+  let stored=JSON.parse(localStorage.getItem("passengercount:"))
+  let resultArray=[];
+  for(let key in stored)
+  {
+    if(stored[key]!==0&&key!=="classSelected")
+    {
+     resultArray.push({type:key,count:stored[key]})
+    }
+  }
+  return resultArray;
+})
+
+
+
   return (
     <div className="row d-flex flex-wrap justify-content-between">
       <div className="col-12 col-xl-10 col-xxl-8">
@@ -103,7 +120,7 @@ let[beforeDate,afterDate]=dayAndMonth;
     <div className="col">
   {
     importantInformation.map((info, index) => {
-      console.log(Object.entries(info))
+  
       const [title, messages] = Object.entries(info)[0];
       return (
         <div key={index} className="mb-3">
@@ -118,7 +135,115 @@ let[beforeDate,afterDate]=dayAndMonth;
     })
   }
   </div>
-</div>
+     </div>
+
+     <div className="row">
+      <h4>Traveller Details</h4>
+      {
+        (
+          ()=>{
+            function check(index,i){
+              console.log("mainindex::",index)
+              console.log("SubIndex:",i)
+            }
+              let output=[];
+              let c=10;
+               passengerCount.map((item,index)=>{
+                for(let i=0;i<item["count"];i++)
+                {
+                  output.push(
+                    <div key={c++}>
+                    <h4>{item.type}-{i+1}</h4>
+                    <div className="row  text-center my-2">
+                      <div className="col">
+                    <input type="text" className="form-control" id="firstname" placeholder="Firstname"/>
+                    </div>
+                    <div className="col">
+                    <input type="text" className="form-control" id="lastname" placeholder="Lastname" />
+                    </div>
+                    <div className="col">
+                      <button className="btn btn-outline-danger rounded-end-0">Male</button>
+                      <button className="btn btn-outline-danger rounded-start-0">Female</button>
+                    </div>
+                    </div>
+                    
+
+                    <div className="row text-center my-4">
+                      <div className="col">
+                       <div className="dropdown">
+                        <button className="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          {i===selectedsubIndex&&index===selectedmainIndex?(countryCode):"CountryCode"}
+                        </button>
+
+                        <ul className="dropdown-menu">
+                          <li><a href="#" className="dropdown-item" name="+1" onClick={(event)=>{
+                            event.preventDefault();
+                            console.log(event.target.name)
+                            setMainIndex(index);
+                            setSubIndex(i)
+                            check(index,i)
+                            // setCountryCode("+1")
+                          }} >+1</a></li>
+                          <li><a href="#" className="dropdown-item"
+                          onClick={(event)=>{
+                            event.preventDefault();
+                            // setIndex(i);
+                            setMainIndex(index);
+                            setSubIndex(i)
+                            setCountryCode("+44")
+                          }} 
+                          >+44</a></li>
+                          <li><a href="#" className="dropdown-item"
+                          onClick={(event)=>{
+                            event.preventDefault();
+                            setMainIndex(index);
+                            setSubIndex(i)
+                            setCountryCode("+61")
+                          }} 
+                          >+61</a></li>
+                          <li><a href="#" className="dropdown-item"
+                          onClick={(event)=>{
+                            event.preventDefault();
+                            setMainIndex(index);
+                            setSubIndex(i)
+                            setCountryCode("+56")
+                          }} 
+                          >+56</a></li>
+                          <li><a href="#" className="dropdown-item"
+                          onClick={(event)=>{
+                            event.preventDefault();
+                            setMainIndex(index);
+                            setSubIndex(i)
+                            setCountryCode("+91")
+                          }} 
+                          >+91</a></li>
+                        </ul>
+                       </div>
+                    </div>
+                    <div className="col">
+                    <input type="text" className="form-control" id="lastname" placeholder={`${!(index===0&&i===0)?"MobileNo (Optional)":"MobileNo"}`} />
+                    </div>
+                    <div className="col">
+                    <input type="email" className="form-control" id="lastname" placeholder={`${!(index===0&&i===0)?"Email (Optional)":"Email"}`}/>
+                    </div>
+                    </div>
+                    </div>
+                  )
+                }
+    
+               })
+
+              return output;
+
+          }
+        )()
+      }
+      <div className="row my-4 text-center">
+        <div className="col">
+        <button type="submit" className="btn btn-danger fs-4">Continue</button>
+        </div>
+      </div>
+     </div>
     </div>
   );
 };

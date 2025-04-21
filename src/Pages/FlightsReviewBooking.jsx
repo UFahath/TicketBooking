@@ -221,7 +221,7 @@ useEffect(()=>{
     {
       fairSummary.current.classList.add("mt-5")
     }
-    else
+    else if(fairSummary.current.className.includes("mt-5"))
     {
       fairSummary.current.classList.remove("mt-5")
     }
