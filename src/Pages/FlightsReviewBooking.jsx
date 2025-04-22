@@ -18,14 +18,8 @@ export const FlightsReviewBooking = () => {
   if(stored)
   setClassSelected(JSON.parse(stored))
  },[])
-//  console.log("Iam Flight Review Booking")
 
-
-
-
-///cuted 
-
-
+ let [flightReviewBooking,setFlightReviewBooking]=useState(true);
 // let newDate=new Date(date)
 //  console.log(state)
 // //  console.log("from:",source)
@@ -42,12 +36,12 @@ export const FlightsReviewBooking = () => {
     <h2 className="text-warning my-4" style={{marginLeft:"10%"}}>Review Your Booking</h2>
       <div className="container d-flex justify-content-between flex-wrap">
     
-      <BookingDetailsReview state={state} dateFormatter={dateFormatter} classSelected={classSelected}/>
+      <BookingDetailsReview state={state} dateFormatter={dateFormatter} classSelected={classSelected} flightReviewBooking={flightReviewBooking}/>
       <div className=" col-12 col-xl-10 col-xxl-3 d-flex flex-column">
       <FairSummary price={state.price} discount={discount} priceTotal={priceTotal} setPriceTotal={setPriceTotal}/>
       <ApplyPromoCode setDiscount={setDiscount} setPriceTotal={setPriceTotal}/>
       </div>
-      <CancellationPolicy winglogo={winglogo}/>
+      <CancellationPolicy winglogo={winglogo} state={state} setFlightReviewBooking={setFlightReviewBooking}/>
     </div>
     <Footer/>
     </>
@@ -55,12 +49,12 @@ export const FlightsReviewBooking = () => {
 }
 
 
-let BookingDetailsReview=({state,dateFormatter,classSelected})=>{
+export let BookingDetailsReview=({state="",dateFormatter="",classSelected="",flightReviewBooking="",primaryName="",totalPersonCount="",email=""})=>{
   let head=useRef("");
  
-
+ 
   let newDate=new Date(state.date)
-  // console.log("Iam Booking Details Review")
+  // console.log("Iam Booking Details Review",newDate)
   useEffect(()=>{
 
     let handleSizing=()=>{
@@ -84,7 +78,9 @@ let BookingDetailsReview=({state,dateFormatter,classSelected})=>{
      
     }
     window.addEventListener('resize',handleSizing);
-    return ()=>window.removeEventListener('resize',handleSizing)
+    return ()=>{
+      window.removeEventListener('resize',handleSizing)
+    }
   },[])
   return(
     <>
@@ -121,10 +117,31 @@ let BookingDetailsReview=({state,dateFormatter,classSelected})=>{
         </div>
         </div>
        </div>
+       {flightReviewBooking?(
        <div className="row">
-        <TravelDetails state={state}/>
-        <Baggage/>
-       </div>
+       <TravelDetails state={state}/>
+       <Baggage/>
+       </div>):(
+        <>
+         <div className="row">
+          <div className="row border border-top-4 border-secondary w-90 mx-auto"></div>
+           <div className="col-auto">
+            <small className="text-danger">{primaryName}(Primary)</small>
+           </div>
+           <div className="col-auto border border-left-2 border-dark border-top-0 border-bottom-0 border-right-0 mt-1 mt-md-2 border-end-0 mx-3" style={{height:"20px"}}>
+           </div>
+           <div className="col">
+            <small>Traveller +</small>
+            <small>{totalPersonCount-1}</small>
+           </div>
+           <div className="col">
+            <small>
+              {email}
+            </small>
+           </div>
+         </div>
+        </>
+       )}
       </header>
 
   
@@ -344,3 +361,5 @@ let ApplyPromoCode=({setDiscount,setPriceTotal})=>{
     </>
   )
 }
+
+// export{classSelected,setClassSelected}
