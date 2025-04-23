@@ -6,6 +6,11 @@ import qrImage from "../assets/images/qrcode.png";
 import QRCode from "react-qr-code";
 import { useNavigate } from "react-router-dom";
 import { date,time } from "../data/time";
+export const formatTime = (seconds) => {
+  const min = String(Math.floor(seconds / 60)).padStart(2, "0");
+  const sec = String(seconds % 60).padStart(2, "0");
+  return `${min}:${sec}`;
+};
 export const QRPaymentPage = () => {
   let [timeLeft, setTimeLeft] = useState(300); 
   let [totalTime]=useState(300);
@@ -16,6 +21,8 @@ export const QRPaymentPage = () => {
   // console.log(randomQr)
   // let[paymentDone,setDone]=useState(false);
   // console.log("totaltime",totalTime)
+
+  
   let [width,setWidth]=useState(0);
   useEffect(() => {
     const timer = setInterval(() => {
@@ -38,11 +45,7 @@ export const QRPaymentPage = () => {
     setWidth(loadingTime);
   },[timeLeft,totalTime])
 
-  const formatTime = (seconds) => {
-    const min = String(Math.floor(seconds / 60)).padStart(2, "0");
-    const sec = String(seconds % 60).padStart(2, "0");
-    return `${min}:${sec}`;
-  };
+///
   function checkQr(){
   
      navigate('/moviepaymentsuccess')

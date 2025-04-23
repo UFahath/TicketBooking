@@ -30,6 +30,10 @@ export const FlightsReviewBooking = () => {
 // //  console.log("travelduration:",travel_duration)
 //  console.log("date:",dateFormatter(newDate.toDateString()))
 //  console.log(classSelected.classSelected)
+
+useEffect(()=>{
+  localStorage.setItem("Fare1:",priceTotal)
+},[priceTotal])
   return (
     <>
     <Navbar/>
@@ -134,7 +138,7 @@ export let BookingDetailsReview=({state="",dateFormatter="",classSelected="",fli
             <small>Traveller +</small>
             <small>{totalPersonCount-1}</small>
            </div>
-           <div className="col">
+           <div className="col text-center mt-3 mt-sm-0">
             <small>
               {email}
             </small>
