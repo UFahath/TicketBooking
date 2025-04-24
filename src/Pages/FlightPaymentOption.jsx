@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import Footer from "../components/Footer"
 import { Navbar } from "../components/Navbar"
 import { BookingDetailsReview } from "./FlightsReviewBooking"
@@ -10,6 +10,7 @@ import Upi from '../assets/images/Upi.png'
 import CreditCard from '../assets/images/CreditCard.png'
 import Bank from '../assets/images/Bank.png'
 import Wallet  from "../assets/images/Wallet (2).png"
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 
 import { formatTime } from "./QrPaymentPage"
@@ -25,7 +26,7 @@ const FlightPaymentOption = () => {
   let Fare1=useRef(0);
 
   let [totalPrice,setTotalPrice]=useState(0);
-  
+  let[mode]=useState("Flight");
   let [presistOne,setPresistOne]=useState("");
   useEffect(()=>{
     if(state?.presistOne)
@@ -43,8 +44,6 @@ const FlightPaymentOption = () => {
 
     if(fare1)
     Fare1.current=JSON.parse(fare1);
-
-    // setPresistOne(state.presistOne)
    },[])
 
    useEffect(()=>{
@@ -64,7 +63,7 @@ const FlightPaymentOption = () => {
     <div className="container">
     <BookingDetailsReview state={presistOne} email={email} totalPersonCount={totalPersonCount} primaryName={primaryName} dateFormatter={dateFormatter} classSelected={classSelected}/>
     <FairDetails Fare1={Fare1.current} setTotalPrice={setTotalPrice}/>
-    <PaymentOptions setSessionTrack={setSessionTrack} totalPrice={totalPrice}/>
+    <PaymentOptions setSessionTrack={setSessionTrack} totalPrice={totalPrice} mode={mode}/>
     </div>):(<PaymentTimeout/>)
     }
     <Footer/>
@@ -133,10 +132,15 @@ const FairDetails=({Fare1,setTotalPrice})=>{
   )
 }
 
-const PaymentOptions=({setSessionTrack,totalPrice})=>{
+const PaymentOptions=({setSessionTrack,totalPrice,mode})=>{
   let [timeLeft,setTimeLeft]=useState("850");
   let [timeoutReached,setReached]=useState(true);
-
+  let [cvv,setCvv]=useState("")
+  let[cardAdded,setCardAdded]=useState(false);
+  let[selectedPayment,setPayment]=useState("")
+  let otherPayments=useRef([]);
+  let [warning,setWarning]=useState("")
+  let navigate=useNavigate();
   useEffect(()=>{
     const timer=setInterval(()=>{
          setTimeLeft((prev)=>{
@@ -154,17 +158,77 @@ const PaymentOptions=({setSessionTrack,totalPrice})=>{
    setSessionTrack(timeoutReached)
   },[timeoutReached,setSessionTrack])
 
+
+  function handleNavigate()
+  {
+    if(mode==="Flight")
+    {
+       navigate('/otp')
+    }
+    // else
+    // {
+                   ////For Bus
+    // }
+  }
+
+//cvv validation
+  let handleCvv=()=>{
+     const regex=new RegExp("^[0-9]{3,4}$")
+     if(cvv==null)
+     {
+    
+      return false;
+     }
+     if(regex.test(cvv)==true)
+     {
+      return true
+     }
+     else{
+      return false;
+     }
+  }
+
+  let handleCvvSucces=()=>{
+
+    if(handleCvv())
+    {
+      // setWarning("")
+      setCardAdded(true)
+      console.log("This is Correct cvv")
+    }
+    else
+    {
+      setWarning("Please Fill the Card Verification Value")
+      console.log("This is Wrong")
+    }
+
+  }
+
   return (
-    <div className="container border border-dark rounded-4 mb-4 p-4 p-md-5" style={{boxShadow: "5px 5px 5px 0 black"}}>
+    <div className="container border border-dark rounded-4 mb-4 p-4 p-md-5 fs-5" style={{boxShadow: "5px 5px 5px 0 black"}}>
   <h3>Payment Options</h3>
   <p className="my-4 p-3 shadow-sm">
     Complete Payment in <b className="fs-4">{formatTime(timeLeft)}</b>
   </p>
 
-  <form onSubmit={(event) => event.preventDefault()}>
+  <form onSubmit={(event) => {
+    event.preventDefault();
+    handleNavigate();
+  }}>
  
-    <div className="form-check my-3">
-      <input type="radio" className="form-check-input" name="radio" id="hdfccreditcard" />
+    <div className={`form-check my-3 ${selectedPayment.startsWith("HDFC")?"bg-danger text-white rounded-4 p-2":""}`}>
+      <input type="radio" className={`form-check-input ${selectedPayment.startsWith("HDFC")&&"invisible"}`} name="radio" value="HDFC Bank Credit Card" id="hdfccreditcard" 
+      checked={selectedPayment.startsWith("HDFC Bank Credit Card")}
+      onChange={(e)=>{
+        setPayment(e.target.value);
+        otherPayments.current.forEach((inputs)=>{
+          const inputField=inputs.querySelector("input");
+          if(inputField)
+          {
+            inputField.disabled=true;
+          }
+        })
+      }}/>
       <label className="form-check-label" htmlFor="hdfccreditcard">
         <img src={Hdfc} className="me-2 me-md-4" alt="HdfcCreditCardpng" />
         HDFC Bank Credit Card <span className="ms-2 ms-md-4">XXXX XXXX XXXX 8967</span>
@@ -176,18 +240,37 @@ const PaymentOptions=({setSessionTrack,totalPrice})=>{
           <p>&#10004; 35 Inr Cashback on this transaction</p>
         </div>
         <div className="col-12 col-md my-3 text-md-end">
-          <button className="btn text-danger">Details</button>
+          <button className={`btn ${selectedPayment.startsWith("HDFC")?"text-white":"text-danger"}`}>Details</button>
         </div>
       </div>
 
   
       <div className="row w-100 w-md-75 mx-auto">
+        {
+          !cardAdded?(
+          <>
         <div className="col-12 col-md my-2">
-          <input type="text" className="form-control" placeholder="CVV" />
+          <input type="text" inputMode="numeric"  disabled={!selectedPayment.startsWith("HDFC")&&true} className="form-control position-relative" placeholder="CVV" value={cvv}  onChange={(e)=>{
+            setWarning("")
+            setCvv(e.target.value)
+          }}/>
+          {warning&&(
+            <div className="alert alert-warning position-absolute" role="alert" id="myalert">
+            {warning}
+            </div>
+          )}
         </div>
         <div className="col-12 col-md my-2">
-          <button className="btn btn-danger w-100">Continue</button>
+          <button className={`btn ${selectedPayment.startsWith("HDFC")?"btn-primary":"btn-danger"} w-100`}
+          disabled={!selectedPayment.startsWith("HDFC")&&true} onClick={handleCvvSucces}>Continue</button>
         </div>
+        </>):
+        (
+        <div className="container d-flex justify-content-center">
+        <p className="fs-5 fw-bold bg-success text-white p-2 rounded-4">SuccessFully Added</p>
+        </div>
+        )
+       }
       </div>
     </div>
 
@@ -197,9 +280,15 @@ const PaymentOptions=({setSessionTrack,totalPrice})=>{
       { id: "creditcard", label: "Credit Card", img: CreditCard, desc: "Add and Secure by RBI Guidelines" },
       { id: "netbanking", label: "Net Banking", img: Bank, desc: "This instrument has low success, try UPI for better results" },
       { id: "wallets", label: "Wallets", img: Wallet, desc: "Pay by wallets" },
-    ].map((opt) => (
-      <div className="form-check my-3" key={opt.id}>
-        <input type="radio" className="form-check-input" name="radio" id={opt.id} />
+    ].map((opt,index) => (
+      <div className="form-check my-3" ref={
+        (payments)=>otherPayments.current[index]=payments
+      } key={opt.id}>
+        <input type="radio" className="form-check-input" name="radio" value={opt.label} id={opt.id} 
+        checked={selectedPayment===opt.label} 
+        onChange={(e)=>{
+          setPayment(e.target.value)
+        }}/>
         <label className="form-check-label" htmlFor={opt.id}>
           <img src={opt.img} className="me-2 me-md-4" alt={`${opt.id}png`} />
           {opt.label}
@@ -211,7 +300,7 @@ const PaymentOptions=({setSessionTrack,totalPrice})=>{
    
     <div className="row d-flex justify-content-center">
       <div className="col-12 col-md-4">
-        <button type="submit" className="btn btn-danger w-100">
+        <button type="submit" disabled={!cardAdded&&true} className="btn btn-danger w-100">
           Pay {String.fromCharCode(8377) + " " + totalPrice}
         </button>
       </div>

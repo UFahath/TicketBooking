@@ -26,6 +26,7 @@ import { QRPaymentPage, Success } from './Pages/QrPaymentPage'
 import FlightResults from './components/FlightResults'
 import { FlightsReviewBooking } from './Pages/FlightsReviewBooking'
 import FlightPaymentOption from './Pages/FlightPaymentOption'
+import { Otp } from './components/FlightPaymentOptions/Otp'
 
 
 function ScrollT(){
@@ -54,6 +55,7 @@ function App() {
       <Route path="/flightresults" element={<FlightResults/>}/>
       <Route path="/flightreviewbooking" element={<FlightsReviewBooking/>}/>
       <Route path="/flightpaymentoption" element={<FlightPaymentOption/>}/>
+      <Route path="/otp" element={<Otp/>}/>
       <Route path="/movies" element={<Movies/>}/>
       <Route path="/moviepage" element={<MoviePage/>}/>
       <Route path="/movies/moviepage/movieselected" element={<MovieSelected/>}/>
