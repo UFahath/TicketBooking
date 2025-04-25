@@ -15,9 +15,9 @@
   font-weight:normal;
   font-style: normal;
 }
-
-
-
+.otp::-webkit-input-placeholder{
+  text-align: center;
+}
 /* Swiper Navigation Arrows */
 /* .swiper-button-prev, .swiper-button-next {
   color: rgb(213, 108, 108); 

@@ -87,13 +87,16 @@ const FairDetails=({Fare1,setTotalPrice})=>{
 
  
   useEffect(()=>{
+
+   
     let handleWidth=()=>{
-      if(window.innerWidth>=768&&tableContainer.current.classList.contains("w-100"))
+      if(!tableContainer.current) return;
+      if(window.innerWidth>=768)
       {
         tableContainer.current.classList.remove('w-100')
         tableContainer.current.classList.add("w-50");
       }
-      else if(window.innerWidth<768&&tableContainer.current.classList.contains("w-50"))
+      else if(window.innerWidth<768)
       {
         tableContainer.current.classList.remove("w-50");
         tableContainer.current.classList.add('w-100')
