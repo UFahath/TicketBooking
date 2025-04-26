@@ -1,17 +1,56 @@
 import { useEffect, useRef, useState } from "react"
 import Footer from "../Footer"
 import { Navbar } from "../Navbar"
-import { auth } from "../../../firebase.config"
-import { RecaptchaVerifier,signInWithPhoneNumber } from "firebase/auth"
+
+
+import * as bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
+import { useLocation, useNavigate } from "react-router-dom";
+ 
+
+
 
 export const Otp = () => {
-  let[loading,setLoading]=useState(true);
+  let location=useLocation();
+  let navigate=useNavigate();
+  let[loading,setLoading]=useState(false);
   let[ph,setPh]=useState("");
   let[otp,setOtp]=useState("");
-  let[showOtpContainer,setOtpContainer]=useState(true);
+  let[showPhContainer,setPhContainer]=useState(true);
+  let[showOtpContainer,setOtpContainer]=useState(false);
   let mobileField=useRef(null);
   let [error,setError]=useState(null);
 
+  let[generatedOtp,setGeneratedOtp]=useState(0);
+  let[finalPageLoading,setFinalPageLoading]=useState(false);
+  let toastElement=useRef(null);
+  let otpConfirmbtn=useRef(null);
+  useEffect(()=>{
+    let toastTimeoutId;
+    if(toastElement.current)
+      {
+       let toast=new bootstrap.Toast(toastElement.current)
+       toast.show();
+       toastTimeoutId=setTimeout(()=>{
+         toast.dispose();
+         clearTimeout(toastTimeoutId)
+       },3000)
+      }
+      return ()=>{clearTimeout(toastTimeoutId)}
+  },[showOtpContainer])
+
+  useEffect(()=>{
+    if(generatedOtp)
+    {
+      let otpProcessing=setTimeout(()=>{
+        alert(`Your Otp is ${generatedOtp}`)
+        clearTimeout(otpProcessing)
+      },2000)
+      
+    }
+    
+  },[generatedOtp])
+  
+ 
   useEffect(()=>{
 
 
@@ -38,20 +77,39 @@ export const Otp = () => {
     }
     handleMobileFieldWidth();
     window.addEventListener("resize",handleMobileFieldWidth)
+    // console.log("State:",location.state)
     return ()=>window.removeEventListener("resize",handleMobileFieldWidth)
   },[])
 
-  function generateRecaptcha(){
-    window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-      'size': 'normal',
-      'callback': () => {
-        uponSubmission();
-      },
-      'expired-callback': () => {
-        // Response expired. Ask user to solve reCAPTCHA again.
-        // ...
+  function generateOtp(){
+
+    return Math.floor(1000+Math.random()*9000).toString();
+
+  }
+
+  function verifiyOtp(){
+    if(otp===generatedOtp)
+    {
+      console.log("Successfully Logged",location.state)
+      if(location.state==="Flight")
+      {
+         setOtp("");
+         setFinalPageLoading(true)
+         let slowNavigateId=setTimeout(()=>{
+          clearTimeout(slowNavigateId);
+          setFinalPageLoading(false)
+          navigate('/flightpaymentSuccess')
+         },2000)
       }
-    },auth);
+      else
+      {
+        console.log("Invalid route")
+      }
+    }
+    else
+    {
+      !otp?alert("Otp Field is Empty"):alert("Invalid Otp")
+    }
   }
   function uponSubmission(){
     if(!ph)
@@ -67,22 +125,16 @@ export const Otp = () => {
       let regex=new RegExp("^[0-9]{10}$")
       if(regex.test(ph))
       {
-        generateRecaptcha();
-     
-
-
-const appVerifier = window.recaptchaVerifier;
-
-
-signInWithPhoneNumber(auth,"+91"+ph, appVerifier)
-    .then((confirmationResult) => {
-      // SMS sent. Prompt user to type the code from the message, then sign the
-      // user in with confirmationResult.confirm(code).
-      window.confirmationResult = confirmationResult;
-      alert("sms sent")
-    }).catch((error) => {
-      console.log("unknown error")
-    });
+        setLoading(true)
+        let loadingTimeout=setTimeout(()=>{
+           setLoading(false)
+           setPhContainer(false)
+           setOtpContainer(true)
+           let randomOtp=generateOtp();
+           setGeneratedOtp(randomOtp);
+           clearTimeout(loadingTimeout)
+      },1000)
+       
       }
       else
       {
@@ -96,8 +148,9 @@ signInWithPhoneNumber(auth,"+91"+ph, appVerifier)
   return (
     <>
     <Navbar/>
-
-    <div className="container border border-dark text-center fs-5 p-3">
+   {
+    showPhContainer&&
+    <div className="container text-center fs-5 p-3">
       <p>Enter Your <span className="text-primary">Mobile Number</span></p>
       {error&&<p className="text-danger position-absolute" style={{left:"50%",transform:"translateX(-80px)",textWrap:"nowrap"}}>{error}</p>}
       <input type="tel" ref={mobileField} pattern="[0-9]{10}" className="form-control mx-auto my-5" value={ph} placeholder="Enter Your Mobile Number"
@@ -105,28 +158,51 @@ signInWithPhoneNumber(auth,"+91"+ph, appVerifier)
         setError(null)
         setPh(e.target.value)
       }}/>
-      <button  className="btn btn-danger d-flex justify-content-center align-items-center gap-3 mx-auto" style={{height:"50px"}}
+      <button className="btn btn-danger d-flex justify-content-center align-items-center gap-3 mx-auto" style={{height:"50px"}}
       onClick={uponSubmission}>
       {
-        loading&&
+        loading?
         <>
       <div className="spinner-border text-white my-3" role="status">
         <span className="visually-hidden">...loading</span>
       </div>
-      </>
+      <span>Loading</span>
+      </>:"Click To Verify"
       }
-        Click To Verify
         </button>
-        <div id="recaptcha-container"></div>
+    
     </div>
-
+   }
     {
       showOtpContainer&&(
-      <div className="container border border-dark text-center fs-5 p-3">
+        <>
+       {/* Toast */}
+<div ref={toastElement} className="toast align-items-center border border-success text-success position-fixed top-0 start-50 translate-middle-x mx-auto"  style={{zIndex:"9999"}} role="alert" data-bs-autohide="true" data-bs-delay="3000" aria-live="assertive" aria-atomic="true">
+  <div className="d-flex">
+    <div className="toast-body mx-auto">
+     OTP Sent
+    </div>
+    
+  </div>
+</div>
+
+
+      <div className="container text-center fs-5 p-3">
       <p>Enter 6 digit <span className="text-primary">OTP</span> Received on your Mobile Number</p>
-      <input type="text" pattern="[0-9]{4}" value={otp} className="form-control w-25 mx-auto my-5 otp" placeholder="OTP"/>
-      <button className="btn btn-danger">Proceed To Pay</button>
-    </div>)
+      <input type="text" pattern="[0-9]{4}" value={otp} className="form-control w-25 mx-auto my-5 otp" placeholder="OTP" onChange={(e)=>setOtp(e.target.value)}/>
+      {finalPageLoading&&(
+        <>
+        <div className="backdrop">
+        <div className="spinner-border text-danger">
+          <span className="visually-hidden">loading</span>
+        </div>
+        </div>
+        </>
+      )}
+      <button ref={otpConfirmbtn} className="btn btn-danger" onClick={()=>verifiyOtp()}>Proceed To Pay</button>
+    </div>
+    </>
+    )
     }
     <Footer/>
     </>

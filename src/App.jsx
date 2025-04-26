@@ -14,7 +14,8 @@ import Offers from './Pages/Offers'
 import Travel from './Pages/Travel'
 import Movies from './Pages/Movies'
 import MoviePage from './Pages/MoviePage'
-import Login from './components/LoginPage/login'
+// import Login from './components/LoginPage/login'
+
 // import Test from "./Test/Test"
 import MovieSelected from './Pages/MovieSelected'
 import { TheaterPreview } from './Pages/TheaterPreview'
@@ -27,6 +28,7 @@ import FlightResults from './components/FlightResults'
 import { FlightsReviewBooking } from './Pages/FlightsReviewBooking'
 import FlightPaymentOption from './Pages/FlightPaymentOption'
 import { Otp } from './components/FlightPaymentOptions/Otp'
+import BookingSuccess from './components/FlightPaymentOptions/BookingSuccess'
 
 
 function ScrollT(){
@@ -55,6 +57,7 @@ function App() {
       <Route path="/flightresults" element={<FlightResults/>}/>
       <Route path="/flightreviewbooking" element={<FlightsReviewBooking/>}/>
       <Route path="/flightpaymentoption" element={<FlightPaymentOption/>}/>
+      <Route path="/flightpaymentSuccess" element={<BookingSuccess/>}/>
       <Route path="/otp" element={<Otp/>}/>
       <Route path="/movies" element={<Movies/>}/>
       <Route path="/moviepage" element={<MoviePage/>}/>

@@ -14,6 +14,8 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 
 import { formatTime } from "./QrPaymentPage"
+
+
 const FlightPaymentOption = () => {
   let {state} =useLocation();
   let[primaryName,setPrimaryName]=useState("")
@@ -28,6 +30,9 @@ const FlightPaymentOption = () => {
   let [totalPrice,setTotalPrice]=useState(0);
   let[mode]=useState("Flight");
   let [presistOne,setPresistOne]=useState("");
+  useEffect(()=>{
+    localStorage.setItem("DataForFinalPage:",JSON.stringify(presistOne))
+  },[presistOne])
   useEffect(()=>{
     if(state?.presistOne)
     {
@@ -64,7 +69,8 @@ const FlightPaymentOption = () => {
     <BookingDetailsReview state={presistOne} email={email} totalPersonCount={totalPersonCount} primaryName={primaryName} dateFormatter={dateFormatter} classSelected={classSelected}/>
     <FairDetails Fare1={Fare1.current} setTotalPrice={setTotalPrice}/>
     <PaymentOptions setSessionTrack={setSessionTrack} totalPrice={totalPrice} mode={mode}/>
-    </div>):(<PaymentTimeout/>)
+    </div>
+    ):(<PaymentTimeout/>)
     }
     <Footer/>
     </>
@@ -104,7 +110,7 @@ const FairDetails=({Fare1,setTotalPrice})=>{
     }
     handleWidth();
     window.addEventListener("resize",handleWidth)
-    return ()=>{window.addEventListener('resize',handleWidth)}
+    return ()=>{window.removeEventListener('resize',handleWidth)}
   },[])
   return(
         <div ref={tableContainer} className="container border w-100 my-5 rounded-4 shadow-lg">
@@ -166,7 +172,7 @@ const PaymentOptions=({setSessionTrack,totalPrice,mode})=>{
   {
     if(mode==="Flight")
     {
-       navigate('/otp')
+       navigate('/otp',{state:mode})
     }
     // else
     // {
