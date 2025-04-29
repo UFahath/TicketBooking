@@ -4,8 +4,9 @@ import tickmark from '../../assets/images/tickmark.png'
 import {useMemo ,useEffect, useState} from "react"
 import {v4 as uuidv4} from "uuid"
 import flighttail from '../../assets/images/flighttail.png'
+import { cityMapper,meridiemFixer } from "../../data/flightsuccess"
 const BookingSuccess = () => {
-   let[flightDetails,setFlightDetails]=useState("");
+   let[flightDetails,setFlightDetails]=useState({});
    let[date,setDate]=useState('')
    let[source,setSource]=useState("")
    let[destination,setDestination]=useState("")
@@ -25,10 +26,13 @@ const BookingSuccess = () => {
   },[])
 
   useEffect(()=>{
+    if(flightDetails?.date)
+    {
     let retrievedDate=new Date(flightDetails.date).toDateString();
     let parts=retrievedDate.split(' ');
     let formatedDate=`${parts[0]},${parts[1]}${parts[2]},${parts[3]}`
     setDate(formatedDate)
+    }
     let formatedSource=flightDetails.source;
     let formatedDestination=flightDetails.destination;
     if(formatedSource)
@@ -91,7 +95,7 @@ const BookingSuccess = () => {
       <div className="col-sm-3 d-md-none"></div>
        <div className="col-12 col-sm-6 col-md-5 col-lg-4 col-xl-3 my-3">
         {/* First row in the first column */}
-        <div className="row border border-dark text-center">
+        <div className="row text-center">
           <div className="col-2 d-md-none"></div>
           <div className="col-4">
           <img src={flighttail} alt="flighttail" style={{width:"70px",height:"53px"}} />
@@ -110,19 +114,19 @@ const BookingSuccess = () => {
        <div className="col-sm-2 col-md-1"></div>
 
        {/* Second Column */}
-       <div className="col-md-5 col-lg-6 col-xl-4 my-3 border border-dark text-md-center">
+       <div className="col-md-5 col-lg-6 col-xl-4 my-3  text-md-center">
         <p className="mb-4 fs-5 fw-semibold">{date}</p>
-        <div className="row border border-dark text-center mb-4 fs-5">
+        <div className="row  text-center mb-4 fs-5">
           <span>{source}</span>
-          <span className="fw-semibold">Dummy4 - {flightDetails.departure_time}</span>
+          <span className="fw-semibold">{cityMapper(source)} - {flightDetails?.departure_time?meridiemFixer(flightDetails.departure_time):""}</span>
         </div>
-        <div className="row border border-dark text-center mb-4 fs-5">
+        <div className="row  text-center mb-4 fs-5">
           <span>{destination}</span>
-          <span className="fw-semibold">Dummy4 - {flightDetails.arrival_time}</span>
+          <span className="fw-semibold">{cityMapper(destination)} - {flightDetails?.arrival_time?meridiemFixer(flightDetails?.arrival_time):""}</span>
         </div>
        </div>
        <div className="col-md-3 col-xl-1"></div>
-       <div className="col-md-6 col-xl-3 my-3 border border-dark fs-5">
+       <div className="col-md-6 col-xl-3 my-3 border border-dark bg-warning fs-5 rounded-4">
         <p>Travel Time:</p>
         <p className="fw-semibold">{flightDetails.travel_duration}</p>
         <div className="row bg-white w-75 rounded-3 mx-auto">

@@ -29,6 +29,7 @@ import { FlightsReviewBooking } from './Pages/FlightsReviewBooking'
 import FlightPaymentOption from './Pages/FlightPaymentOption'
 import { Otp } from './components/FlightPaymentOptions/Otp'
 import BookingSuccess from './components/FlightPaymentOptions/BookingSuccess'
+import BusResults from './Pages/BusResults'
 
 
 function ScrollT(){
@@ -59,6 +60,7 @@ function App() {
       <Route path="/flightpaymentoption" element={<FlightPaymentOption/>}/>
       <Route path="/flightpaymentSuccess" element={<BookingSuccess/>}/>
       <Route path="/otp" element={<Otp/>}/>
+      <Route path="/busresults" element={<BusResults/>}/>
       <Route path="/movies" element={<Movies/>}/>
       <Route path="/moviepage" element={<MoviePage/>}/>
       <Route path="/movies/moviepage/movieselected" element={<MovieSelected/>}/>
