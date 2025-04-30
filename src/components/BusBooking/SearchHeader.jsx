@@ -2,6 +2,7 @@ import { useState } from "react";
 import {useNavigate} from 'react-router-dom'
 
 const SearchHeader = ({ from, to, date }) => {
+  console.log(date)
    let history=useNavigate();
   let [dateString]=useState(()=>{
     let dateObj=new Date(date);

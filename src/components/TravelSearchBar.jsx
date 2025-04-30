@@ -1,9 +1,10 @@
-import { useState } from "react";
+import {  useState } from "react";
 import FlightSearchEngine from "./FlightSearchEngine";
 import BusSearchEngine from "./BusSearchEngine";
 
-const TravelSearchBar = ({setType}) => {
 
+
+const TravelSearchBar = ({setType}) => {
   let [tripType, setTripType] = useState("");
   // let [searchEngine, setEngineType] = useState("");
   return (
@@ -46,7 +47,9 @@ const TravelSearchBar = ({setType}) => {
         <div className="row border border-dark">
           <div className="col">
             {
-              tripType==="Flight"?(<FlightSearchEngine/>):(<BusSearchEngine/>)
+              tripType==="Flight"?(<FlightSearchEngine/>):(
+              <BusSearchEngine/>
+            )
             }
           </div>
         </div>

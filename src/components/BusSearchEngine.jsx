@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 const BusSearchEngine = () => {
   const [fetchedBusData, setFetchedBusData] = useState([]);
+
   const [fromInput, setFrom] = useState("");
   const [toInput, setTo] = useState("");
   const [dateInput, setDate] = useState("");
@@ -209,3 +210,4 @@ const NoResultFound = ({ error }) => {
 };
 
 export default BusSearchEngine;
+
