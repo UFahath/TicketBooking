@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { fetchBusData } from "../data/BusDataFetch";
 
 const BusSearchEngine = () => {
   const [fetchedBusData, setFetchedBusData] = useState([]);
@@ -15,18 +16,26 @@ const BusSearchEngine = () => {
   const navigate=useNavigate();
   
   useEffect(() => {
-    async function fetchBusData() {
-      try {
-        const response = await fetch("/TicketBooking/db1.json");
-        const data = await response.json();
-        setFetchedBusData(data);
-        console.log(data);
-      } catch (error) {
-        console.log(error);
+    async function fetchBData() {
+      // try {
+      //   const response = await fetch("/TicketBooking/db1.json");
+      //   const data = await response.json();
+      //   setFetchedBusData(data);
+      //   console.log(data);
+      // } catch (error) {
+      //   console.log(error);
+      // }
+
+      try{
+           const response= await fetchBusData("/TicketBooking/db1.json");
+           setFetchedBusData(response);
+      }
+      catch(error)
+      {
+        console.log(error)
       }
     }
-    fetchBusData();
-
+    fetchBData();
   }, []);
 
   const handleFromChange = (e) => {
