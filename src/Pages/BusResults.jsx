@@ -45,9 +45,9 @@ const BusResults = () => {
       let handleNavigate=()=>{
         sessionStorage.removeItem("naviindex:")
       }
-     window.addEventListener("beforeunload", handleUnload,{signal})
-     window.addEventListener('popstate',handleNavigate,{signal})
-      return ()=>{controller.abort()}
+     window.addEventListener("beforeunload", handleUnload)
+     window.addEventListener('popstate',handleNavigate)
+      return ()=>{}
   },[])
 
 
