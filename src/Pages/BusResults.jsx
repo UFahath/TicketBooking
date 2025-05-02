@@ -1,18 +1,28 @@
 import { Navbar } from "../components/Navbar"
 import Footer from "../components/Footer"
 import SearchHeader from "../components/BusBooking/SearchHeader"
-import { useEffect,useState } from "react"
+import { useEffect,useRef,useState } from "react"
 import BusFilters from "../components/BusBooking/BusFilters"
 import { BusInfo } from "../components/BusBooking/BusInfo"
 
 const BusResults = () => {
   const[busDetails,setBusDetails]=useState([])
   const[filterData,setFilterData]=useState({});
+  const isLoad=useRef(false);
+ 
   const[navi,setNavi]=useState(()=>{
-    const stored=localStorage.getItem("naviindex:");
+    const stored=sessionStorage.getItem("naviindex:");
     return stored?JSON.parse(stored):1;
   });
   useEffect(()=>{
+    let controller=new AbortController();
+    let signal=controller.signal;
+    const navigationEntry=performance.getEntriesByType("navigation")[0].type
+    if(navigationEntry==='reload')
+    {
+      console.log("iam reloading")
+     isLoad.current=true;
+    }
      const busDetails=JSON.parse(localStorage.getItem("bus_detail"))
      if(busDetails)
      {
@@ -22,10 +32,28 @@ const BusResults = () => {
      {
       setFilterData(JSON.parse(localStorage.getItem("Filterdata:")))
      }
+   
+
+     let handleUnload=()=>{
+      if(!isLoad.current)
+      {
+       console.log("iam navigating")
+       sessionStorage.removeItem("naviindex:")
+      }
+      }
+
+      let handleNavigate=()=>{
+        sessionStorage.removeItem("naviindex:")
+      }
+     window.addEventListener("beforeunload", handleUnload,{signal})
+     window.addEventListener('popstate',handleNavigate,{signal})
+      return ()=>{controller.abort()}
   },[])
+
+
   
 useEffect(()=>{
-       localStorage.setItem("naviindex:",JSON.stringify(navi))
+       sessionStorage.setItem("naviindex:",JSON.stringify(navi))
 },[navi])
   const renderBusComponent=()=>{
     switch(navi){

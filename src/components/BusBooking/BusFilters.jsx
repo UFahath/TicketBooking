@@ -90,8 +90,9 @@ function handleApply(){
   {
           localStorage.setItem("Filterdata:",JSON.stringify({
             selectBusType,selectDepartureTime,selectArrivalTime,busOperator
-          }))
-          setNavi(2);
+          }))   
+          
+            setNavi(2);       
   }
 }
   return (

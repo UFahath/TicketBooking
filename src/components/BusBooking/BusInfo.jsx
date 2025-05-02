@@ -1,19 +1,21 @@
 import { useEffect, useState } from "react";
-import { fetchBusData } from "../../data/BusDataFetch";
+
 
 export const BusInfo = ({ filterData = {} }) => {
   const [busDetails, setBusDetails] = useState([]);
   const [resultData, setResultData] = useState([]);
 
-  useEffect(() => {
+  useEffect(()=>{
     const busDetailsFromStorage = JSON.parse(localStorage.getItem("bus_detail"));
     if (busDetailsFromStorage) {
       setBusDetails(busDetailsFromStorage);
     }
+  },[])
+  useEffect(() => {
 
     const output = busDetails.filter((bus) => {
       const matchBusType =
-        !filterData.selectBusType || bus.busType.toLowerCase().includes(filterData.selectBusType.toLowerCase());
+        !filterData.selectBusType || filterData.selectBusType.toLowerCase()==="ac"?(!bus.busType.toLowerCase().includes("non")):(bus.busType.toLowerCase().includes(filterData.selectBusType.toLowerCase()));
 
       const matchOperator =
         !filterData.busOperator || filterData.busOperator.includes(bus.operator);
@@ -26,9 +28,20 @@ export const BusInfo = ({ filterData = {} }) => {
 
       return matchBusType && matchOperator && matchDeparture && matchArrival;
     });
-
+     
+    for(let i=0;i<busDetails.length;i++)
+    {
+      if(busDetails[i].operator==="NueGo")
+      {
+        console.log("Present at:",i,"is=",busDetails[i].operator);break;
+      }
+      else
+      {
+        console.log("Not Present")
+      }
+    }
     setResultData(output);
-  }, [filterData]);
+  }, [busDetails,filterData]);
 
   function convertToMinute(timeStr) {
     const [time, modifier] = timeStr.trim().split(" ");
@@ -61,17 +74,17 @@ export const BusInfo = ({ filterData = {} }) => {
 
 
   return (
-    <div>
-      <h3>Bus Info:</h3>
-      {resultData.length > 0 ? (
-        <ul style={{listStyle:"none"}}>
+    <div className="container">
+      <h3 className="my-4 text-danger text-center text-sm-start">Bus Info:</h3>
+      {resultData&&resultData.length > 0 ? (
+        <ul style={{listStyle:"none",paddingLeft:"0"}}>
           {resultData.map((item, index) => (
             <li key={index}>
-               <div className="card mb-3 shadow-sm border-0">
-      <div className="card-body d-flex justify-content-between align-items-center flex-wrap">
+               <div className="card mb-3 shadow-sm border-2 border-dark">
+      <div className="card-body d-flex flex-column flex-sm-row gap-sm-4 gap-md-0 justify-content-sm-between align-items-sm-center flex-wrap" style={{boxShadow:"7px 5px 10px black"}}>
         {/* Left: Operator and Bus Type */}
         <div>
-          <h5 className="card-title mb-1">{item.operator}</h5>
+          <h5 className="card-title mb-1 text-primary fw-bold">{item.operator}</h5>
           <p className="card-text text-muted small">{item.busType}</p>
 
           {/* Rating */}
@@ -86,7 +99,7 @@ export const BusInfo = ({ filterData = {} }) => {
         </div>
 
         {/* Departure Info */}
-        <div className="text-center mx-3">
+        <div className="text-center mx-3 my-3 my-sm-0">
           <h6 className="mb-0">{item.departureTime}</h6>
           <small className="text-muted">{item.from}</small>
         </div>
@@ -98,8 +111,8 @@ export const BusInfo = ({ filterData = {} }) => {
         </div>
 
         {/* Fare and Button */}
-        <div className="text-end">
-          <h5 className="text-dark">₹ {item.fare}</h5>
+        <div className={`text-end border border-info bg-warning mx-md-0 mx-auto my-md-0 my-5 rounded-top-2 border-bottom-0`}>
+          <h5 className="text-danger text-center">₹ {item.fare}</h5>
           <button className="btn btn-info text-white fw-semibold mt-2">
             Select Seat
           </button>
