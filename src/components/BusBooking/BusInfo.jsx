@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 
-export const BusInfo = ({ filterData = {} }) => {
+export const BusInfo = ({ filterData = {} ,setNavi}) => {
   const [busDetails, setBusDetails] = useState([]);
   const [resultData, setResultData] = useState([]);
 
@@ -11,38 +11,42 @@ export const BusInfo = ({ filterData = {} }) => {
       setBusDetails(busDetailsFromStorage);
     }
   },[])
+
+  useEffect(() => {
+    if (Array.isArray(resultData) && resultData.length > 0) {
+      sessionStorage.setItem("resultdata:", JSON.stringify(resultData));
+    }
+  }, [resultData]);
+  
+  
   useEffect(() => {
 
     const output = busDetails.filter((bus) => {
-      const matchBusType =
-        !filterData.selectBusType || filterData.selectBusType.toLowerCase()==="ac"?(!bus.busType.toLowerCase().includes("non")):(bus.busType.toLowerCase().includes(filterData.selectBusType.toLowerCase()));
-
+      const matchBusType = !filterData.selectBusType || (
+        filterData.selectBusType.toLowerCase() === "ac"
+          ? bus.busType.toLowerCase().includes("ac") && !bus.busType.toLowerCase().includes("non")
+          : bus.busType.toLowerCase().includes(filterData.selectBusType.toLowerCase())
+      );
+    
       const matchOperator =
-        !filterData.busOperator || filterData.busOperator.includes(bus.operator);
-
+        !filterData.busOperator || filterData.busOperator.length>=0||
+        filterData.busOperator.some(op =>{
+          return op.trim().toLowerCase() === bus.operator.trim().toLowerCase()
+        }
+        );
+    
       const matchDeparture =
         !filterData.selectDepartureTime || isTimeInRange(bus.departureTime, filterData.selectDepartureTime);
-
+    
       const matchArrival =
         !filterData.selectArrivalTime || isTimeInRange(bus.arrivalTime, filterData.selectArrivalTime);
-
+    
       return matchBusType && matchOperator && matchDeparture && matchArrival;
     });
-     
-    for(let i=0;i<busDetails.length;i++)
-    {
-      if(busDetails[i].operator==="NueGo")
-      {
-        console.log("Present at:",i,"is=",busDetails[i].operator);break;
-      }
-      else
-      {
-        console.log("Not Present")
-      }
-    }
-    setResultData(output);
-  }, [busDetails,filterData]);
-
+    
+        setResultData(output);
+      }, [busDetails,filterData]);
+    
   function convertToMinute(timeStr) {
     const [time, modifier] = timeStr.trim().split(" ");
     let [hour, minute] = time.split(":");
@@ -113,7 +117,7 @@ export const BusInfo = ({ filterData = {} }) => {
         {/* Fare and Button */}
         <div className={`text-end border border-info bg-warning mx-md-0 mx-auto my-md-0 my-5 rounded-top-2 border-bottom-0`}>
           <h5 className="text-danger text-center">₹ {item.fare}</h5>
-          <button className="btn btn-info text-white fw-semibold mt-2">
+          <button className="btn btn-info text-white fw-semibold mt-2" onClick={()=>setNavi(3)}>
             Select Seat
           </button>
         </div>
