@@ -91,7 +91,7 @@ function handleApply(){
           localStorage.setItem("Filterdata:",JSON.stringify({
             selectBusType,selectDepartureTime,selectArrivalTime,busOperator
           }))   
-          
+           window.dispatchEvent(new Event("filterdataupdated"))
             setNavi(2);       
   }
 }
