@@ -3,10 +3,12 @@
 import { Navbar } from "../components/Navbar";
 import Footer from "../components/Footer";
 import SearchHeader from "../components/BusBooking/SearchHeader";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import BusFilters from "../components/BusBooking/BusFilters";
 import { BusInfo } from "../components/BusBooking/BusInfo";
 import BoardingDroppingSelection from "../components/BusBooking/BoardingDroppingSelection";
+import SeatSelection from "../components/BusBooking/SeatSelection";
+import { ReviewBooking } from "../components/BusBooking/ReviewBooking";
 
 
 const navigationEntry = (performance.getEntriesByType("navigation")[0].type||"")==='reload'; 
@@ -57,7 +59,7 @@ const BusResults = () => {
     window.addEventListener('filterdataupdated',handleFilterUpdate)
     window.addEventListener('resultdataupdated',handleResultDataUpdate)
     window.addEventListener("popstate", handleNavigate);
-
+   return ()=>{setNavi("");sessionStorage.removeItem("naviindex:")}
   }, []);
 
   useEffect(() => {
@@ -72,7 +74,13 @@ const BusResults = () => {
         return <BusInfo filterData={filterData} setNavi={setNavi} />;
       }
       case 3: {
-        return  <BoardingDroppingSelection resultData={resultData} />
+        return  <BoardingDroppingSelection resultData={resultData} setNavi={setNavi}/>
+      }
+      case 4: {
+        return  <SeatSelection setNavi={setNavi}/>
+      }
+      case 5: {
+        return  <ReviewBooking/>
       }
     }
   };

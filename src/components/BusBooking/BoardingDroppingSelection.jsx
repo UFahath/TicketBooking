@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 
-const BoardingDroppingSelection = ({ resultData }) => {
+const BoardingDroppingSelection = ({ resultData,setNavi=()=>{} }) => {
   const [selectedBoarding, setSelectedBoarding] = useState(null);
   const [selectedDropping, setSelectedDropping] = useState(null);
   const [boardingTimes, setBoardingTimes] = useState([]);
   const [droppingTimes, setDroppingTimes] = useState([]);
-  const[selectedBoardingTime,setSelectedBoardingTime]=useState("");
-  const[selectedDroppingTime,setSelectedDroppingTime]=useState("");
+  const [selectedBoardingTime, setSelectedBoardingTime] = useState("");
+  const [selectedDroppingTime, setSelectedDroppingTime] = useState("");
   const [effectiveResultData, setEffectiveResultData] = useState(null);
 
-  // Load resultData from props or sessionStorage
   useEffect(() => {
     if (resultData) {
       setEffectiveResultData(Array.isArray(resultData) ? resultData[0] : resultData);
@@ -44,16 +43,14 @@ const BoardingDroppingSelection = ({ resultData }) => {
     return `${displayHour}:${String(minute).padStart(2, "0")} ${ampm}`;
   };
 
-  // Generate times across 24 hours and handle overnight span properly
   const generateTimes = (start12h, end12h, interval) => {
     const times = [];
 
     let startMinutes = parse12HourTime(start12h);
     let endMinutes = parse12HourTime(end12h);
 
-    // If the end time is before start time (spanning overnight), adjust
     if (endMinutes <= startMinutes) {
-      endMinutes += 24 * 60; // Add 24 hours to the end time to account for overnight
+      endMinutes += 24 * 60;
     }
 
     for (let min = startMinutes; min <= endMinutes; min += interval) {
@@ -63,39 +60,34 @@ const BoardingDroppingSelection = ({ resultData }) => {
     return times;
   };
 
-  // Generate boarding and dropping times from departureTime and arrivalTime
   useEffect(() => {
     if (effectiveResultData) {
       const departure = effectiveResultData.departureTime || "09:00 AM";
       const arrival = effectiveResultData.arrivalTime || "05:00 AM";
 
-      // Generate all times between departure and arrival (20-minute interval for boarding)
       const boardingTimesGenerated = generateTimes(departure, arrival, 20);
 
-      // Ensure boarding times are assigned correctly
       if (effectiveResultData.boardingPoints?.length > 0) {
-        const generatedBoarding = effectiveResultData.boardingPoints.map((_, index) => boardingTimesGenerated[index]);
+        const generatedBoarding = effectiveResultData.boardingPoints.map(
+          (_, index) => boardingTimesGenerated[index]
+        );
         setBoardingTimes(generatedBoarding);
       }
 
-      // Adjust dropping times
       if (effectiveResultData.droppingPoints?.length > 0) {
         const lastBoardingTime = boardingTimesGenerated[boardingTimesGenerated.length - 1];
         const lastBoardingMinutes = parse12HourTime(lastBoardingTime);
         const arrivalMinutes = parse12HourTime(arrival);
 
-        // Adjust the time interval between boarding and dropping based on the gap
         const gap = arrivalMinutes - lastBoardingMinutes;
         const droppingInterval = gap / effectiveResultData.droppingPoints.length;
 
-        // Generate dropping times
         const generatedDropping = [];
         for (let i = 0; i < effectiveResultData.droppingPoints.length; i++) {
           const timeIndex = lastBoardingMinutes + i * droppingInterval;
           generatedDropping.push(formatTo12Hour(timeIndex % (24 * 60)));
         }
 
-        // Ensure the last dropping time aligns with the arrival time
         generatedDropping[generatedDropping.length - 1] = arrival;
 
         setDroppingTimes(generatedDropping);
@@ -106,11 +98,10 @@ const BoardingDroppingSelection = ({ resultData }) => {
   useEffect(() => {
     console.log("Selected Boarding:", selectedBoarding);
     console.log("Selected Dropping:", selectedDropping);
-    console.log("selectedBoardingTime:",selectedBoardingTime);
-    console.log('selectedDroppingTime:',selectedDroppingTime)
-  }, [selectedBoarding, selectedDropping,selectedBoardingTime,selectedDroppingTime]);
+    console.log("selectedBoardingTime:", selectedBoardingTime);
+    console.log("selectedDroppingTime:", selectedDroppingTime);
+  }, [selectedBoarding, selectedDropping, selectedBoardingTime, selectedDroppingTime]);
 
-  // Wait until data and times are ready
   if (
     !effectiveResultData ||
     !effectiveResultData.boardingPoints ||
@@ -121,6 +112,9 @@ const BoardingDroppingSelection = ({ resultData }) => {
     return <div>Loading boarding and dropping points...</div>;
   }
 
+  function handleProceed(){
+    setNavi(4)
+  }
   return (
     <div className="container py-4 my-3 rounded-3" style={{ backgroundColor: "#FFF5F2" }}>
       <div className="row mb-4">
@@ -139,9 +133,14 @@ const BoardingDroppingSelection = ({ resultData }) => {
                   id={`boarding-${index}`}
                   value={point}
                   checked={selectedBoarding === point}
-                  onChange={() =>{
-                   setSelectedBoardingTime(boardingTimes[effectiveResultData.boardingPoints.indexOf(selectedBoarding)]);
-                    setSelectedBoarding(point)
+                  onChange={() => {
+                    const time = boardingTimes[index];
+                    setSelectedBoarding(point);
+                    setSelectedBoardingTime(time);
+                    sessionStorage.setItem(
+                      "selectedBoarding",
+                      JSON.stringify({ point, time })
+                    );
                   }}
                 />
                 <label className="form-check-label d-block" htmlFor={`boarding-${index}`}>
@@ -169,8 +168,13 @@ const BoardingDroppingSelection = ({ resultData }) => {
                   value={point}
                   checked={selectedDropping === point}
                   onChange={() => {
-                    setSelectedDroppingTime(droppingTimes[effectiveResultData.droppingPoints.indexOf(selectedDropping)]);
-                    setSelectedDropping(point)
+                    const time = droppingTimes[index];
+                    setSelectedDropping(point);
+                    setSelectedDroppingTime(time);
+                    sessionStorage.setItem(
+                      "selectedDropping",
+                      JSON.stringify({ point, time })
+                    );
                   }}
                 />
                 <label className="form-check-label d-block" htmlFor={`dropping-${index}`}>
@@ -188,6 +192,7 @@ const BoardingDroppingSelection = ({ resultData }) => {
         <button
           className="btn btn-info text-white"
           disabled={!selectedBoarding || !selectedDropping}
+          onClick={handleProceed}
         >
           Proceed
         </button>
