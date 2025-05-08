@@ -9,6 +9,7 @@ import { BusInfo } from "../components/BusBooking/BusInfo";
 import BoardingDroppingSelection from "../components/BusBooking/BoardingDroppingSelection";
 import SeatSelection from "../components/BusBooking/SeatSelection";
 import { ReviewBooking } from "../components/BusBooking/ReviewBooking";
+import { PaymentOptions } from "./FlightPaymentOption";
 
 
 const navigationEntry = (performance.getEntriesByType("navigation")[0].type||"")==='reload'; 
@@ -80,7 +81,10 @@ const BusResults = () => {
         return  <SeatSelection setNavi={setNavi}/>
       }
       case 5: {
-        return  <ReviewBooking/>
+        return  <ReviewBooking setNavi={setNavi}/>
+      }
+      case 6: {
+        return <PaymentOptions mode="Bus"/>
       }
     }
   };

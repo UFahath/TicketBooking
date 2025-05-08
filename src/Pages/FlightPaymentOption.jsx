@@ -141,7 +141,7 @@ const FairDetails=({Fare1,setTotalPrice})=>{
   )
 }
 
-const PaymentOptions=({setSessionTrack,totalPrice,mode})=>{
+export const PaymentOptions=({setSessionTrack=()=>{},totalPrice="",mode=""})=>{
   let [timeLeft,setTimeLeft]=useState("850");
   let [timeoutReached,setReached]=useState(true);
   let [cvv,setCvv]=useState("")
@@ -310,7 +310,7 @@ const PaymentOptions=({setSessionTrack,totalPrice,mode})=>{
     <div className="row d-flex justify-content-center">
       <div className="col-12 col-md-4">
         <button type="submit" disabled={!cardAdded&&true} className="btn btn-danger w-100">
-          Pay {String.fromCharCode(8377) + " " + totalPrice}
+          Pay {mode==="Flight"&&String.fromCharCode(8377) + " " + totalPrice}
         </button>
       </div>
     </div>
