@@ -265,40 +265,42 @@ export const ReviewBooking = ({setNavi}) => {
             </div>
           </div>
         ))}
-      <style jsx="true">{`
-        .boardinganddropping {
-          background-color: #dc3545;
-          color: white;
-          text-align: center;
-          padding: 0.5em;
-          border-radius: 10px;
-          width: 30%;
-        }
-        @media (min-width: 320px) and (max-width: 768px) {
-          .boardinganddropping {
-            margin-left: auto;
-            margin-right: auto;
-            width: 70%;
-          }
-        }
-        @media (min-width: 768px) and (max-width: 992px) {
-          .boardinganddropping {
-            margin-left: initial;
-            width: 60%;
-          }
-        }
-        @media (min-width: 992px) and (max-width: 1900px) {
-          .boardinganddropping {
-            width: 30%;
-          }
-        }
-      `}</style>
+
     </>
   );
 };
 
- export const BoardingDropping = ({ selectedBoarding, travelDay, result, nextDay, selectedDropping }) => {
+ export const BoardingDropping = ({ selectedBoarding={}, travelDay="", result={}, nextDay="", selectedDropping={} }) => {
   return (
+    <>
+    <style jsx="true">{`
+      .boardinganddropping {
+        background-color: #dc3545;
+        color: white;
+        text-align: center;
+        padding: 0.5em;
+        border-radius: 10px;
+        width: 30%;
+      }
+      @media (min-width: 320px) and (max-width: 768px) {
+        .boardinganddropping {
+          margin-left: auto;
+          margin-right: auto;
+          width: 70%;
+        }
+      }
+      @media (min-width: 768px) and (max-width: 992px) {
+        .boardinganddropping {
+          margin-left: initial;
+          width: 60%;
+        }
+      }
+      @media (min-width: 992px) and (max-width: 1900px) {
+        .boardinganddropping {
+          width: 30%;
+        }
+      }
+    `}</style>
     <div className="row mb-4">
       <div className="col-md-6">
         <div className="border rounded p-3" style={{ background: "#FFEFE1" }}>
@@ -323,5 +325,6 @@ export const ReviewBooking = ({setNavi}) => {
         </div>
       </div>
     </div>
+    </>
   );
 };

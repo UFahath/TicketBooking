@@ -174,10 +174,10 @@ export const PaymentOptions=({setSessionTrack=()=>{},totalPrice="",mode=""})=>{
     {
        navigate('/otp',{state:mode})
     }
-    // else
-    // {
-                   ////For Bus
-    // }
+    else
+    {
+        navigate('/otp',{state:mode})
+    }
   }
 
 //cvv validation
@@ -321,7 +321,7 @@ export const PaymentOptions=({setSessionTrack=()=>{},totalPrice="",mode=""})=>{
 }
 
 
-const PaymentTimeout = () => (
+export const PaymentTimeout = () => (
   <div className="container text-center my-5">
     <h2 className="text-danger">Payment Timeout</h2>
     <p>Your session has expired. Try Again</p>

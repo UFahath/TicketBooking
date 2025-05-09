@@ -103,7 +103,13 @@ export const Otp = () => {
       }
       else
       {
-        console.log("Invalid route")
+        setOtp("");
+        setFinalPageLoading(true)
+        let slowNavigateId=setTimeout(()=>{
+         clearTimeout(slowNavigateId);
+         setFinalPageLoading(false)
+         navigate('/buspaymentsuccess')
+        },2000)
       }
     }
     else
