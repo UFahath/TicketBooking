@@ -1,18 +1,102 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import logo from "../assets/images/Sitelogo.jpg";
-import { User } from "lucide-react";
-import { SecondNavBar } from '../components/SecondNavBar'
+import { CircleChevronDown, User } from "lucide-react";
+import { SecondNavBar } from "../components/SecondNavBar";
 import "../styles/Home.css";
 import { SearchBar } from "./SearchBar";
-import {Link} from 'react-router-dom'
-import React from 'react'
+import { Link } from "react-router-dom";
+import googlepng from '../assets/images/google.png'
+import React, { useEffect } from "react";
 
+const Login = () => {
+  return (
+    <>
+    <button
+                type="button"
+                className="btn btn-outline-dark mb-2"
+                data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop"
+              >
+                <User className="me-2" />
+                Login
+              </button>
+      <div
+        className="modal fade"
+        id="staticBackdrop"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabIndex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5 mx-auto fw-semibold" id="staticBackdropLabel">
+               Login
+              </h1>
+             
+            </div>
+            <div className="modal-body">
+            <form action="" className="w-75" style={{margin:"10px auto"}}>
+              <label htmlFor="email" className="form-label mb-3 text-primary">Enter Email Or Mobile Number</label>
+              <input type="email" className="form-control mb-3" id="email" name="email" placeholder="Email Or Mobile"/>
+
+              <label htmlFor="pwd" className="form-label mb-3 text-primary" style={{margin:"10px auto"}}>Enter your Password</label>
+              <input type="password" className="form-control mb-3" id="pwd" name="pwd" placeholder="Password"/>
+            </form>
+
+
+            </div>
+            <div className="modal-footer">
+              <div className="container">
+                <div className="row text-center">
+                  <div className="col-3"></div>
+                  <div className="col-6">
+              <button className="btn btn-primary w-100">Login</button>
+              </div>
+              <div className="col-3"></div>
+              </div>
+              
+              <p className="text-center my-3"> Or Continue With</p>
+
+               <div className="row text-center">
+                  <div className="col-3"></div>
+                  <div className="col-6">
+              <button className="btn btn-outline-dark w-100">
+                <img src={googlepng} alt="googlelogo" style={{width:"20px"}}/>&nbsp;
+                Sign In With Google</button>
+              </div>
+              <div className="col-3"></div>
+              </div>
+
+              <div className="row my-2">
+                <span><CircleChevronDown/>&nbsp;Need Help?</span>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
 
 const Navbar = React.memo(() => {
-  // console.log("navbar...")
-
-
+  useEffect(()=>{
+  
+    window.addEventListener("touchstart",()=>{
+      console.log("screen touched")
+    })
+     window.addEventListener("click",()=>{
+      console.log("screen touched")
+    })
+     window.addEventListener("keydown",()=>{
+      console.log("screen touched")
+    })
+    
+  },[])
 
   return (
     <>
@@ -37,7 +121,7 @@ const Navbar = React.memo(() => {
               <div className="row">
                 <div className="col-1"></div>
                 <div className=" col">
-                  <SearchBar item={1}/>
+                  <SearchBar item={1} />
                 </div>
                 <div className="col-1"></div>
               </div>
@@ -71,20 +155,17 @@ const Navbar = React.memo(() => {
                   </li>
                 </ul>
               </div>
-              <button className="btn btn-outline-dark mb-2">
-                <User className="me-2" />
-                Login
-              </button>
+              {/* login */}
+
+              <Login/>
             </div>
           </div>
         </div>
       </nav>
 
       {/* secondnavbar */}
-           <SecondNavBar/>
-
+      <SecondNavBar />
     </>
   );
 });
-export {Navbar}
-
+export { Navbar };

@@ -1,18 +1,19 @@
 
 import './App.css'
-import About from './Pages/About'
+
 import { Home } from './Pages/Home'
 import {HashRouter as Router,Routes,Route} from 'react-router-dom'
 import {lazy, Suspense, useEffect} from 'react'
 import { useLocation } from 'react-router-dom'
-import ContactUs from './Pages/ContactUs'
-import PrivacyPolicy from './Pages/PrivacyPolicy'
-import TermsAndConditions from './Pages/TermsAndConditions'
-import Help from './Pages/Help'
-import Faq from './Pages/Faq'
-import Offers from './Pages/Offers'
-import Travel from './Pages/Travel'
-import Movies from './Pages/Movies'
+const About=lazy(()=>import('./Pages/About'))
+const ContactUs=lazy(()=>import('./Pages/ContactUs'))
+const PrivacyPolicy=lazy(()=>import('./Pages/PrivacyPolicy'))
+const TermsAndConditions=lazy(()=>import('./Pages/TermsAndConditions'))
+const Faq=lazy(()=>import('./Pages/Faq'))
+const Help =lazy(()=>import('./Pages/Help'))
+const Offers =lazy(()=>import('./Pages/Offers'));
+const Travel=lazy(()=>import("./Pages/Travel"));
+const Movies=lazy(()=>import('./Pages/Movies'));
 import MoviePage from './Pages/MoviePage'
 // import Login from './components/LoginPage/login'
 
@@ -52,22 +53,33 @@ function App() {
   return (
     <>
     <Suspense fallback={
-      <>
-        <img src={loadAnimation} alt="loadinganimation" style={{marginLeft:"35%",marginRight:"auto"}}/>
-       <div className="container text-center" style={{marginTop:"10%"}}>
-       <div className="spinner-grow text-danger" role="status">
-         <span className="visually-hidden">Loading...</span>
-       </div>
-       <div className="spinner-grow text-warning" role="status">
-         <span className="visually-hidden">Loading...</span>
-       </div>
-       <div className="spinner-grow text-primary" role="status">
-          <span className="visually-hidden">Loading...</span>
-       </div>
-       <p className="fs-5">Loading</p>
-       </div>
-       </>
-    }>
+  <div className="d-flex flex-column justify-content-center align-items-center vh-100">
+ 
+    <img 
+      src={loadAnimation} 
+      alt="loadinganimation" 
+      className="img-fluid mb-4" 
+      style={{ maxWidth: "300px" }}
+    />
+
+
+    <div className="d-flex justify-content-center gap-3 mb-3">
+      <div className="spinner-grow text-danger" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
+      <div className="spinner-grow text-warning" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
+      <div className="spinner-grow text-primary" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+
+    <p className="fs-5 text-center">Loading</p>
+  </div>
+}
+>
     <Router>
      <ScrollT/>
      <Routes>
