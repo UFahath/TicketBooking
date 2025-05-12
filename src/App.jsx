@@ -49,6 +49,7 @@ function ScrollT(){
 
 
 function App() {
+
  
   return (
     <>
@@ -84,7 +85,6 @@ function App() {
      <ScrollT/>
      <Routes>
       <Route path="/" element={<Home/>}/>
-      {/* <Route path="/login" element={<Login/>}/> */}
       <Route path="/travel" element={<Travel/>}/>
       <Route path="/flightresults" element={<FlightResults/>}/>
       <Route path="/flightreviewbooking" element={<FlightsReviewBooking/>}/>
