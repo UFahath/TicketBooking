@@ -2,8 +2,24 @@
 import {cities} from '../data/data1'
 import { SearchBar } from '../components/SearchBar.jsx';
 import { LocateFixed } from 'lucide-react';
+import geoReverseCoding from "../../public/api";
+ export const SearchBarContainer = ({setLocation}) => {
+  
+  function handleLocation() {
+  try {
+    const loc =  geoReverseCoding();
+    const stored=localStorage.getItem("userLocation");
+    if(stored)
+    {
+      localStorage.removeItem("userLocation")
+    }
+    setLocation(loc); 
+    console.log("Location found:", loc);
+  } catch (error) {
+    console.error("Failed to get location:", error);
+  }
+}
 
- export const SearchBarContainer = () => {
   return (
     <div className="container rounded-3 p-4 text-center" 
     style={{ width: '70%', maxHeight: '480px', background: 'rgba(255, 0, 0, 0.7)' }}>
@@ -18,7 +34,7 @@ import { LocateFixed } from 'lucide-react';
  {/* Current Location */}
  <div className="row mb-3">
    <div className="col d-flex align-items-center justify-content-center">
-     <button className="btn btn-outline-light d-flex align-items-center">
+     <button className="btn btn-outline-light d-flex align-items-center" onClick={handleLocation}>
        <LocateFixed className="me-2" />
        Use my Current Location
      </button>

@@ -2,16 +2,27 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import {Headset,SquareMenu} from 'lucide-react'
 import {Link} from 'react-router-dom'
+import * as bootstrap from 'bootstrap'
+import { useRef } from "react";
 
 export const SecondNavBar = () => {
+    const collapseRef = useRef(null);
+    const togglerRef = useRef(null);
+    const handleToggleCollapse = () => {
+      const collapseElement = collapseRef.current;
+      if (collapseElement) {
+        const collapseInstance = new bootstrap.Collapse(collapseElement, { toggle: false });
+        collapseInstance.toggle();
+      }
+    };
   return (
     <>
     <nav className="navbar navbar-expand-lg bg-outline-teritary position-sticky">
     <div className="container ">
-      <button className="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#myNav">
+      <button className="navbar-toggler" ref={togglerRef} onClick={handleToggleCollapse}>
       <SquareMenu/>
       </button>
-      <div className="collapse navbar-collapse" id="myNav">
+      <div className="collapse navbar-collapse" ref={collapseRef}>
         <ul className="navbar-nav fw-bold">
           <li className="nav-item mx-2">
             <Link to="/" className="nav-link">Home</Link>

@@ -183,7 +183,7 @@ const BusSearchEngine = () => {
         </form>
 
         {/* Date & Search */}
-        <div className="row p-4 border border-dark text-center position-relative">
+        <div className="row p-4  text-center position-relative">
           <div className="col">
             <form className="row g-3 ms-3">
               <div className="col-auto">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Navbar } from '../components/Navbar';
 import { BannerDiv } from '../styles/Styled.js';
 import SearchBarContainer from '../components/SearchBarContainer.jsx';
@@ -9,15 +9,15 @@ import AboutUs from '../components/AboutUs.jsx';
 import Footer from '../components/Footer.jsx';
 
 export const Home = () => {
- 
+ const [location,setLocation]=useState("");
   return (
     <>
       {/* Navbar */}
-      <Navbar />
+      <Navbar location={location}/>
 
       {/* Banner Section */}
       <BannerDiv style={{ paddingTop: '20%' }}>
-        <SearchBarContainer/>
+        <SearchBarContainer setLocation={setLocation}/>
       </BannerDiv>
 
 

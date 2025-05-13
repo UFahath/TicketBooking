@@ -32,14 +32,14 @@ const Footer = React.memo(() => {
 
         <div className="col-md-6 fs-4 fw-normal p-5  mt-5 border border-dark rounded-top-5 bg-warning bg-gradient text-center"> 
           <div className="row ">
-          <a href="" className="nav-link">Movie Ticket Booking
-          </a>
+          <Link to="/movies" className="nav-link">Movie Ticket Booking</Link>
+   
           </div>
           <div className="row">
-          <a href="" className="nav-link">Flight Ticket Booking</a>
+          <Link to="/travel" className="nav-link">Flight Ticket Booking</Link>
           </div>
           <div className="row">
-          <a href="" className="nav-link">Bus Ticket Booking</a>
+         <Link to="/travel" className="nav-link">Bus Ticket Booking</Link>
           </div>
           <div className="row">
           <a href="" className="nav-link">Reach Us On</a>
