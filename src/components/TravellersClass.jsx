@@ -1,13 +1,14 @@
-import {useState,useEffect} from "react";
+import {useState,useEffect, useRef} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
+import * as bootstrap from 'bootstrap'
 export const TravellersClass = ({setDropdown}) => {
   let [adults, setAdults] = useState(0);
   let [children, setChildren] = useState(0);
   let [infants, setInfants] = useState(0);
   let[result,setResult]=useState(0)
  let[classSelected,setClassSelected]=useState("");
-  
+  let dropdownRef=useRef(null)
   useEffect(()=>{
     setResult({adults,children,infants,classSelected})
     if((adults||children||infants)&&classSelected)
@@ -130,10 +131,18 @@ let ecoclass=[
   return (
     <>
       <div className="dropdown">
-        <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+        <button className="btn btn-secondary dropdown-toggle" type="button"  
+          ref={dropdownRef} id="passenger"
+            onClick={()=>{
+                  if (dropdownRef.current) {
+             const dropdown=new bootstrap.Dropdown(dropdownRef.current);
+              dropdown.toggle();
+            }
+            }}
+            aria-expanded="false">
           Select Passengers
         </button>
-        <ul className="dropdown-menu">
+        <ul className="dropdown-menu" aria-labelledby="passenger">
           {
             ages.map((items,index)=>(
           <li className="ms-2 mb-2 text-center"  key={index}>
