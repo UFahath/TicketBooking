@@ -26,7 +26,7 @@ export const MovieBookingPage = () => {
   useEffect(() => {
 
   
-      console.clear();
+      // console.clear();
     const storedSlot = JSON.parse(localStorage.getItem("PickedSlot:"));
     // setSlot(storedSlot);
 

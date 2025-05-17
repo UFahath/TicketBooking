@@ -5,7 +5,7 @@ import { language } from "../Pages/TheaterPreview";
 import ticketicon from '../assets/images/TicketIcon.jpg'
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
-import { Modal } from "bootstrap/dist/js/bootstrap.bundle.min";
+import * as bootstrap from 'bootstrap';
 
 // import DateObject from 'react-date-object'
 
@@ -77,7 +77,7 @@ export const TheaterShow = () => {
           {
             item.timings.map((item,index)=>(
          <TimingButtons buttonText={item} key={index} btnColor={btnColor} setBtnColor={setBtnColor}/>
-                   ))
+          ))
           }
         </div>
       </div>
@@ -113,8 +113,10 @@ const ConfirmationBox=()=>{
   let numbers=[1,2,3,4,5,6,7,8,9];
   let [seatBtnColor,setBColor]=useState("");
   let [seatCount,setSeatCount]=useState(0);
-  let mod=useRef();
+  let mod=useRef(null);
   let navigate=useNavigate();
+
+  
   useEffect(()=>{
     localStorage.setItem("seatCount::",JSON.stringify(seatCount))
  
@@ -125,26 +127,17 @@ const ConfirmationBox=()=>{
   {
     if(seatCount!==0)
     {
-      mod.current.setAttribute('data-bs-dismiss','modal')
-      if(mod.current)
-      {
-      let modalInstance = Modal.getInstance(mod.current);
-    
-      // console.log(modalInstance)
-     
+
+      let modalInstance=bootstrap.Modal.getInstance(mod.current);
       if(modalInstance)
       {
-
-          modalInstance.hide();
+      modalInstance.dispose();
       }
+      document.querySelectorAll(".modal-backdrop").forEach((element)=>element.remove());
+      document.querySelector('body').setAttribute("style","")
 
-      setTimeout(()=>{
-        modalInstance.dispose();
-        mod.current.remove();
-        
         navigate('/moviebookingpage')
-      },400)
-    }
+    
       
     }
     else{

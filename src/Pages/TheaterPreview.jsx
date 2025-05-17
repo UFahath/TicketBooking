@@ -10,6 +10,8 @@ export const TheaterPreview = () => {
   let genres = genreMapper(0, pickedItem[0].genre_ids);
   language=languageMapper(0, pickedItem[0].original_language)
 
+
+
   return (
     <>
       <Navbar />
