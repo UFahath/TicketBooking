@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { TravellersClass } from "./TravellersClass";
 import { useNavigate } from "react-router-dom";
-
+import * as bootstrap from 'bootstrap';
 const FlightSearchEngine = () => {
   const [tripMode, setTripMode] = useState("oneway");
   const [returnDate, setReturnDate] = useState(null);
@@ -11,7 +11,29 @@ const FlightSearchEngine = () => {
   const [toInput, setToInput] = useState("");
   const [departureDate, setDepartureDate] = useState("");
   const [fetchedData, setFetchedData] = useState([]);
-
+  const[error,setError]=useState({errorFlag:false,errorMessage:""});
+  //  let todayDate=new Date();
+    function today(dateObj){
+    let date=dateObj.getDate();
+    let month=dateObj.getMonth()+1;
+    let year=dateObj.getFullYear();
+    if(date<10)
+    {
+      date="0".concat(date);
+    }
+    if(month<10)
+    {
+      month="0".concat(month);
+    }
+    return year+"-"+month+"-"+date;
+    }
+  const[minDate]=useState(()=>today(new Date()));
+  const[maxDate]=useState(()=>{
+    let futureDate=new Date();
+    futureDate.setFullYear(futureDate.getFullYear()+1);
+    return today(futureDate);
+  });
+  const errorToast=useRef(null);
   const navigate = useNavigate();
   const [passengersDropdown,setDropdown]=useState(false);
   useEffect(() => {
@@ -26,16 +48,18 @@ const FlightSearchEngine = () => {
       }
     }
     flightData();
+
   }, []);
 
   const handleSearch = (event) => {
     event.preventDefault();
+   
     const availableFlights = fetchedData.filter(
       (item) =>
         item.source.toLowerCase().includes(fromInput.toLowerCase()) &&
         item.destination.toLowerCase().includes(toInput.toLowerCase())
     );
-   if(fromInput&&toInput&&departureDate&&passengersDropdown)
+   if(fromInput&&toInput&&departureDate&&passengersDropdown&&fromInput!==toInput)
    {
    console.log(fromInput,toInput,departureDate,passengersDropdown)
    setTimeout(()=>{
@@ -49,6 +73,23 @@ const FlightSearchEngine = () => {
       },
    });
    },100);
+  }
+  else{
+    if(!fromInput||!toInput||!departureDate||!passengersDropdown)
+    {
+    setError({errorFlag:true,errorMessage:"Please fill all the fields"});
+    const toast=bootstrap.Toast.getOrCreateInstance(errorToast.current);
+    toast.show();
+    return;
+    }
+     else if(fromInput===toInput)
+    {
+      console.log("From and To fields should be different");
+      setError({errorFlag:true,errorMessage:"From and To fields should be different"})
+      const toast=bootstrap.Toast.getOrCreateInstance(errorToast.current);
+      toast.show();
+      return;
+    } 
   }
   };
 
@@ -70,9 +111,7 @@ const FlightSearchEngine = () => {
             </button>
             <button
               className={`btn ${
-                tripMode === "roundedtrip"
-                  ? "btn-danger"
-                  : "btn-outline-danger"
+                tripMode === "roundedtrip" ? "btn-danger" : "btn-outline-danger"
               }`}
               onClick={() => setTripMode("roundedtrip")}
             >
@@ -96,8 +135,41 @@ const FlightSearchEngine = () => {
           fetchedData={fetchedData}
           handleSearch={handleSearch}
           setDropdown={setDropdown}
+          minDate={minDate}
+          maxDate={maxDate}
         />
       </div>
+      {
+        error?.errorFlag&&(
+        <>
+         
+
+         <div className="toast-container bottom-0 start-50 translate-middle-x p-4 z-3" style={{top:"740px"}}>
+  <div
+    ref={errorToast}
+    className="toast align-items-center text-white bg-danger border-0 show"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+    data-bs-delay="3000"
+  >
+    <div className="d-flex">
+      <div className="toast-body">
+        {error?.errorMessage}
+      </div>
+      <button
+        type="button"
+        className="btn-close btn-close-white me-2 m-auto"
+        data-bs-dismiss="toast"
+        aria-label="Close"
+      ></button>
+    </div>
+  </div>
+</div>
+
+        </>
+        )
+      }
     </>
   );
 };
@@ -114,7 +186,10 @@ const OneWayTrip = ({
   setDepartureDate,
   fetchedData,
   handleSearch,
-  setDropdown
+  setDropdown,
+  minDate,
+  maxDate
+
 }) => {
   const [fromSuggestions, setFromSuggestions] = useState([]);
   const [toSuggestions, setToSuggestions] = useState([]);
@@ -154,7 +229,7 @@ const OneWayTrip = ({
   };
 
   return (
-    <form action="">
+    <form action="" onSubmit={(e) => e.preventDefault()}>
     <div className="container border border-5 border-warning mb-3 fs-4">
       <div className="row row-cols-1 row-cols-md-4 my-5 gy-4">
         {/* FROM input */}
@@ -217,6 +292,8 @@ const OneWayTrip = ({
             <input
               type="date"
               className="form-control"
+              min={minDate}
+              max={maxDate}
               value={departureDate}
               onChange={(e) => setDepartureDate(e.target.value)}
               required
