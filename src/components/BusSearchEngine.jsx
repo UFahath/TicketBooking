@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchBusData } from "../data/BusDataFetch";
+import { fetchBusData } from "../api/busapi";
 
 const BusSearchEngine = () => {
   const [fetchedBusData, setFetchedBusData] = useState([]);
@@ -90,12 +90,13 @@ const BusSearchEngine = () => {
         item.date===dateInput.split("-").reverse().join("-")
     );
     
-
+   console.log(targetedResult);
     
     if (targetedResult.length > 0) {
       localStorage.setItem("bus_detail", JSON.stringify(targetedResult));
       alert("Bus details stored in localStorage");
       navigate("/busresults")
+    
     } else {
       setErrorMsg("No Bus Available");
       setTimeout(() => setErrorMsg(""), 2000);

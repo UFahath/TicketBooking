@@ -55,7 +55,7 @@ const FlightResults = () => {
     let ageSummary = "";
     for (let key in passengers) {
       if (passengers[key] !== 0 && key !== "classSelected") {
-        ageSummary += passengers[key] + key + ", ";
+        ageSummary += passengers[key] +" "+ key + " , ";
       }
     }
     setAgeType(ageSummary);
@@ -149,7 +149,10 @@ const FlightResults = () => {
   const handleSubmit = (event,flight) => {
     navigate("/flightreviewbooking",{state:flight})
   };
-
+ 
+  const reverseDate=(departureDate) => {
+    return departureDate.split("-").reverse().join("-")
+  }
   return (
     <>
       <Navbar />
@@ -177,7 +180,7 @@ const FlightResults = () => {
           </div>
           <div className="col-md-3">
             <label className="form-label">Departure</label>
-            <input type="text" className="form-control bg-white text-danger fw-bold" value={departureDate} disabled />
+            <input type="text" className="form-control bg-white text-danger fw-bold" value={reverseDate(departureDate)} disabled />
           </div>
           <div className="col-md-3">
             <label className="form-label">Passenger & Class</label>
@@ -197,7 +200,7 @@ const FlightResults = () => {
         <div className="mb-4">
           <h3>
             Flights from <span className="text-primary">{from}</span> to{" "}
-            <span className="text-danger">{to}</span> on <strong>{departureDate}</strong>
+            <span className="text-danger">{to}</span> on <strong>{reverseDate(departureDate)}</strong>
           </h3>
         </div>
 

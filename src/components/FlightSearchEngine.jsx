@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { TravellersClass } from "./TravellersClass";
 import { useNavigate } from "react-router-dom";
 import * as bootstrap from 'bootstrap';
+import { flightData } from "../api/flightapi";
 const FlightSearchEngine = () => {
   const [tripMode, setTripMode] = useState("oneway");
   const [returnDate, setReturnDate] = useState(null);
@@ -37,17 +38,16 @@ const FlightSearchEngine = () => {
   const navigate = useNavigate();
   const [passengersDropdown,setDropdown]=useState(false);
   useEffect(() => {
-    async function flightData() {
+    async function data() {
       try {
-        let response = await fetch("/TicketBooking/db.json");
-        let data = await response.json();
-        setFetchedData(data.ticket_booking);
-        console.log(data.ticket_booking)
+        let response = await flightData();
+        setFetchedData(response);
+        console.log(response)
       } catch (error) {
         console.log(error);
       }
     }
-    flightData();
+    data();
 
   }, []);
 

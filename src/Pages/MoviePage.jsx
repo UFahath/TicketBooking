@@ -7,8 +7,8 @@ import { Loading } from "../components/Loading";
 import { FailedResponse } from "../components/FailedResponse";
 
 import { btnResource,languageMapper,genreMapper} from "../data/MoviePage";
-
-const API_KEY = import.meta.env.VITE_APP_TMDB_API_KEY;
+import  fetchMovies from "../api/movieapi";
+// const API_KEY = import.meta.env.VITE_APP_TMDB_API_KEY;
 
 
 const MoviePage = () => {
@@ -30,48 +30,34 @@ const MoviePage = () => {
   const [fail, setFail] = useState(false);
 
   useEffect(() => {
-    let controller = new AbortController();
-    let signal = controller.signal;
-    const fetchMovies = async () => {
-      let timeOut = setTimeout(() => {
-        controller.abort();
-      }, 4000);
+    // let controller = new AbortController();
+    // let signal = controller.signal;
+    const fetchResult = async () => {
 
-      const movieData = [];
-      async function fetchData() {
-        await fetch(
-          `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}`,
-          { signal }
-        )
-          .then((res) => {
-            clearTimeout(timeOut);
-            return res.json();
-          })
-          .then((dat) => {
-            // console.log("results:",dat.results[0].genre_ids)
-            // setGenreIds(dat.results[0].genre_ids)
-            for (let item of dat.results) {
-              movieData.push(item);
-            }
-            setData(movieData);
-            setResult(movieData);
-            setLoading(false);
-          })
-          .catch(() => {
+      
+      try{
+         let response=await fetchMovies();
+         console.log("response",response)
+       
+            setData(response);
+            setResult(response);;
+            setLoading(response);
+      }
+      catch(error) {
+        console.log(error);
             setLoading(false);
             setFail(true);
             alert(
               "Failed to Fetch Data because this api cannot be accessed sometime due to regional restriction..use vpn if it's not working"
             );
-          });
+          }
       }
 
-      fetchData();
-    };
+      fetchResult();
+    },[]);
 
-    fetchMovies();
-    return () => {controller.abort();};
-  }, []);
+   
+
 
   
  //language mapping

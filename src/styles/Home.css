@@ -31,7 +31,24 @@
   z-index: 1050;
 }
 
-
+.searchbarList{
+  display:block;
+  position: absolute;
+  padding:10px ;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height:200px;
+  overflow-y:auto;
+  scroll-behavior: smooth;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+.searchbarList>li{
+  margin:10px;
+}
 
 /* Swiper Navigation Arrows */
 /* .swiper-button-prev, .swiper-button-next {
