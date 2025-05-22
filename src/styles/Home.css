@@ -46,8 +46,40 @@
   box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
   z-index: 1000;
 }
+
 .searchbarList>li{
   margin:10px;
+}
+
+.searchbarList>div:hover{
+  background-color:rgba(255, 255, 0, 0.566);
+  cursor:pointer;
+  color:rgb(193, 15, 15);
+  transition:all 0.3s ease;
+  transform:scale(0.9);
+}
+.searchbarList::-webkit-scrollbar{
+  background-color: rgb(251, 253, 250);
+  border-radius:10px;
+}
+.searchbarList::-webkit-scrollbar-thumb{
+  background-color: rgb(149, 153, 146);
+  border-radius: 10px;
+
+}
+
+.noresultfound p{
+
+ animation:fadeIn 0.5s;
+}
+
+@keyframes fadeIn{
+  0%{
+    opacity:0;
+  }
+  100%{
+    opacity:1;
+  }
 }
 
 /* Swiper Navigation Arrows */

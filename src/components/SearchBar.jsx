@@ -1,4 +1,4 @@
-import {Search} from 'lucide-react'
+import {MoveRight, Search} from 'lucide-react'
 import { useState,useEffect } from 'react';
 import { flightData } from '../api/flightapi';
 import { fetchBusData } from '../api/busapi';
@@ -11,6 +11,7 @@ export const SearchBar = ({item}) => {
   const[filteredFlightDataList,setFilteredFlightDataList]=useState([]);
   const [busDataList, setBusDataList] = useState([]);
   const [movieDataList, setMovieDataList] = useState([]);
+  const [noResultFound,setNoResultFound]=useState(false);
    const handleInputChange=(event)=>{
     setInputField(event.target.value);
    }
@@ -33,17 +34,35 @@ export const SearchBar = ({item}) => {
     fetchData();
    },[])
 
-   useEffect(()=>{  
-    // console.log("Flight Data List:", flightDataList);
-    // console.log("Bus Data List:", busDataList);
-    // console.log("Movie Data List:", movieDataList);
-     let filteredFlightData=flightDataList.filter((item)=>{
-    return item.source?.toLowerCase().trim().includes(inputField.toLowerCase())||item.destination?.toLowerCase().trim().includes(inputField.toLowerCase());
-     })
-  setFilteredFlightDataList(filteredFlightData);
+useEffect(() => {
+const filteredFlightData = flightDataList.filter((item) => {
+  const fullRoute = `${item.source} to ${item.destination}`.toLowerCase().trim();
+  const query = inputField.toLowerCase().trim();
+  return (
+    item.source?.toLowerCase().includes(query) ||
+    item.destination?.toLowerCase().includes(query) ||
+    fullRoute.includes(query)
+  );
+});
 
-  (inputField==="")&&setFilteredFlightDataList([])
-   },[inputField,flightDataList]);
+
+ 
+  setFilteredFlightDataList(inputField === ""? [] : filteredFlightData);
+
+  
+  setNoResultFound((inputField !== "" && filteredFlightData.length === 0));
+
+}, [inputField]);
+
+
+useEffect(()=>{
+    console.log("No Result Found::",noResultFound)
+},[noResultFound])
+
+// useEffect(()=>{
+//      setNoResultFound((inputField!==""&&filteredFlightDataList.length===0)&&false)
+//      console.log("No Result Found:",noResultFound)
+// },[filteredFlightDataList])
 
   // let query=inputField.toLowerCase();
  
@@ -54,7 +73,7 @@ export const SearchBar = ({item}) => {
     if(item===1)
     {
       return (
-    <div className="col">
+    <div className="col position-relative">
     <div className="input-group mb-3 mt-3">
     <button className="btn btn-outline-none bg-white">
       <Search />
@@ -71,21 +90,35 @@ export const SearchBar = ({item}) => {
     />
     {
       filteredFlightDataList&&filteredFlightDataList.length>0&&(
-        <ul className='searchbarList'>
+        <ul className='searchbarList rounded-4 mt-1'>
           {filteredFlightDataList.map((item, index) => (
-            < div key={index} className='d-flex justify-content-between m-2  mx-auto bg-warning text-white align-items-center fs-5 fw-bold'>
-              <img src={OfferAir} alt="offer" className='img-fluid rounded-3' style={{width:"100px",height:"100px"}}/>
+            < div key={index} className='d-flex justify-content-between m-2  mx-auto  align-items-center fs-5 rounded-3 border border-2 shadow-sm'>
+              <img src={OfferAir} alt="offer" className='img-fluid rounded-3 shadow-sm border border-2' style={{width:"80px",height:"80px"}}/>
             <li className="list-group-item" >
               <a href="#" className='nav-link' onClick={(e)=>{
                 e.preventDefault();
-                setInputField(`${item.source} to ${item.destination}`);
-                setFilteredFlightDataList([]);
+                 setFilteredFlightDataList([])
+                  setInputField(`${item.source} to ${item.destination}`);
+                 
               }}>{item.source} to {item.destination}</a>
             </li>
+            <span style={{fontSize:"0.9rem",color:'grey'}}>flight</span>
             <hr/>
+             <button className='btn btn-outline-danger me-2'>
+              <MoveRight/>
+             </button>
             </div>
           ))}
         </ul>
+      )
+    }
+    </div>
+    <div>
+    {
+      noResultFound&&(
+      <div className='noresultfound'>
+      <p className='bg-white text-danger p-3 position-absolute w-100 rounded-3 shadow-lg'>No Result Found</p>
+      </div>
       )
     }
     </div>
