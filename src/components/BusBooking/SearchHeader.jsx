@@ -10,7 +10,7 @@ const SearchHeader = ({ from, to, date }) => {
   })
 
   function updateSearch(){
-     history(-1)
+     history("/travel")
   }
   return (
     <div className="bg-info text-white text-center p-4 rounded">
