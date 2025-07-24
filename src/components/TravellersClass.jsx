@@ -13,7 +13,9 @@ export const TravellersClass = ({setDropdown}) => {
     setResult({adults,children,infants,classSelected})
     if((adults||children||infants)&&classSelected)
     {
+      console.log("why")
       setDropdown(true)
+      console.log("iam not working")
     }
   },[adults,children,infants,classSelected,setDropdown])
 
